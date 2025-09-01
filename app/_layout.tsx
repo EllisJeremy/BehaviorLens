@@ -2,11 +2,12 @@ import { Tabs } from "expo-router";
 
 export default function RootLayout() {
   return (
-    <Tabs>
-      <Tabs.Screen name="StartTest" />
-      <Tabs.Screen name="CreateTest" />
-      <Tabs.Screen name="PastTests" />
-      <Tabs.Screen name="Settings" />
+    <Tabs screenOptions={{ headerShown: false }}>
+      <Tabs.Screen name="StartTest" options={{ title: "Start Test" }} />
+      <Tabs.Screen name="CreateTest" options={{ title: "Create Test" }} />
+      <Tabs.Screen name="PastTests" options={{ title: "Past Tests" }} />
+      <Tabs.Screen name="Settings" options={{ title: "Settings" }} />
+      <Tabs.Screen name="index" options={{ href: null }} />
     </Tabs>
   );
 }
