@@ -7,7 +7,7 @@ export default function Index() {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "rgba(233, 233, 233, 1)",
+        backgroundColor: "rgba(255, 255, 255, 1)",
       }}
     >
       <Text>text example</Text>
