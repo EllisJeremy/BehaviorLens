@@ -1,5 +1,5 @@
 import Octicons from "@expo/vector-icons/Octicons";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import StartTestTile from "../components/startTest/StartTestTile";
 
 export default function StartTest() {
@@ -36,9 +36,15 @@ export default function StartTest() {
         time={25}
       />
 
-      <View style={styles.circleButton}>
+      <Pressable
+        style={({ pressed }) => [
+          styles.circleButton,
+          ,
+          pressed && { transform: [{ scale: 0.95 }] },
+        ]}
+      >
         <Octicons name="plus" size={20} color="#fff" />
-      </View>
+      </Pressable>
     </View>
   );
 }
@@ -69,5 +75,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 5,
+    transitionDelay: "1s",
   },
 });

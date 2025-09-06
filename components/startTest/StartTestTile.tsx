@@ -1,11 +1,5 @@
 import Octicons from "@expo/vector-icons/Octicons";
-import {
-  ColorValue,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ColorValue, Pressable, StyleSheet, Text, View } from "react-native";
 
 type StartTestProps = {
   backgroundColor: ColorValue;
@@ -23,13 +17,19 @@ export default function StartTestTile({
   time,
 }: StartTestProps) {
   return (
-    <TouchableOpacity style={[styles.card, { backgroundColor }]}>
+    <Pressable
+      style={({ pressed }) => [
+        styles.card,
+        { backgroundColor },
+        pressed && { transform: [{ scale: 0.98 }] },
+      ]}
+    >
       <Octicons name={icon} size={32} color={color} />
       <View>
         <Text style={styles.text}>{title}</Text>
         <Text style={styles.time}>{time} min</Text>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
