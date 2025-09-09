@@ -36,7 +36,7 @@ export default function Settings() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(233, 233, 233, 1)",
+    backgroundColor: "rgba(255, 255, 255, 1)",
     padding: 16,
   },
   header: {
