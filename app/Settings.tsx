@@ -1,12 +1,18 @@
+import { useThemeStore } from "@/src/state/globalStore";
 import React from "react";
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 
 export default function Settings() {
   const [notifications, setNotifications] = React.useState(true);
-  const [darkMode, setDarkMode] = React.useState(false);
+  const { isDarkMode, setDarkMode } = useThemeStore();
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: isDarkMode ? "#000000" : "#FFFFFF" },
+      ]}
+    >
       <Text style={styles.header}>Settings</Text>
 
       <View style={styles.row}>
@@ -19,7 +25,7 @@ export default function Settings() {
 
       <View style={styles.row}>
         <Text style={styles.label}>Dark Mode</Text>
-        <Switch value={darkMode} onValueChange={(val) => setDarkMode(val)} />
+        <Switch value={isDarkMode} onValueChange={(val) => setDarkMode(val)} />
       </View>
 
       <TouchableOpacity style={styles.row}>
