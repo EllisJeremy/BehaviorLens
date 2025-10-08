@@ -1,5 +1,4 @@
 import Octicons from "@expo/vector-icons/Octicons";
-import * as Haptics from "expo-haptics";
 import { Tabs } from "expo-router";
 
 export default function RootLayout() {
@@ -7,7 +6,7 @@ export default function RootLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "hsla(208, 100%, 60%, 1.00)",
+        tabBarActiveTintColor: "hsl(208, 100%, 60%)",
         tabBarStyle: {
           paddingTop: 5,
           height: 85,
@@ -22,11 +21,6 @@ export default function RootLayout() {
             <Octicons name="play" size={24} color={color} />
           ),
         }}
-        listeners={{
-          tabPress: () => {
-            Haptics.selectionAsync();
-          },
-        }}
       />
       <Tabs.Screen
         name="CreateTest"
@@ -35,11 +29,6 @@ export default function RootLayout() {
           tabBarIcon: ({ color }) => (
             <Octicons name="pencil" size={24} color={color} />
           ),
-        }}
-        listeners={{
-          tabPress: () => {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-          },
         }}
       />
       <Tabs.Screen
@@ -50,11 +39,6 @@ export default function RootLayout() {
             <Octicons name="stack" size={24} color={color} />
           ),
         }}
-        listeners={{
-          tabPress: () => {
-            Haptics.selectionAsync();
-          },
-        }}
       />
       <Tabs.Screen
         name="Settings"
@@ -63,11 +47,6 @@ export default function RootLayout() {
           tabBarIcon: ({ color }) => (
             <Octicons name="gear" size={24} color={color} />
           ),
-        }}
-        listeners={{
-          tabPress: () => {
-            Haptics.selectionAsync();
-          },
         }}
       />
       <Tabs.Screen name="index" options={{ href: null }} />

@@ -1,6 +1,6 @@
 import Octicons from "@expo/vector-icons/Octicons";
 import { Pressable, StyleSheet, View } from "react-native";
-import StartTestTile from "../src/components/startTest/StartTestTile";
+import StartTestTile from "../components/startTest/StartTestTile";
 
 export default function StartTest() {
   return (
