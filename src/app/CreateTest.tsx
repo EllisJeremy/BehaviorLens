@@ -1,26 +1,44 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect } from "react";
-import { Text, View } from "react-native";
+import { useState } from "react";
+import { StyleSheet, View } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
 
 export default function CreateTest() {
-  useEffect(() => {
-    const loadData = async () => {
-      const storedName = await AsyncStorage.getItem("tests");
-      if (storedName) {
-        // retrieve
-      }
-    };
-    loadData();
-  }, []);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("math");
+  const [items, setItems] = useState([
+    { label: "Math", value: "math" },
+    { label: "Reading", value: "reading" },
+    { label: "Science", value: "science" },
+  ]);
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>text example</Text>
+    <View style={styles.container}>
+      <DropDownPicker
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        placeholder="Select a category"
+        style={styles.dropdown}
+        dropDownContainerStyle={styles.dropdownContainer}
+      />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 70,
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 20,
+  },
+  dropdown: {
+    borderColor: "#ccc",
+  },
+  dropdownContainer: {
+    borderColor: "#ccc",
+  },
+});
