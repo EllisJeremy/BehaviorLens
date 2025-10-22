@@ -1,3 +1,4 @@
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Octicons from "@expo/vector-icons/Octicons";
 import { Tabs } from "expo-router";
 
@@ -28,6 +29,15 @@ export default function RootLayout() {
           title: "Create Test",
           tabBarIcon: ({ color }) => (
             <Octicons name="pencil" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Students"
+        options={{
+          title: "Students",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome5 name="user-graduate" size={24} color={color} />
           ),
         }}
       />
