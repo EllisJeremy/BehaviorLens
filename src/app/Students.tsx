@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -8,6 +7,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { loadObject, saveObject } from "../utils/storage";
 
 type Student = {
   firstName: string;
@@ -20,27 +20,15 @@ export default function Settings() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [grade, setGrade] = useState("");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
-    loadStudents();
+    const load = async () => {
+      const data = await loadObject("students");
+      if (data) setStudents(data);
+    };
+    load();
   }, []);
-
-  const loadStudents = async () => {
-    try {
-      const stored = await AsyncStorage.getItem("students");
-      if (stored) setStudents(JSON.parse(stored));
-    } catch (e) {
-      console.error("Error loading students", e);
-    }
-  };
-
-  const saveStudents = async (newList: Student[]) => {
-    try {
-      await AsyncStorage.setItem("students", JSON.stringify(newList));
-    } catch (e) {
-      console.error("Error saving students", e);
-    }
-  };
 
   const addStudent = () => {
     if (!firstName || !lastName || !grade) return;
@@ -49,7 +37,7 @@ export default function Settings() {
     const newList = [...students, newStudent];
 
     setStudents(newList);
-    saveStudents(newList);
+    saveObject("students", newList);
     setFirstName("");
     setLastName("");
     setGrade("");
