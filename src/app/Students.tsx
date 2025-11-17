@@ -8,15 +8,16 @@ import {
   View,
 } from "react-native";
 import { loadObject, saveObject } from "../utils/storage";
+import StudentTile from "../components/students/StudentTile";
 
-type Student = {
+export type StudentType = {
   firstName: string;
   lastName: string;
   grade: string;
 };
 
 export default function Settings() {
-  const [students, setStudents] = useState<Student[]>([]);
+  const [students, setStudents] = useState<StudentType[]>([]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [grade, setGrade] = useState("");
@@ -33,7 +34,7 @@ export default function Settings() {
   const addStudent = () => {
     if (!firstName || !lastName || !grade) return;
 
-    const newStudent: Student = { firstName, lastName, grade };
+    const newStudent: StudentType = { firstName, lastName, grade };
     const newList = [...students, newStudent];
 
     setStudents(newList);
@@ -45,33 +46,15 @@ export default function Settings() {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        placeholder="First Name"
-        value={firstName}
-        onChangeText={setFirstName}
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Last Name"
-        value={lastName}
-        onChangeText={setLastName}
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Grade"
-        value={grade}
-        onChangeText={setGrade}
-        style={styles.input}
-      />
-      <Button title="Add Student" onPress={addStudent} />
-
       <FlatList
         data={students}
         keyExtractor={(_, i) => i.toString()}
         renderItem={({ item }) => (
-          <Text style={styles.item}>
-            {item.firstName} {item.lastName} - Grade {item.grade}
-          </Text>
+          <StudentTile
+            firstName={item.firstName}
+            lastName={item.lastName}
+            grade={item.grade}
+          />
         )}
       />
     </View>
@@ -79,7 +62,12 @@ export default function Settings() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
+  container: {
+    paddingTop: 70,
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 20,
+  },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
