@@ -48,8 +48,8 @@ export default function Settings() {
 
   return (
     <View style={styles.container}>
-      <View></View>
       <FlatList
+        style={{ flexGrow: 0 }}
         data={students}
         keyExtractor={(_, i) => i.toString()}
         renderItem={({ item }) => (
@@ -74,8 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     padding: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-end",
   },
   input: {
     borderWidth: 1,
@@ -90,10 +89,11 @@ const styles = StyleSheet.create({
   },
   add: {
     backgroundColor: "rgba(12, 185, 0, 1)",
-    width: 100,
+    width: 90,
     height: 40,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 8,
+    margin: 14,
   },
 });
