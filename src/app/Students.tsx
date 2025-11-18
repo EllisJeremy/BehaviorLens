@@ -6,9 +6,11 @@ import {
   Text,
   TextInput,
   View,
+  Pressable,
 } from "react-native";
 import { loadObject, saveObject } from "../utils/storage";
 import StudentTile from "../components/students/StudentTile";
+import Octicons from "@expo/vector-icons/Octicons";
 
 export type StudentType = {
   firstName: string;
@@ -46,6 +48,7 @@ export default function Settings() {
 
   return (
     <View style={styles.container}>
+      <View></View>
       <FlatList
         data={students}
         keyExtractor={(_, i) => i.toString()}
@@ -57,6 +60,10 @@ export default function Settings() {
           />
         )}
       />
+
+      <Pressable style={styles.add}>
+        <Octicons name="plus" size={20} color="white" />
+      </Pressable>
     </View>
   );
 }
@@ -67,6 +74,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
   input: {
     borderWidth: 1,
@@ -78,5 +87,13 @@ const styles = StyleSheet.create({
   item: {
     marginTop: 10,
     fontSize: 16,
+  },
+  add: {
+    backgroundColor: "rgba(12, 185, 0, 1)",
+    width: 100,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 8,
   },
 });
