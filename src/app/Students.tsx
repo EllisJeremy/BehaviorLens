@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { loadObject, saveObject } from "../utils/storage";
 import StudentTile from "../components/students/StudentTile";
+import AddStudentModal from "../components/students/AddStudentModal";
 import Octicons from "@expo/vector-icons/Octicons";
 
 export type StudentType = {
@@ -23,7 +24,7 @@ export default function Settings() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [grade, setGrade] = useState("");
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -49,7 +50,7 @@ export default function Settings() {
   return (
     <View style={styles.container}>
       <FlatList
-        style={{ flexGrow: 0 }}
+        style={{ flexGrow: 0, borderTopWidth: 1, borderColor: "#d6d6d6ff" }}
         data={students}
         keyExtractor={(_, i) => i.toString()}
         renderItem={({ item }) => (
@@ -61,9 +62,10 @@ export default function Settings() {
         )}
       />
 
-      <Pressable style={styles.add}>
+      <Pressable style={styles.add} onPress={() => setOpen(true)}>
         <Octicons name="plus" size={20} color="white" />
       </Pressable>
+      <AddStudentModal open={open} setOpen={setOpen} />
     </View>
   );
 }
@@ -73,7 +75,6 @@ const styles = StyleSheet.create({
     paddingTop: 70,
     flex: 1,
     backgroundColor: "#fff",
-    padding: 20,
     alignItems: "flex-end",
   },
   input: {
@@ -94,6 +95,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 8,
-    margin: 14,
+    margin: 20,
   },
 });

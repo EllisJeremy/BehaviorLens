@@ -31,14 +31,14 @@ export default function StudentTile({
 
 const styles = StyleSheet.create({
   tile: {
+    borderBottomWidth: 1,
+    borderColor: "#d6d6d6ff",
     width: "100%",
-    backgroundColor: "#f1f1f1",
+    backgroundColor: "#ffffffff",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 14,
-    borderRadius: 10,
-    marginVertical: 8,
+    padding: 20,
   },
   info: {
     flexShrink: 1,
