@@ -15,7 +15,6 @@ export default function Students() {
   return (
     <View style={styles.container}>
       <FlatList
-        style={{ flexGrow: 0, borderTopWidth: 1, borderColor: "#d6d6d6ff" }}
         data={students}
         keyExtractor={(_, i) => i.toString()}
         renderItem={({ item }) => (
@@ -24,6 +23,15 @@ export default function Students() {
             lastName={item.lastName}
             grade={item.grade}
           />
+        )}
+        ListHeaderComponent={() => (
+          <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
+        )}
+        ItemSeparatorComponent={() => (
+          <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
+        )}
+        ListFooterComponent={() => (
+          <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
         )}
       />
 

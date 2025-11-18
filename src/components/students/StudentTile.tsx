@@ -31,7 +31,6 @@ export default function StudentTile({
 
 const styles = StyleSheet.create({
   tile: {
-    borderBottomWidth: 1,
     borderColor: "#d6d6d6ff",
     width: "100%",
     backgroundColor: "#ffffffff",
