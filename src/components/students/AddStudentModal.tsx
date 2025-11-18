@@ -1,16 +1,28 @@
 import React, { useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import Modal from "react-native-modal";
+import { useStudentsStore } from "../../state/useStudentsStore";
 
-type AddStudentModalProps = {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+export default function AddStudentModal() {
+  const open = useStudentsStore((s) => s.open);
+  const setOpen = useStudentsStore((s) => s.setOpen);
+  const addStudentToStore = useStudentsStore((s) => s.addStudent);
 
-export default function AddStudentModal({
-  open,
-  setOpen,
-}: AddStudentModalProps) {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [grade, setGrade] = useState("");
+
+  const addStudent = () => {
+    if (!firstName || !lastName || !grade) return;
+
+    addStudentToStore({ firstName, lastName, grade });
+
+    setFirstName("");
+    setLastName("");
+    setGrade("");
+    setOpen(false);
+  };
+
   return (
     <Modal
       isVisible={open}
@@ -26,10 +38,12 @@ export default function AddStudentModal({
           height: "92%",
         }}
       >
-        <Text style={{ fontSize: 18 }}>This is a sheet modal</Text>
+        <Text style={{ fontSize: 18 }}>Add Student</Text>
 
-        <Pressable onPress={() => setOpen(false)}>
-          <Text style={{ marginTop: 20 }}>Close</Text>
+        {/* inputs will go here */}
+
+        <Pressable onPress={addStudent}>
+          <Text style={{ marginTop: 20 }}>Save</Text>
         </Pressable>
       </View>
     </Modal>

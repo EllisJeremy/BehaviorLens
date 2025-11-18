@@ -1,51 +1,19 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  FlatList,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Pressable,
-} from "react-native";
-import { loadObject, saveObject } from "../utils/storage";
+import React, { useEffect } from "react";
+import { FlatList, StyleSheet, View, Pressable } from "react-native";
 import StudentTile from "../components/students/StudentTile";
 import AddStudentModal from "../components/students/AddStudentModal";
 import Octicons from "@expo/vector-icons/Octicons";
+import { useStudentsStore } from "../state/useStudentsStore";
 
-export type StudentType = {
-  firstName: string;
-  lastName: string;
-  grade: string;
-};
-
-export default function Settings() {
-  const [students, setStudents] = useState<StudentType[]>([]);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [grade, setGrade] = useState("");
-  const [open, setOpen] = useState(false);
+export default function Students() {
+  const students = useStudentsStore((s) => s.students);
+  const loadStudents = useStudentsStore((s) => s.loadStudents);
+  const open = useStudentsStore((s) => s.open);
+  const setOpen = useStudentsStore((s) => s.setOpen);
 
   useEffect(() => {
-    const load = async () => {
-      const data = await loadObject("students");
-      if (data) setStudents(data);
-    };
-    load();
+    loadStudents();
   }, []);
-
-  const addStudent = () => {
-    if (!firstName || !lastName || !grade) return;
-
-    const newStudent: StudentType = { firstName, lastName, grade };
-    const newList = [...students, newStudent];
-
-    setStudents(newList);
-    saveObject("students", newList);
-    setFirstName("");
-    setLastName("");
-    setGrade("");
-  };
 
   return (
     <View style={styles.container}>
@@ -65,7 +33,8 @@ export default function Settings() {
       <Pressable style={styles.add} onPress={() => setOpen(true)}>
         <Octicons name="plus" size={20} color="white" />
       </Pressable>
-      <AddStudentModal open={open} setOpen={setOpen} />
+
+      <AddStudentModal />
     </View>
   );
 }
@@ -76,17 +45,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "flex-end",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 10,
-    marginVertical: 5,
-    borderRadius: 5,
-  },
-  item: {
-    marginTop: 10,
-    fontSize: 16,
   },
   add: {
     backgroundColor: "rgba(12, 185, 0, 1)",
