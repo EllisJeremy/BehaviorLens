@@ -6,10 +6,7 @@ import Octicons from "@expo/vector-icons/Octicons";
 import { useStudentsStore } from "../state/useStudentsStore";
 
 export default function Students() {
-  const students = useStudentsStore((s) => s.students);
-  const loadStudents = useStudentsStore((s) => s.loadStudents);
-  const open = useStudentsStore((s) => s.open);
-  const setOpen = useStudentsStore((s) => s.setOpen);
+  const { loadStudents, students, setOpen, open } = useStudentsStore();
 
   useEffect(() => {
     loadStudents();
