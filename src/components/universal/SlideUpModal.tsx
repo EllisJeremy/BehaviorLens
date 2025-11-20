@@ -1,42 +1,38 @@
-import React, { useState } from "react";
-import { View, Text, Pressable, TextInput, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 import Modal from "react-native-modal";
-import { useStudentsStore } from "../../state/useStudentsStore";
 
-export default function SlideUpModal() {
-  const { open, setOpen, students, addStudent } = useStudentsStore();
-
-  const clearState = () => {
-    setFirstName("");
-    setLastName("");
-    setGrade("");
-    setOpen(false);
-  };
-
-  const save = () => {
-    if (!firstName) return;
-
-    addStudent({ firstName, lastName, grade });
-    clearState();
-  };
-
+export default function SlideUpModal({
+  modalOpen,
+  setModalOpen,
+  title,
+  form,
+  submitForm,
+  clearForm,
+}: {
+  modalOpen: boolean;
+  setModalOpen: (val: boolean) => void;
+  title: string;
+  form: React.ReactNode;
+  submitForm: () => void;
+  clearForm: () => void;
+}) {
   return (
     <Modal
-      isVisible={open}
-      onBackdropPress={() => setOpen(false)}
+      isVisible={modalOpen}
+      onBackdropPress={() => setModalOpen(false)}
       style={styles.modal}
     >
       <View style={styles.container}>
         <View style={styles.header}>
-          <Pressable onPress={clearState}>
+          <Pressable onPress={clearForm}>
             <Text style={styles.save}>Cancel</Text>
           </Pressable>
-
-          <Text style={{ fontSize: 18 }}>Add Student</Text>
-          <Pressable onPress={tryAddStudent}>
+          <Text style={{ fontSize: 18 }}>{title}</Text>
+          <Pressable onPress={submitForm}>
             <Text style={styles.cancel}> {"  Save"}</Text>
           </Pressable>
         </View>
+        {form}
       </View>
     </Modal>
   );
