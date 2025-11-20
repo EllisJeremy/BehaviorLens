@@ -31,6 +31,6 @@ export const useStudentsStore = create<StudentsState>((set, get) => ({
   addStudent: (student) => {
     const newList = [...get().students, student];
     set({ students: newList });
-    saveObject("students", newList); // persistent
+    saveObject("students", newList);
   },
 }));
