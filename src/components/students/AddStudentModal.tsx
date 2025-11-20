@@ -3,7 +3,7 @@ import { View, Text, Pressable, TextInput, StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import { useStudentsStore } from "../../state/useStudentsStore";
 import SlideUpModal from "../universal/SlideUpModal";
-import { v4 as uuidv4 } from "uuid";
+import * as Crypto from "expo-crypto";
 
 export default function AddStudentModal() {
   const { students, setOpen, open, addStudent } = useStudentsStore();
@@ -20,7 +20,7 @@ export default function AddStudentModal() {
 
   function submitForm() {
     if (!firstName) return;
-    const uuid = uuidv4();
+    const uuid = Crypto.randomUUID();
     addStudent({ firstName, lastName, grade, uuid });
     clearForm();
   }

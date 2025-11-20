@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { loadObject, saveObject } from "../utils/storage";
-import { v4 as uuidv4 } from "uuid";
 
 export type StudentType = {
   uuid: string;
