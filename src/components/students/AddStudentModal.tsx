@@ -3,6 +3,7 @@ import { View, Text, Pressable, TextInput, StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import { useStudentsStore } from "../../state/useStudentsStore";
 import SlideUpModal from "../universal/SlideUpModal";
+import { v4 as uuidv4 } from "uuid";
 
 export default function AddStudentModal() {
   const { students, setOpen, open, addStudent } = useStudentsStore();
@@ -19,7 +20,8 @@ export default function AddStudentModal() {
 
   function submitForm() {
     if (!firstName) return;
-    addStudent({ firstName, lastName, grade });
+    const uuid = uuidv4();
+    addStudent({ firstName, lastName, grade, uuid });
     clearForm();
   }
 
@@ -35,13 +37,13 @@ export default function AddStudentModal() {
         <TextInput
           style={styles.input}
           onChangeText={(text) => setLastName(text)}
-          placeholder="First Name"
+          placeholder="Last Name"
           placeholderTextColor="#A0A0A0"
         />
         <TextInput
           style={styles.input}
           onChangeText={(text) => setGrade(text)}
-          placeholder="First Name"
+          placeholder="Grade"
           placeholderTextColor="#A0A0A0"
         />
       </View>

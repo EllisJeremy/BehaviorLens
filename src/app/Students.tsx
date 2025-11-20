@@ -19,6 +19,7 @@ export default function Students() {
         keyExtractor={(_, i) => i.toString()}
         renderItem={({ item }) => (
           <StudentTile
+            uuid={item.uuid}
             firstName={item.firstName}
             lastName={item.lastName}
             grade={item.grade}

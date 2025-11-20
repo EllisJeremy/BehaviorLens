@@ -3,6 +3,7 @@ import { StudentType } from "@/src/state/useStudentsStore";
 import Octicons from "@expo/vector-icons/Octicons";
 
 export default function StudentTile({
+  uuid,
   firstName,
   lastName,
   grade,
