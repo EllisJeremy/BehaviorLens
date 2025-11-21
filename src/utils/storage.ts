@@ -15,4 +15,12 @@ export const loadObject = async (objectKey: string) => {
   } catch (e) {
     console.error("Error loading", objectKey, e);
   }
+
+  const removeObject = async (key: string) => {
+    try {
+      await AsyncStorage.removeItem(key);
+    } catch (error) {
+      console.error("Error removing item", error);
+    }
+  };
 };

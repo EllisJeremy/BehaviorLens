@@ -15,7 +15,7 @@ export default function Students() {
   return (
     <View style={styles.container}>
       <FlatList
-        data={students}
+        data={Object.values(students)}
         keyExtractor={(_, i) => i.toString()}
         renderItem={({ item }) => (
           <StudentTile

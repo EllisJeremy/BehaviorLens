@@ -9,7 +9,7 @@ export type StudentType = {
 };
 
 type StudentsState = {
-  students: StudentType[];
+  students: Record<string, StudentType>;
   open: boolean;
 
   loadStudents: () => Promise<void>;
@@ -19,7 +19,7 @@ type StudentsState = {
 };
 
 export const useStudentsStore = create<StudentsState>((set, get) => ({
-  students: [],
+  students: {},
   open: false,
 
   setOpen: (val) => set({ open: val }),
@@ -29,9 +29,31 @@ export const useStudentsStore = create<StudentsState>((set, get) => ({
     if (data) set({ students: data });
   },
 
-  addStudent: (student) => {
-    const newList = [...get().students, student];
-    set({ students: newList });
-    saveObject("students", newList);
+  addStudent: (student: StudentType) => {
+    set((state) => {
+      const newStudents = {
+        ...state.students,
+        [student.uuid]: student,
+      };
+
+      saveObject("students", newStudents);
+
+      return { students: newStudents };
+    });
+  },
+
+  removeStudent: (uuid: string) => {
+    set((state) => {
+      const newStudents = { ...state.students };
+      if (uuid in newStudents) {
+        delete newStudents[uuid];
+      } else {
+        console.error("ERROR: there is no student with uuid", uuid);
+      }
+
+      saveObject("students", newStudents);
+
+      return { students: newStudents };
+    });
   },
 }));
