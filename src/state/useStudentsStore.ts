@@ -14,6 +14,7 @@ type StudentsState = {
 
   loadStudents: () => Promise<void>;
   addStudent: (student: StudentType) => void;
+  removeStudent: (uuid: string) => void;
 
   setOpen: (val: boolean) => void;
 };

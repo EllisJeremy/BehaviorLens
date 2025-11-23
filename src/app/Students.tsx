@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { FlatList, StyleSheet, View, Pressable } from "react-native";
+import { FlatList, StyleSheet, View, Pressable, Text } from "react-native";
 import StudentTile from "../components/students/StudentTile";
 import AddStudentModal from "../components/students/AddStudentModal";
 import Octicons from "@expo/vector-icons/Octicons";
@@ -14,27 +14,33 @@ export default function Students() {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={Object.values(students)}
-        keyExtractor={(_, i) => i.toString()}
-        renderItem={({ item }) => (
-          <StudentTile
-            uuid={item.uuid}
-            firstName={item.firstName}
-            lastName={item.lastName}
-            grade={item.grade}
-          />
-        )}
-        ListHeaderComponent={() => (
-          <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
-        )}
-        ItemSeparatorComponent={() => (
-          <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
-        )}
-        ListFooterComponent={() => (
-          <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
-        )}
-      />
+      {Object.keys(students).length > 0 ? (
+        <FlatList
+          data={Object.values(students)}
+          keyExtractor={(_, i) => i.toString()}
+          renderItem={({ item }) => (
+            <StudentTile
+              uuid={item.uuid}
+              firstName={item.firstName}
+              lastName={item.lastName}
+              grade={item.grade}
+            />
+          )}
+          ListHeaderComponent={() => (
+            <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
+          )}
+          ItemSeparatorComponent={() => (
+            <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
+          )}
+          ListFooterComponent={() => (
+            <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
+          )}
+        />
+      ) : (
+        <View>
+          <Text>Add students</Text>
+        </View>
+      )}
 
       <Pressable style={styles.add} onPress={() => setOpen(true)}>
         <Octicons name="plus" size={20} color="white" />

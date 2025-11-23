@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { StudentType } from "@/src/state/useStudentsStore";
 import Octicons from "@expo/vector-icons/Octicons";
+import { useStudentsStore } from "@/src/state/useStudentsStore";
 
 export default function StudentTile({
   uuid,
@@ -8,6 +9,7 @@ export default function StudentTile({
   lastName,
   grade,
 }: StudentType) {
+  const { removeStudent } = useStudentsStore();
   return (
     <View style={styles.tile}>
       <View style={styles.info}>
@@ -18,7 +20,12 @@ export default function StudentTile({
       </View>
 
       <View style={styles.controls}>
-        <Pressable style={styles.iconButton}>
+        <Pressable
+          style={styles.iconButton}
+          onPress={() => {
+            removeStudent(uuid);
+          }}
+        >
           <Octicons name="pencil" size={20} color="white" />
         </Pressable>
 
