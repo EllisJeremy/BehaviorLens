@@ -20,16 +20,16 @@ export default function StudentTile({
       </View>
 
       <View style={styles.controls}>
+        <Pressable style={styles.iconButton}>
+          <Octicons name="pencil" size={20} color="white" />
+        </Pressable>
+
         <Pressable
-          style={styles.iconButton}
+          style={[styles.iconButton, styles.deleteButton]}
           onPress={() => {
             removeStudent(uuid);
           }}
         >
-          <Octicons name="pencil" size={20} color="white" />
-        </Pressable>
-
-        <Pressable style={[styles.iconButton, styles.deleteButton]}>
           <Octicons name="trash" size={20} color="white" />
         </Pressable>
       </View>

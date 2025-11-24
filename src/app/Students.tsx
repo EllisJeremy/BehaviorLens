@@ -37,8 +37,8 @@ export default function Students() {
           )}
         />
       ) : (
-        <View>
-          <Text>Add students</Text>
+        <View style={styles.placeHolder}>
+          <Text>Press + to add Students</Text>
         </View>
       )}
 
@@ -57,6 +57,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "flex-end",
+    justifyContent: "space-between",
+  },
+  placeHolder: {
+    margin: "auto",
   },
   add: {
     backgroundColor: "rgba(12, 185, 0, 1)",
