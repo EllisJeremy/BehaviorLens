@@ -5,7 +5,7 @@ import { useStudentsStore } from "../../state/useStudentsStore";
 import SlideUpModal from "../universal/SlideUpModal";
 import * as Crypto from "expo-crypto";
 
-export default function addObservationModal() {
+export default function AddObservationModal() {
   const { students, setOpen, open, addStudent } = useStudentsStore();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");

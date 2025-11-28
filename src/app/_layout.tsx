@@ -17,9 +17,9 @@ export default function RootLayout() {
       <Tabs.Screen
         name="StartTest"
         options={{
-          title: "Start Test",
+          title: "Observations",
           tabBarIcon: ({ color }) => (
-            <Octicons name="play" size={24} color={color} />
+            <Octicons name="stopwatch" size={24} color={color} />
           ),
         }}
       />
