@@ -15,20 +15,11 @@ export default function RootLayout() {
       }}
     >
       <Tabs.Screen
-        name="StartTest"
+        name="Observations"
         options={{
           title: "Observations",
           tabBarIcon: ({ color }) => (
             <Octicons name="stopwatch" size={24} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="CreateTest"
-        options={{
-          title: "Create Test",
-          tabBarIcon: ({ color }) => (
-            <Octicons name="pencil" size={24} color={color} />
           ),
         }}
       />

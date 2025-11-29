@@ -5,7 +5,7 @@ import AddStudentModal from "../components/students/AddStudentModal";
 import Octicons from "@expo/vector-icons/Octicons";
 import { useStudentsStore } from "../state/useStudentsStore";
 
-export default function StartTest() {
+export default function Observations() {
   const { loadStudents, students, setOpen, open } = useStudentsStore();
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function StartTest() {
         />
       ) : (
         <View style={styles.placeHolder}>
-          <Text>Press + to add Students</Text>
+          <Text>Press + to create a new observation preset </Text>
         </View>
       )}
 
