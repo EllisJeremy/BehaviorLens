@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { StudentType } from "@/src/state/useStudentsStore";
+import { StudentType } from "@/src/state/students/useStudentsStore";
 import Octicons from "@expo/vector-icons/Octicons";
-import { useStudentsStore } from "@/src/state/useStudentsStore";
+import { useStudentsStore } from "@/src/state/students/useStudentsStore";
 
 export default function StudentTile({
   uuid,

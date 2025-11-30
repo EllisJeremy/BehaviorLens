@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { loadObject, saveObject } from "../utils/storage";
+import { loadObject, saveObject } from "../../utils/storage";
 
 export type StudentType = {
   uuid: string;
@@ -10,20 +10,14 @@ export type StudentType = {
 
 type StudentsState = {
   students: Record<string, StudentType>;
-  open: boolean;
 
   loadStudents: () => Promise<void>;
   addStudent: (student: StudentType) => void;
   removeStudent: (uuid: string) => void;
-
-  setOpen: (val: boolean) => void;
 };
 
 export const useStudentsStore = create<StudentsState>((set, get) => ({
   students: {},
-  open: false,
-
-  setOpen: (val) => set({ open: val }),
 
   loadStudents: async () => {
     const data = await loadObject("students");

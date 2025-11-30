@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import { View, Text, Pressable, TextInput, StyleSheet } from "react-native";
-import Modal from "react-native-modal";
-import { useStudentsStore } from "../../state/useStudentsStore";
+import { useStudentsStore } from "../../state/students/useStudentsStore";
+import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStore";
 import SlideUpModal from "../universal/SlideUpModal";
 import * as Crypto from "expo-crypto";
 
-export default function AddStudentModal() {
-  const { students, setOpen, open, addStudent } = useStudentsStore();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [grade, setGrade] = useState("");
-
-  function clearForm() {
-    setFirstName("");
-    setLastName("");
-    setGrade("");
-    setOpen(false);
-  }
+export default function AddObservationModal() {
+  const { addStudent } = useStudentsStore();
+  const {
+    open,
+    setOpen,
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    grade,
+    setGrade,
+    clearForm,
+  } = useStudentsModalStore();
 
   function submitForm() {
     if (!firstName) return;
@@ -24,7 +25,6 @@ export default function AddStudentModal() {
     addStudent({ firstName, lastName, grade, uuid });
     clearForm();
   }
-
   function AddStudentForm() {
     return (
       <View style={styles.inputContainer}>
