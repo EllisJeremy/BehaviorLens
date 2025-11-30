@@ -13,6 +13,9 @@ type StudentsState = {
   grade: string;
   setGrade: (v: string) => void;
 
+  prevUUID: string;
+  setPrevUUID: (v: string) => void;
+
   clearForm: () => void;
 };
 
@@ -29,11 +32,15 @@ export const useStudentsModalStore = create<StudentsState>((set) => ({
   grade: "",
   setGrade: (v) => set({ grade: v }),
 
+  prevUUID: "",
+  setPrevUUID: (v) => set({ prevUUID: v }),
+
   clearForm: () =>
     set({
       firstName: "",
       lastName: "",
       grade: "",
+      prevUUID: "",
       open: false,
     }),
 }));

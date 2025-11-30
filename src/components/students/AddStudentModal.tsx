@@ -5,7 +5,7 @@ import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStor
 import SlideUpModal from "../universal/SlideUpModal";
 import * as Crypto from "expo-crypto";
 
-export default function AddObservationModal() {
+export default function AddStudentModal() {
   const { addStudent } = useStudentsStore();
   const {
     open,
@@ -16,12 +16,13 @@ export default function AddObservationModal() {
     setLastName,
     grade,
     setGrade,
+    prevUUID,
     clearForm,
   } = useStudentsModalStore();
 
   function submitForm() {
     if (!firstName) return;
-    const uuid = Crypto.randomUUID();
+    const uuid = prevUUID === "" ? Crypto.randomUUID() : prevUUID;
     addStudent({ firstName, lastName, grade, uuid });
     clearForm();
   }
@@ -31,18 +32,21 @@ export default function AddObservationModal() {
         <TextInput
           style={styles.input}
           onChangeText={(text) => setFirstName(text)}
+          value={firstName}
           placeholder="First Name"
           placeholderTextColor="#A0A0A0"
         />
         <TextInput
           style={styles.input}
           onChangeText={(text) => setLastName(text)}
+          value={lastName}
           placeholder="Last Name"
           placeholderTextColor="#A0A0A0"
         />
         <TextInput
           style={styles.input}
           onChangeText={(text) => setGrade(text)}
+          value={grade}
           placeholder="Grade"
           placeholderTextColor="#A0A0A0"
         />

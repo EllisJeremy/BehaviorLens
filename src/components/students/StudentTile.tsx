@@ -1,7 +1,10 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { StudentType } from "@/src/state/students/useStudentsStore";
 import Octicons from "@expo/vector-icons/Octicons";
-import { useStudentsStore } from "@/src/state/students/useStudentsStore";
+import {
+  useStudentsStore,
+  StudentType,
+} from "@/src/state/students/useStudentsStore";
+import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStore";
 
 export default function StudentTile({
   uuid,
@@ -10,6 +13,8 @@ export default function StudentTile({
   grade,
 }: StudentType) {
   const { removeStudent } = useStudentsStore();
+  const { setFirstName, setLastName, setGrade, setOpen, setPrevUUID } =
+    useStudentsModalStore();
   return (
     <View style={styles.tile}>
       <View style={styles.info}>
@@ -20,7 +25,16 @@ export default function StudentTile({
       </View>
 
       <View style={styles.controls}>
-        <Pressable style={styles.iconButton}>
+        <Pressable
+          style={styles.iconButton}
+          onPress={() => {
+            setFirstName(firstName);
+            setLastName(lastName);
+            setGrade(grade);
+            setPrevUUID(uuid);
+            setOpen(true);
+          }}
+        >
           <Octicons name="pencil" size={20} color="white" />
         </Pressable>
 
