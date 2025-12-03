@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Pressable, TextInput, StyleSheet } from "react-native";
 import { useStudentsStore } from "../../state/students/useStudentsStore";
 import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStore";
@@ -20,6 +20,16 @@ export default function AddStudentModal() {
     clearForm,
   } = useStudentsModalStore();
 
+  const [localFirstName, setLocalFirstName] = useState(firstName);
+  const [localLastName, setLocalLastName] = useState(lastName);
+  const [localGrade, setLocalGrade] = useState(grade);
+
+  useEffect(() => {
+    setLocalFirstName(firstName);
+    setLocalLastName(lastName);
+    setLocalGrade(grade);
+  }, [open, prevUUID]);
+
   function submitForm() {
     if (!firstName) return;
     const uuid = prevUUID === "" ? Crypto.randomUUID() : prevUUID;
@@ -31,22 +41,19 @@ export default function AddStudentModal() {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          onChangeText={(text) => setFirstName(text)}
-          value={firstName}
+          onChangeText={(text) => setLocalFirstName(text)}
           placeholder="First Name"
           placeholderTextColor="#A0A0A0"
         />
         <TextInput
           style={styles.input}
-          onChangeText={(text) => setLastName(text)}
-          value={lastName}
+          onChangeText={(text) => setLocalLastName(text)}
           placeholder="Last Name"
           placeholderTextColor="#A0A0A0"
         />
         <TextInput
           style={styles.input}
-          onChangeText={(text) => setGrade(text)}
-          value={grade}
+          onChangeText={(text) => setLocalGrade(text)}
           placeholder="Grade"
           placeholderTextColor="#A0A0A0"
         />
@@ -58,7 +65,7 @@ export default function AddStudentModal() {
     <SlideUpModal
       modalOpen={open}
       setModalOpen={setOpen}
-      title="Add Student"
+      title={prevUUID === "" ? "Add Student" : "Edit Student"}
       form={<AddStudentForm />}
       submitForm={submitForm}
       clearForm={clearForm}
