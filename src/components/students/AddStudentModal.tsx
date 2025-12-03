@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, Pressable, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet } from "react-native";
 import { useStudentsStore } from "../../state/students/useStudentsStore";
 import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStore";
 import SlideUpModal from "../universal/SlideUpModal";
