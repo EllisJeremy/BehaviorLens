@@ -13,8 +13,16 @@ export default function StudentTile({
   grade,
 }: StudentType) {
   const { removeStudent } = useStudentsStore();
-  const { setFirstName, setLastName, setGrade, setOpen, setPrevUUID } =
-    useStudentsModalStore();
+  const {
+    setFirstName,
+    setLastName,
+    setGrade,
+    setOpen,
+    setPrevUUID,
+    setPrevFirstName,
+    setPrevLastName,
+    setPrevGrade,
+  } = useStudentsModalStore();
   return (
     <View style={styles.tile}>
       <View style={styles.info}>
@@ -28,8 +36,11 @@ export default function StudentTile({
         <Pressable
           style={styles.iconButton}
           onPress={() => {
+            setPrevFirstName(firstName);
             setFirstName(firstName);
+            setPrevLastName(lastName);
             setLastName(lastName);
+            setPrevGrade(grade);
             setGrade(grade);
             setPrevUUID(uuid);
             setOpen(true);

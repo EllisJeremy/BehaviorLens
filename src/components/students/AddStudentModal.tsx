@@ -18,17 +18,10 @@ export default function AddStudentModal() {
     setGrade,
     prevUUID,
     clearForm,
+    prevFirstName,
+    prevLastName,
+    prevGrade,
   } = useStudentsModalStore();
-
-  const [localFirstName, setLocalFirstName] = useState(firstName);
-  const [localLastName, setLocalLastName] = useState(lastName);
-  const [localGrade, setLocalGrade] = useState(grade);
-
-  useEffect(() => {
-    setLocalFirstName(firstName);
-    setLocalLastName(lastName);
-    setLocalGrade(grade);
-  }, [open, prevUUID]);
 
   function submitForm() {
     if (!firstName) return;
@@ -36,24 +29,28 @@ export default function AddStudentModal() {
     addStudent({ firstName, lastName, grade, uuid });
     clearForm();
   }
+
   function AddStudentForm() {
     return (
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          onChangeText={(text) => setLocalFirstName(text)}
+          onChangeText={(text) => setFirstName(text)}
+          defaultValue={prevFirstName}
           placeholder="First Name"
           placeholderTextColor="#A0A0A0"
         />
         <TextInput
           style={styles.input}
-          onChangeText={(text) => setLocalLastName(text)}
+          onChangeText={(text) => setLastName(text)}
+          defaultValue={prevLastName}
           placeholder="Last Name"
           placeholderTextColor="#A0A0A0"
         />
         <TextInput
           style={styles.input}
-          onChangeText={(text) => setLocalGrade(text)}
+          onChangeText={(text) => setGrade(text)}
+          defaultValue={prevGrade}
           placeholder="Grade"
           placeholderTextColor="#A0A0A0"
         />
