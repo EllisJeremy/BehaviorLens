@@ -5,6 +5,7 @@ import AddStudentModal from "../components/students/AddStudentModal";
 import { useStudentsModalStore } from "../state/students/useStudentsModalStore";
 import Octicons from "@expo/vector-icons/Octicons";
 import { useStudentsStore } from "../state/students/useStudentsStore";
+import PlusButton from "../components/universal/PlusButton";
 
 export default function Students() {
   const { loadStudents, students } = useStudentsStore();
@@ -44,9 +45,7 @@ export default function Students() {
         </View>
       )}
 
-      <Pressable style={styles.add} onPress={() => setOpen(true)}>
-        <Octicons name="plus" size={20} color="white" />
-      </Pressable>
+      <PlusButton onPress={() => setOpen(true)} />
 
       <AddStudentModal />
     </View>
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 70,
     flex: 1,
-    backgroundColor: "#fff",
+
     alignItems: "flex-end",
     justifyContent: "space-between",
   },
