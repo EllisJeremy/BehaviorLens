@@ -1,5 +1,6 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Octicons from "@expo/vector-icons/Octicons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
 
 export default function RootLayout() {
@@ -33,11 +34,11 @@ export default function RootLayout() {
         }}
       />
       <Tabs.Screen
-        name="PastTests"
+        name="Reports"
         options={{
-          title: "Past Tests",
+          title: "Reports",
           tabBarIcon: ({ color }) => (
-            <Octicons name="stack" size={24} color={color} />
+            <Ionicons name="documents-outline" size={24} color={color} />
           ),
         }}
       />
