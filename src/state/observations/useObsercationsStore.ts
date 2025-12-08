@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { loadObject, saveObject } from "../../utils/storage";
+import { BaseObservationPreset } from "@/src/types/observationTypes";
 
 export type IntervalObservationPresetType = {
   uuid: string;
