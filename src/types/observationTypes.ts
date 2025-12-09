@@ -1,29 +1,15 @@
 export type BaseObservationPreset = {
   uuid: string;
   name: string;
-  type: ObservationPresetKind;
+  type: ObservationPresetEnum;
 };
 
-export type ObservationPresetKind =
-  | "interval"
-  | "duration"
-  | "frequency"
-  | "abc";
+export type ObservationPresetEnum = "interval" | "abc";
 
 export type IntervalObservationPreset = BaseObservationPreset & {
   type: "interval";
   numberOfObservations: number;
   observationIntervalSeconds: number;
-};
-
-export type DurationObservationPreset = BaseObservationPreset & {
-  type: "duration";
-  maxDurationSeconds: number;
-};
-
-export type FrequencyObservationPreset = BaseObservationPreset & {
-  type: "frequency";
-  expectedEvents: number;
 };
 
 export type ABCObservationPreset = BaseObservationPreset & {
@@ -34,6 +20,4 @@ export type ABCObservationPreset = BaseObservationPreset & {
 
 export type ObservationPreset =
   | IntervalObservationPreset
-  | DurationObservationPreset
-  | FrequencyObservationPreset
   | ABCObservationPreset;
