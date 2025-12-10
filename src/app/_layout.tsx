@@ -1,6 +1,9 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Octicons from "@expo/vector-icons/Octicons";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import Entypo from "@expo/vector-icons/Entypo";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+
 import { Tabs } from "expo-router";
 
 export default function RootLayout() {
@@ -20,7 +23,11 @@ export default function RootLayout() {
         options={{
           title: "Observations",
           tabBarIcon: ({ color }) => (
-            <Octicons name="stopwatch" size={24} color={color} />
+            <MaterialCommunityIcons
+              name="clipboard-edit"
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
@@ -29,7 +36,7 @@ export default function RootLayout() {
         options={{
           title: "Students",
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="user-graduate" size={24} color={color} />
+            <FontAwesome6 name="graduation-cap" size={24} color={color} />
           ),
         }}
       />
@@ -38,7 +45,7 @@ export default function RootLayout() {
         options={{
           title: "Reports",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="documents-outline" size={24} color={color} />
+            <Entypo name="bar-graph" size={24} color={color} />
           ),
         }}
       />
@@ -47,7 +54,7 @@ export default function RootLayout() {
         options={{
           title: "Settings",
           tabBarIcon: ({ color }) => (
-            <Octicons name="gear" size={24} color={color} />
+            <FontAwesome6 name="gear" size={24} color={color} />
           ),
         }}
       />
