@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { loadObject, saveObject } from "../../utils/storage";
-import { BaseObservationPreset } from "@/src/types/observationTypes";
+import { ObservationPreset } from "@/src/types/observationTypes";
 
 export type IntervalObservationPresetType = {
   uuid: string;
@@ -9,47 +9,52 @@ export type IntervalObservationPresetType = {
   observationIntervalSeconds: number;
 };
 
-type StudentsState = {
-  observationPresets: Record<string, StudentType>;
+type ObservationPresetState = {
+  observationPresets: Record<string, ObservationPreset>;
 
-  loadStudents: () => Promise<void>;
-  addStudent: (student: StudentType) => void;
-  removeStudent: (uuid: string) => void;
+  loadObservationPresets: () => Promise<void>;
+  addObservationPreset: (observationPreset: ObservationPreset) => void;
+  removeObservationPreset: (uuid: string) => void;
 };
 
-export const useStudentsStore = create<StudentsState>((set, get) => ({
-  students: {},
+export const useObservationPresetState = create<ObservationPresetState>(
+  (set, get) => ({
+    observationPresets: {},
 
-  loadStudents: async () => {
-    const data = await loadObject("students");
-    if (data) set({ students: data });
-  },
+    loadObservationPresets: async () => {
+      const data = await loadObject("observationPreset");
+      if (data) set({ observationPresets: data });
+    },
 
-  addStudent: (student: StudentType) => {
-    set((state) => {
-      const newStudents = {
-        ...state.students,
-        [student.uuid]: student,
-      };
+    addObservationPreset: (observationPreset: ObservationPreset) => {
+      set((state) => {
+        const newObservationPresets = {
+          ...state.observationPresets,
+          [observationPreset.uuid]: observationPreset,
+        };
 
-      saveObject("students", newStudents);
+        saveObject("observationPreset", newObservationPresets);
 
-      return { students: newStudents };
-    });
-  },
+        return { observationPresets: newObservationPresets };
+      });
+    },
 
-  removeStudent: (uuid: string) => {
-    set((state) => {
-      const newStudents = { ...state.students };
-      if (uuid in newStudents) {
-        delete newStudents[uuid];
-      } else {
-        console.error("ERROR: there is no student with uuid", uuid);
-      }
+    removeObservationPreset: (uuid: string) => {
+      set((state) => {
+        const newObservationPresets = { ...state.observationPresets };
+        if (uuid in newObservationPresets) {
+          delete newObservationPresets[uuid];
+        } else {
+          console.error(
+            "ERROR: there is no observation preset with uuid",
+            uuid
+          );
+        }
 
-      saveObject("students", newStudents);
+        saveObject("observationPreset", newObservationPresets);
 
-      return { students: newStudents };
-    });
-  },
-}));
+        return { observationPresets: newObservationPresets };
+      });
+    },
+  })
+);
