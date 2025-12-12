@@ -4,8 +4,8 @@ type StudentsState = {
   open: boolean;
   setOpen: (val: boolean) => void;
 
-  firstName: string;
-  setFirstName: (v: string) => void;
+  name: string;
+  setName: (v: string) => void;
   prevFirstName: string;
   setPrevFirstName: (v: string) => void;
 
@@ -25,11 +25,11 @@ type StudentsState = {
   clearForm: () => void;
 };
 
-export const useStudentsModalStore = create<StudentsState>((set) => ({
+export const useObservationModalStore = create<StudentsState>((set) => ({
   open: false,
   setOpen: (val) => set({ open: val }),
 
-  firstName: "",
+  name: "",
   setFirstName: (v) => set({ firstName: v }),
   prevFirstName: "",
   setPrevFirstName: (v) => set({ prevFirstName: v }),
