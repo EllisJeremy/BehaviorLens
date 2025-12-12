@@ -6,13 +6,49 @@ import Octicons from "@expo/vector-icons/Octicons";
 import { useStudentsStore } from "../state/students/useStudentsStore";
 
 export default function Observations() {
+  const { loadStudents, students } = useStudentsStore();
+  const { setOpen } = useStudentsModalStore();
+
+  useEffect(() => {
+    loadStudents();
+  }, []);
+
   return (
-    <View style={styles.placeHolder}>
-      <Text>Press + to create a new observation preset </Text>
+    <View style={styles.container}>
+      {Object.keys(students).length > 0 ? (
+        <FlatList
+          data={Object.values(students)}
+          keyExtractor={(_, i) => i.toString()}
+          renderItem={({ item }) => (
+            <StudentTile
+              uuid={item.uuid}
+              firstName={item.firstName}
+              lastName={item.lastName}
+              grade={item.grade}
+            />
+          )}
+          ListHeaderComponent={() => (
+            <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
+          )}
+          ItemSeparatorComponent={() => (
+            <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
+          )}
+          ListFooterComponent={() => (
+            <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
+          )}
+        />
+      ) : (
+        <View style={styles.placeHolder}>
+          <Text>Press + to add Students</Text>
+        </View>
+      )}
+
+      <PlusButton onPress={() => setOpen(true)} />
+
+      <AddStudentModal />
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     paddingTop: 70,

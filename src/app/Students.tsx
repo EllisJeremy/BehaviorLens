@@ -3,13 +3,12 @@ import { FlatList, StyleSheet, View, Pressable, Text } from "react-native";
 import StudentTile from "../components/students/StudentTile";
 import AddStudentModal from "../components/students/AddStudentModal";
 import { useStudentsModalStore } from "../state/students/useStudentsModalStore";
-import Octicons from "@expo/vector-icons/Octicons";
 import { useStudentsStore } from "../state/students/useStudentsStore";
 import PlusButton from "../components/universal/PlusButton";
 
 export default function Students() {
   const { loadStudents, students } = useStudentsStore();
-  const { setOpen, open } = useStudentsModalStore();
+  const { setOpen } = useStudentsModalStore();
 
   useEffect(() => {
     loadStudents();
