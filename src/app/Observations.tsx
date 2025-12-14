@@ -6,7 +6,7 @@ import Octicons from "@expo/vector-icons/Octicons";
 import { useObservationModalStore } from "../state/observations/useObservationsModalStore";
 
 export default function Observations() {
-  const { loadStudents, students } = useStudentsStore();
+  const { loadStudents, students } = useObservationStore();
   const { setOpen } = useObservationModalStore();
 
   useEffect(() => {
