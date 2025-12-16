@@ -9,7 +9,7 @@ export type IntervalObservationPresetType = {
   observationIntervalSeconds: number;
 };
 
-type ObservationPresetState = {
+type ObservationPresetStore = {
   observationPresets: Record<string, ObservationPreset>;
 
   loadObservationPresets: () => Promise<void>;
@@ -17,7 +17,7 @@ type ObservationPresetState = {
   removeObservationPreset: (uuid: string) => void;
 };
 
-export const useObservationPresetState = create<ObservationPresetState>(
+export const useObservationPresetStore = create<ObservationPresetStore>(
   (set, get) => ({
     observationPresets: {},
 

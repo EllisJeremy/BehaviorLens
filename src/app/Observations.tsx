@@ -4,20 +4,23 @@ import StudentTile from "../components/students/StudentTile";
 import AddStudentModal from "../components/students/AddStudentModal";
 import Octicons from "@expo/vector-icons/Octicons";
 import { useObservationModalStore } from "../state/observations/useObservationsModalStore";
+import { useObservationPresetStore } from "../state/observations/useObservationsStore";
+import PlusButton from "../components/universal/PlusButton";
 
 export default function Observations() {
-  const { loadStudents, students } = useObservationStore();
+  const { loadObservationPresets, observationPresets } =
+    useObservationPresetStore();
   const { setOpen } = useObservationModalStore();
 
   useEffect(() => {
-    loadStudents();
+    loadObservationPresets();
   }, []);
 
   return (
     <View style={styles.container}>
-      {Object.keys(students).length > 0 ? (
+      {Object.keys(observationPresets).length > 0 ? (
         <FlatList
-          data={Object.values(students)}
+          data={Object.values(observationPresets)}
           keyExtractor={(_, i) => i.toString()}
           renderItem={({ item }) => (
             <StudentTile
