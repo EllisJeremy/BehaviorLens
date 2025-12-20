@@ -28,15 +28,9 @@ export default function Students() {
               grade={item.grade}
             />
           )}
-          ListHeaderComponent={() => (
-            <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
-          )}
-          ItemSeparatorComponent={() => (
-            <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
-          )}
-          ListFooterComponent={() => (
-            <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
-          )}
+          ListHeaderComponent={() => <View style={styles.line} />}
+          ItemSeparatorComponent={() => <View style={styles.line} />}
+          ListFooterComponent={() => <View style={styles.line} />}
         />
       ) : (
         <View style={styles.placeHolder}>
@@ -55,13 +49,13 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 70,
     flex: 1,
-
     alignItems: "flex-end",
     justifyContent: "space-between",
   },
   placeHolder: {
     margin: "auto",
   },
+  line: { height: 1, backgroundColor: "#d6d6d6" },
   add: {
     backgroundColor: "rgba(12, 185, 0, 1)",
     width: 90,
