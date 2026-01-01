@@ -25,9 +25,9 @@ export default function Observations() {
           renderItem={({ item }) => (
             <StudentTile
               uuid={item.uuid}
-              firstName={item.firstName}
-              lastName={item.lastName}
-              grade={item.grade}
+              firstName={item.name}
+              lastName={item.type}
+              grade={""}
             />
           )}
           ListHeaderComponent={() => (
@@ -42,7 +42,7 @@ export default function Observations() {
         />
       ) : (
         <View style={styles.placeHolder}>
-          <Text>Press + to add Students</Text>
+          <Text>Press + to add an Observation Preset</Text>
         </View>
       )}
 
