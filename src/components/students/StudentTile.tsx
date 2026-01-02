@@ -18,10 +18,8 @@ export default function StudentTile({
     setLastName,
     setGrade,
     setOpen,
-    setPrevUUID,
-    setPrevFirstName,
-    setPrevLastName,
-    setPrevGrade,
+    setEditStudent,
+    editStudent,
   } = useStudentsModalStore();
   return (
     <View style={styles.tile}>
@@ -36,13 +34,15 @@ export default function StudentTile({
         <Pressable
           style={styles.iconButton}
           onPress={() => {
-            setPrevFirstName(firstName);
+            setEditStudent({
+              firstName,
+              lastName,
+              grade,
+              uuid,
+            });
             setFirstName(firstName);
-            setPrevLastName(lastName);
             setLastName(lastName);
-            setPrevGrade(grade);
             setGrade(grade);
-            setPrevUUID(uuid);
             setOpen(true);
           }}
         >

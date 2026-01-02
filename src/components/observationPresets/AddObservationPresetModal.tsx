@@ -15,14 +15,16 @@ export default function AddStudentModal() {
     setLastName,
     grade,
     setGrade,
+    prevUUID,
     clearForm,
-    editStudent,
+    prevFirstName,
+    prevLastName,
+    prevGrade,
   } = useStudentsModalStore();
 
   function submitForm() {
     if (!firstName) return;
-    const uuid =
-      editStudent.uuid === "" ? Crypto.randomUUID() : editStudent.uuid;
+    const uuid = prevUUID === "" ? Crypto.randomUUID() : prevUUID;
     addStudent({ firstName, lastName, grade, uuid });
     clearForm();
   }
@@ -30,16 +32,12 @@ export default function AddStudentModal() {
   function AddStudentForm() {
     const fields = [
       {
-        value: editStudent.firstName,
+        value: "firstNameRef",
         placeholder: "First Name",
         onChange: setFirstName,
       },
-      {
-        value: editStudent.lastName,
-        placeholder: "Last Name",
-        onChange: setLastName,
-      },
-      { value: editStudent.grade, placeholder: "Grade", onChange: setGrade },
+      { value: prevLastName, placeholder: "Last Name", onChange: setLastName },
+      { value: prevGrade, placeholder: "Grade", onChange: setGrade },
     ];
 
     return (
@@ -65,7 +63,7 @@ export default function AddStudentModal() {
     <SlideUpModal
       modalOpen={open}
       setModalOpen={setOpen}
-      title={editStudent.uuid === "" ? "Add Student" : "Edit Student"}
+      title={prevUUID === "" ? "Add Student" : "Edit Student"}
       form={<AddStudentForm />}
       submitForm={submitForm}
       clearForm={clearForm}
