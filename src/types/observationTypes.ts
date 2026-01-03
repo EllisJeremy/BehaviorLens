@@ -14,8 +14,6 @@ export type IntervalObservationPreset = BaseObservationPreset & {
 
 export type ABCObservationPreset = BaseObservationPreset & {
   type: "abc";
-  antecedentRequired: boolean;
-  behaviorCategories: string[];
 };
 
 export type ObservationPreset =

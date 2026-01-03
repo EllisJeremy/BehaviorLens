@@ -19,19 +19,19 @@ export default function AddObservationPresetModal() {
     setNumberOfObservations,
     observationIntervalSeconds,
     setObservationIntervalSeconds,
+    clearForm,
   } = useObservationModalStore();
 
   function submitForm() {
     if (!name) return;
 
-    addObservationPreset({ firstName, lastName, grade, uuid });
     clearForm();
   }
 
   function AddStudentForm() {
     const fields = [
       {
-        value: "firstNameRef",
+        value: firstNameRef,
         placeholder: "First Name",
         onChange: setFirstName,
       },

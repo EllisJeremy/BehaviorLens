@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { loadObject, saveObject } from "../../utils/storage";
+import { loadObject, saveObject } from "../../utils/storage/storage";
 
 export type StudentType = {
   uuid: string;

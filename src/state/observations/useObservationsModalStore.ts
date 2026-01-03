@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { ObservationPresetEnum } from "@/src/types/observationTypes";
 
-type StudentsState = {
+export type ObservationPresetState = {
   open: boolean;
   setOpen: (val: boolean) => void;
 
@@ -19,23 +19,26 @@ type StudentsState = {
   clearForm: () => void;
 };
 
-export const useObservationModalStore = create<StudentsState>((set) => ({
-  open: false,
-  setOpen: (val) => set({ open: val }),
+export const useObservationModalStore = create<ObservationPresetState>(
+  (set) => ({
+    open: false,
+    setOpen: (val) => set({ open: val }),
 
-  name: "",
-  setName: (v) => set({ name: v }),
-  type: "interval",
-  setType: (v) => set({ type: v }),
+    name: "",
+    setName: (v) => set({ name: v }),
+    type: "interval",
+    setType: (v) => set({ type: v }),
 
-  // interval settings
-  numberOfObservations: 20,
-  setNumberOfObservations: (v) => set({ observationIntervalSeconds: v }),
-  observationIntervalSeconds: 15,
-  setObservationIntervalSeconds: (v) => set({ observationIntervalSeconds: v }),
+    // interval settings
+    numberOfObservations: 20,
+    setNumberOfObservations: (v) => set({ observationIntervalSeconds: v }),
+    observationIntervalSeconds: 15,
+    setObservationIntervalSeconds: (v) =>
+      set({ observationIntervalSeconds: v }),
 
-  clearForm: () =>
-    set({
-      open: false,
-    }),
-}));
+    clearForm: () =>
+      set({
+        open: false,
+      }),
+  })
+);
