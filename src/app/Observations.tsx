@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { FlatList, StyleSheet, View, Pressable, Text } from "react-native";
 import StudentTile from "../components/students/StudentTile";
-import AddStudentModal from "../components/students/AddStudentModal";
+import AddObservationPresetModal from "../components/observationPresets/AddObservationPresetModal";
 import Octicons from "@expo/vector-icons/Octicons";
 import { useObservationModalStore } from "../state/observations/useObservationsModalStore";
 import { useObservationPresetStore } from "../state/observations/useObservationsStore";
@@ -48,7 +48,7 @@ export default function Observations() {
 
       <PlusButton onPress={() => setOpen(true)} />
 
-      <AddStudentModal />
+      <AddObservationPresetModal />
     </View>
   );
 }

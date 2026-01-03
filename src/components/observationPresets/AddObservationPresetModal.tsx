@@ -3,29 +3,28 @@ import { useStudentsStore } from "../../state/students/useStudentsStore";
 import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStore";
 import SlideUpModal from "../universal/SlideUpModal";
 import * as Crypto from "expo-crypto";
+import { useObservationPresetStore } from "@/src/state/observations/useObservationsStore";
+import { useObservationModalStore } from "@/src/state/observations/useObservationsModalStore";
 
-export default function AddStudentModal() {
-  const { addStudent } = useStudentsStore();
+export default function AddObservationPresetModal() {
+  const { addObservationPreset } = useObservationPresetStore();
   const {
     open,
     setOpen,
-    firstName,
-    setFirstName,
-    lastName,
-    setLastName,
-    grade,
-    setGrade,
-    prevUUID,
-    clearForm,
-    prevFirstName,
-    prevLastName,
-    prevGrade,
-  } = useStudentsModalStore();
+    name,
+    setName,
+    type,
+    setType,
+    numberOfObservations,
+    setNumberOfObservations,
+    observationIntervalSeconds,
+    setObservationIntervalSeconds,
+  } = useObservationModalStore();
 
   function submitForm() {
-    if (!firstName) return;
-    const uuid = prevUUID === "" ? Crypto.randomUUID() : prevUUID;
-    addStudent({ firstName, lastName, grade, uuid });
+    if (!name) return;
+
+    addObservationPreset({ firstName, lastName, grade, uuid });
     clearForm();
   }
 
