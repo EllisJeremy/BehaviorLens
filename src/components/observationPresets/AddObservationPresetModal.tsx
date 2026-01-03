@@ -1,10 +1,9 @@
 import { View, TextInput, StyleSheet } from "react-native";
-import { useStudentsStore } from "../../state/students/useStudentsStore";
-import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStore";
 import SlideUpModal from "../universal/SlideUpModal";
 import * as Crypto from "expo-crypto";
 import { useObservationPresetStore } from "@/src/state/observations/useObservationsStore";
 import { useObservationModalStore } from "@/src/state/observations/useObservationsModalStore";
+import { presetBuilder } from "@/src/utils/observationPresets/presetBuilder";
 
 export default function AddObservationPresetModal() {
   const { addObservationPreset } = useObservationPresetStore();
@@ -24,18 +23,21 @@ export default function AddObservationPresetModal() {
 
   function submitForm() {
     if (!name) return;
-
+    const uuid = Crypto.randomUUID();
+    const state = useObservationModalStore.getState();
+    const preset = presetBuilder[state.type]({ ...state, uuid });
+    addObservationPreset(preset);
     clearForm();
   }
 
   function AddStudentForm() {
     const fields = [
       {
-        value: firstNameRef,
+        value: "",
         placeholder: "First Name",
         onChange: setFirstName,
       },
-      { value: prevLastName, placeholder: "Last Name", onChange: setLastName },
+      { value: "", placeholder: "Last Name", onChange: setLastName },
       { value: prevGrade, placeholder: "Grade", onChange: setGrade },
     ];
 

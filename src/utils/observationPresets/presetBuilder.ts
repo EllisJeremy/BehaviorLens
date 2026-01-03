@@ -5,7 +5,7 @@ import {
 import { ObservationPresetState } from "@/src/state/observations/useObservationsModalStore";
 type BuilderContext = ObservationPresetState & { uuid: string };
 
-export const presetBuilders: Record<
+export const presetBuilder: Record<
   ObservationPresetEnum,
   (state: BuilderContext) => ObservationPreset
 > = {
