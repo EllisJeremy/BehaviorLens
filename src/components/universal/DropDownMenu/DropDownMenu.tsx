@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
+import { colors } from "@/src/utils/colors";
 
 export default function DropDownMenu({
   title,
@@ -18,7 +19,7 @@ export default function DropDownMenu({
     <View style={styles.container}>
       <Text style={styles.text}>example</Text>
       <Pressable style={styles.button}>
-        <Text style={styles.text}>Unassigned</Text>
+        <Text style={styles.buttonText}>Unassigned</Text>
         <Entypo style={styles.icon} name="select-arrows" />
       </Pressable>
     </View>
@@ -35,11 +36,17 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: "row",
     justifyContent: "space-between",
+    gap: 5,
   },
   text: {
     fontSize: 18,
   },
+  buttonText: {
+    fontSize: 18,
+    color: colors.blue,
+  },
   icon: {
     fontSize: 18,
+    color: colors.blue,
   },
 });

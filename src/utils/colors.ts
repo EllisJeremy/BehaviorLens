@@ -1,5 +1,6 @@
 export const colors = {
   offWhite: "rgb(240,240,240)",
+  lighterGray: "rgb(226, 226, 227)",
   lightGray: "rgb(197,197,197)",
   darkGray: "rgb(92, 92, 92)",
 
