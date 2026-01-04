@@ -1,7 +1,7 @@
 import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { MenuView } from "@react-native-menu/menu";
+import DropDownMenu from "../universal/DropDownMenu/DropDownMenu";
 
 import { useObservationModalStore } from "@/src/state/observations/useObservationsModalStore";
 import {
@@ -23,6 +23,7 @@ export default function ObservationPresetForm({
 }) {
   const {
     setName,
+    type,
     setType,
     setNumberOfObservations,
     setObservationIntervalSeconds,
@@ -38,10 +39,13 @@ export default function ObservationPresetForm({
     {
       key: "type",
       render: (p) => (
-        <Picker selectedValue={p.type} onValueChange={setType}>
-          <Picker.Item label="Interval" value="interval" />
-          <Picker.Item label="ABC" value="abc" />
-        </Picker>
+        <DropDownMenu
+          title="Observation Type"
+          options={["interval", "abc"]}
+          prevOption="interval"
+          value={type}
+          setValue={setType}
+        />
       ),
     },
   ];
@@ -79,7 +83,7 @@ export default function ObservationPresetForm({
   const presetFieldMap = {
     interval: [...baseFields, ...intervalFields],
     abc: [...baseFields, ...abcFields],
-  } as const;
+  };
 
   const fields = presetFieldMap[editPreset.type];
 
