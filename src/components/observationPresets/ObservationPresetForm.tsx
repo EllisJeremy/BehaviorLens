@@ -2,7 +2,7 @@ import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import DropDownMenu from "../universal/DropDownMenu/DropDownMenu";
-
+import { colors } from "@/src/utils/colors";
 import { useObservationModalStore } from "@/src/state/observations/useObservationsModalStore";
 import {
   IntervalObservationPreset,
@@ -100,7 +100,7 @@ export default function ObservationPresetForm({
 
 const styles = StyleSheet.create({
   inputContainer: {
-    backgroundColor: "rgba(240,240,240,1)",
+    backgroundColor: colors.offWhite,
     borderRadius: 15,
     paddingLeft: 15,
     paddingRight: 15,
@@ -112,6 +112,6 @@ const styles = StyleSheet.create({
   inputSeparator: {
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderColor: "rgba(197,197,197,1)",
+    borderColor: colors.lightGray,
   },
 });

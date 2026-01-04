@@ -1,9 +1,9 @@
 export const colors = {
-  background: "rgba(240,240,240,1)",
-  border: "rgba(197,197,197,1)",
-  text: "#000000",
-  mutedText: "#6b6b6b",
+  offWhite: "rgb(240,240,240)",
+  lightGray: "rgb(197,197,197)",
+  darkGray: "rgb(92, 92, 92)",
 
-  primary: "#007AFF",
-  danger: "#FF3B30",
+  red: "rgb(255, 52, 52)",
+  green: "rgb(12, 185, 0)",
+  blue: "rgb(45, 164, 255)",
 };

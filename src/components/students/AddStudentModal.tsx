@@ -3,6 +3,7 @@ import { useStudentsStore } from "../../state/students/useStudentsStore";
 import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStore";
 import SlideUpModal from "../universal/SlideUpModal";
 import * as Crypto from "expo-crypto";
+import { colors } from "@/src/utils/colors";
 
 export default function AddStudentModal() {
   const { addStudent } = useStudentsStore();
@@ -75,7 +76,7 @@ export default function AddStudentModal() {
 
 const styles = StyleSheet.create({
   inputContainer: {
-    backgroundColor: "rgba(240,240,240,1)",
+    backgroundColor: colors.offWhite,
     borderRadius: 15,
     paddingLeft: 15,
     paddingRight: 15,
@@ -86,6 +87,6 @@ const styles = StyleSheet.create({
   },
   inputSeparator: {
     borderBottomWidth: 1,
-    borderColor: "rgba(197,197,197,1)",
+    borderColor: colors.lightGray,
   },
 });

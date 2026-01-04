@@ -5,6 +5,7 @@ import {
   StudentType,
 } from "@/src/state/students/useStudentsStore";
 import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStore";
+import { colors } from "@/src/utils/colors";
 
 export default function StudentTile({
   uuid,
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
   },
   grade: {
     fontSize: 14,
-    color: "rgba(92, 92, 92, 1)",
+    color: "",
     marginTop: 2,
   },
   controls: {
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   iconButton: {
-    backgroundColor: "rgba(45, 164, 255, 1)",
+    backgroundColor: colors.blue,
     width: 40,
     height: 40,
     borderRadius: 8,
@@ -98,6 +99,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   deleteButton: {
-    backgroundColor: "rgba(255, 52, 52, 1)",
+    backgroundColor: colors.red,
   },
 });

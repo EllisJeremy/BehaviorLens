@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { FlatList, StyleSheet, View, Pressable, Text } from "react-native";
+import { FlatList, StyleSheet, View, Text } from "react-native";
 import StudentTile from "../components/students/StudentTile";
 import AddStudentModal from "../components/students/AddStudentModal";
 import { useStudentsModalStore } from "../state/students/useStudentsModalStore";
 import { useStudentsStore } from "../state/students/useStudentsStore";
 import PlusButton from "../components/universal/PlusButton";
+import { colors } from "../utils/colors";
 
 export default function Students() {
   const { loadStudents, students } = useStudentsStore();
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
   },
   line: { height: 1, backgroundColor: "#d6d6d6" },
   add: {
-    backgroundColor: "rgba(12, 185, 0, 1)",
+    backgroundColor: colors.green,
     width: 90,
     height: 40,
     justifyContent: "center",

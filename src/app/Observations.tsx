@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { FlatList, StyleSheet, View, Pressable, Text } from "react-native";
 import StudentTile from "../components/students/StudentTile";
 import AddObservationPresetModal from "../components/observationPresets/AddObservationPresetModal";
-import Octicons from "@expo/vector-icons/Octicons";
+import { colors } from "../utils/colors";
 import { useObservationModalStore } from "../state/observations/useObservationsModalStore";
 import { useObservationPresetStore } from "../state/observations/useObservationsStore";
 import PlusButton from "../components/universal/PlusButton";
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     margin: "auto",
   },
   add: {
-    backgroundColor: "rgba(12, 185, 0, 1)",
+    backgroundColor: colors.green,
     width: 90,
     height: 40,
     justifyContent: "center",

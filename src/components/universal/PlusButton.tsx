@@ -1,5 +1,6 @@
 import { StyleSheet, Pressable } from "react-native";
 import Octicons from "@expo/vector-icons/Octicons";
+import { colors } from "@/src/utils/colors";
 
 export default function PlusButton({ onPress }: { onPress: () => void }) {
   return (
@@ -11,7 +12,7 @@ export default function PlusButton({ onPress }: { onPress: () => void }) {
 
 const styles = StyleSheet.create({
   add: {
-    backgroundColor: "rgba(12, 185, 0, 1)",
+    backgroundColor: colors.green,
     width: 90,
     height: 40,
     justifyContent: "center",
