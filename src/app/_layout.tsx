@@ -1,6 +1,7 @@
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { colors } from "../utils/colors";
 
 import { Tabs } from "expo-router";
 
@@ -9,7 +10,7 @@ export default function RootLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "hsl(208, 100%, 60%)",
+        tabBarActiveTintColor: colors.blue,
         tabBarStyle: {
           paddingTop: 5,
           height: 85,
