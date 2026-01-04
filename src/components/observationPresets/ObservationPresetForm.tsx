@@ -1,6 +1,8 @@
 import React from "react";
-import { View, TextInput } from "react-native";
+import { View, TextInput, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import { MenuView } from "@react-native-menu/menu";
+
 import { useObservationModalStore } from "@/src/state/observations/useObservationsModalStore";
 import {
   IntervalObservationPreset,
@@ -49,6 +51,7 @@ export default function ObservationPresetForm({
       key: "numberOfObservations",
       render: (p) => (
         <TextInput
+          style={styles.inputSeparator}
           value={String(p.numberOfObservations)}
           placeholder="Number of observations"
           keyboardType="numeric"
@@ -81,7 +84,7 @@ export default function ObservationPresetForm({
   const fields = presetFieldMap[editPreset.type];
 
   return (
-    <View>
+    <View style={styles.inputContainer}>
       {fields.map((field) => (
         <React.Fragment key={field.key}>
           {field.render(editPreset as any)}
@@ -90,3 +93,21 @@ export default function ObservationPresetForm({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  inputContainer: {
+    backgroundColor: "rgba(240,240,240,1)",
+    borderRadius: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginTop: 20,
+  },
+  input: {
+    paddingVertical: 10,
+  },
+  inputSeparator: {
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderColor: "rgba(197,197,197,1)",
+  },
+});
