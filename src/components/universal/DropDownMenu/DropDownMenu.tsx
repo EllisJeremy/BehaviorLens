@@ -25,7 +25,7 @@ export default function DropDownMenu({
         isVisible={open}
         onRequestClose={() => setOpen(false)}
         backgroundStyle={{ backgroundColor: "transparent" }}
-        popoverStyle={{ marginHorizontal: -10, backgroundColor: "transparent" }}
+        popoverStyle={styles.popover}
         arrowSize={{ width: 0, height: 0 }}
         from={
           <Pressable style={styles.button} onPress={() => setOpen(true)}>
@@ -47,7 +47,8 @@ export default function DropDownMenu({
                 setOpen(false);
               }}
             >
-              <Text>{opt}</Text>
+              <Text style={styles.text}>{opt}</Text>
+              {opt === value && <Entypo style={styles.icon} name="check" />}
             </Pressable>
           ))}
         </View>
@@ -81,17 +82,30 @@ const styles = StyleSheet.create({
   },
   menu: {
     backgroundColor: colors.lightGray,
-    borderRadius: 8,
-    minWidth: 150,
-    maxWidth: 200,
+    borderRadius: 12,
+    minWidth: 200,
+
     gap: 1,
+    overflow: "hidden",
   },
   menuItem: {
+    fontSize: 200,
     paddingVertical: 8,
     paddingHorizontal: 12,
     backgroundColor: colors.lighterGray,
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   menuItemPressed: {
     backgroundColor: colors.lightGray,
+  },
+  popover: {
+    backgroundColor: "transparent",
+    marginHorizontal: -10,
+
+    shadowColor: "black",
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 6,
   },
 });
