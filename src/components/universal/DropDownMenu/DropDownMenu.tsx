@@ -18,7 +18,7 @@ export default function DropDownMenu({
   const [open, setOpen] = useState(false);
 
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={() => setOpen(true)}>
       <Text style={styles.text}>{title}</Text>
 
       <Popover
@@ -28,10 +28,10 @@ export default function DropDownMenu({
         popoverStyle={styles.popover}
         arrowSize={{ width: 0, height: 0 }}
         from={
-          <Pressable style={styles.button} onPress={() => setOpen(true)}>
+          <View style={styles.button}>
             <Text style={styles.buttonText}>{value}</Text>
             <Entypo style={styles.icon} name="select-arrows" />
-          </Pressable>
+          </View>
         }
       >
         <View style={styles.menu}>
@@ -53,7 +53,7 @@ export default function DropDownMenu({
           ))}
         </View>
       </Popover>
-    </View>
+    </Pressable>
   );
 }
 
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     fontSize: 200,
     paddingVertical: 8,
     paddingHorizontal: 12,
-    backgroundColor: colors.lighterGray,
+    backgroundColor: colors.offWhite,
     flexDirection: "row",
     justifyContent: "space-between",
   },
