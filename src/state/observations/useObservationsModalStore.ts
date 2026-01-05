@@ -58,7 +58,7 @@ export const useObservationModalStore = create<ObservationPresetState>(
         type: "interval",
         editPreset: {
           type: "interval",
-          uuid: "…",
+          uuid: "",
           name: "",
           numberOfObservations: 20,
           observationIntervalSeconds: 15,

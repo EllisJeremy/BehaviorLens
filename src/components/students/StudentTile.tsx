@@ -28,7 +28,7 @@ export default function StudentTile({
         <Text style={styles.text}>
           {firstName} {lastName}
         </Text>
-        <Text style={styles.grade}>Grade {grade}</Text>
+        <Text style={styles.subText}>Grade {grade}</Text>
       </View>
 
       <View style={styles.controls}>
@@ -81,9 +81,9 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#333",
   },
-  grade: {
+  subText: {
     fontSize: fontSizes.subText,
-    color: "",
+    color: colors.darkGray,
     marginTop: 2,
   },
   controls: {

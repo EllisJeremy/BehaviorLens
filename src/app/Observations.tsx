@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { FlatList, StyleSheet, View, Pressable, Text } from "react-native";
-import StudentTile from "../components/students/StudentTile";
+import ObservationTile from "../components/observationPresets/ObservationTile";
 import AddObservationPresetModal from "../components/observationPresets/AddObservationPresetModal";
 import { colors } from "../utils/styles";
 import { useObservationModalStore } from "../state/observations/useObservationsModalStore";
@@ -23,12 +23,7 @@ export default function Observations() {
           data={Object.values(observationPresets)}
           keyExtractor={(_, i) => i.toString()}
           renderItem={({ item }) => (
-            <StudentTile
-              uuid={item.uuid}
-              firstName={item.name}
-              lastName={item.type}
-              grade={""}
-            />
+            <ObservationTile observationPreset={item} />
           )}
           ListHeaderComponent={() => <View style={styles.line} />}
           ItemSeparatorComponent={() => <View style={styles.line} />}
