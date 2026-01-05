@@ -54,6 +54,18 @@ export const useObservationModalStore = create<ObservationPresetState>(
     clearForm: () =>
       set({
         open: false,
+        name: "",
+        type: "interval",
+        editPreset: {
+          type: "interval",
+          uuid: "…",
+          name: "",
+          numberOfObservations: 20,
+          observationIntervalSeconds: 15,
+        },
+
+        numberOfObservations: 20,
+        observationIntervalSeconds: 15,
       }),
   })
 );

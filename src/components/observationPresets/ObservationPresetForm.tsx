@@ -89,7 +89,7 @@ export default function ObservationPresetForm({
     abc: [...baseFields, ...abcFields],
   };
 
-  const fields = presetFieldMap[editPreset.type];
+  const fields = presetFieldMap[type];
 
   return (
     <FormContainer title={"none"}>
@@ -101,14 +101,3 @@ export default function ObservationPresetForm({
     </FormContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  input: {
-    paddingVertical: 10,
-  },
-  inputSeparator: {
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderColor: colors.lightGray,
-  },
-});
