@@ -30,15 +30,9 @@ export default function Observations() {
               grade={""}
             />
           )}
-          ListHeaderComponent={() => (
-            <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
-          )}
-          ItemSeparatorComponent={() => (
-            <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
-          )}
-          ListFooterComponent={() => (
-            <View style={{ height: 1, backgroundColor: "#d6d6d6" }} />
-          )}
+          ListHeaderComponent={() => <View style={styles.line} />}
+          ItemSeparatorComponent={() => <View style={styles.line} />}
+          ListFooterComponent={() => <View style={styles.line} />}
         />
       ) : (
         <View style={styles.placeHolder}>
@@ -62,6 +56,7 @@ const styles = StyleSheet.create({
   placeHolder: {
     margin: "auto",
   },
+  line: { height: 1, backgroundColor: colors.lighterGray },
   add: {
     backgroundColor: colors.green,
     width: 90,

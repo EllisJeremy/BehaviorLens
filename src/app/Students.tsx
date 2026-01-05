@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   placeHolder: {
     margin: "auto",
   },
-  line: { height: 1, backgroundColor: "#d6d6d6" },
+  line: { height: 1, backgroundColor: colors.lighterGray },
   add: {
     backgroundColor: colors.green,
     width: 90,
