@@ -14,14 +14,8 @@ export default function StudentTile({
   grade,
 }: StudentType) {
   const { removeStudent } = useStudentsStore();
-  const {
-    setFirstName,
-    setLastName,
-    setGrade,
-    setOpen,
-    setEditStudent,
-    editStudent,
-  } = useStudentsModalStore();
+  const { setFirstName, setLastName, setGrade, setOpen } =
+    useStudentsModalStore();
   return (
     <View style={styles.tile}>
       <View style={styles.info}>
@@ -35,12 +29,6 @@ export default function StudentTile({
         <Pressable
           style={styles.iconButton}
           onPress={() => {
-            setEditStudent({
-              firstName,
-              lastName,
-              grade,
-              uuid,
-            });
             setFirstName(firstName);
             setLastName(lastName);
             setGrade(grade);

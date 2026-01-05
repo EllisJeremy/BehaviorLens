@@ -1,8 +1,5 @@
 import { create } from "zustand";
-import {
-  ObservationPresetEnum,
-  ObservationPreset,
-} from "@/src/types/observationTypes";
+import { ObservationPresetEnum } from "@/src/types/observationTypes";
 
 export type ObservationPresetState = {
   open: boolean;
@@ -12,9 +9,6 @@ export type ObservationPresetState = {
   setName: (v: string) => void;
   type: ObservationPresetEnum;
   setType: (v: ObservationPresetEnum) => void;
-
-  editPreset: ObservationPreset;
-  setEditPreset: (p: ObservationPreset) => void;
 
   // interval settings
   numberOfObservations: number;
@@ -35,15 +29,6 @@ export const useObservationModalStore = create<ObservationPresetState>(
     type: "interval",
     setType: (v) => set({ type: v }),
 
-    editPreset: {
-      type: "interval",
-      uuid: "…",
-      name: "",
-      numberOfObservations: 20,
-      observationIntervalSeconds: 15,
-    },
-    setEditPreset: (v) => set({ editPreset: v }),
-
     // interval settings
     numberOfObservations: 20,
     setNumberOfObservations: (v) => set({ numberOfObservations: v }),
@@ -56,13 +41,6 @@ export const useObservationModalStore = create<ObservationPresetState>(
         open: false,
         name: "",
         type: "interval",
-        editPreset: {
-          type: "interval",
-          uuid: "",
-          name: "",
-          numberOfObservations: 20,
-          observationIntervalSeconds: 15,
-        },
 
         numberOfObservations: 20,
         observationIntervalSeconds: 15,
