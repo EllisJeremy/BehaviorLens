@@ -1,9 +1,10 @@
 import React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import DropDownMenu from "../universal/DropDownMenu/DropDownMenu";
+import { TextInput, StyleSheet } from "react-native";
+import FormContainer from "../universal/form/FormContainer";
+import DropDownMenu from "../universal/form/DropDownMenu";
 import { colors } from "@/src/utils/colors";
 import { useObservationModalStore } from "@/src/state/observations/useObservationsModalStore";
+import Input from "../universal/form/Input";
 import {
   IntervalObservationPreset,
   BaseObservationPreset,
@@ -25,6 +26,7 @@ export default function ObservationPresetForm({
     setName,
     type,
     setType,
+    observationIntervalSeconds,
     setNumberOfObservations,
     setObservationIntervalSeconds,
   } = useObservationModalStore();
@@ -33,7 +35,7 @@ export default function ObservationPresetForm({
     {
       key: "name",
       render: (p) => (
-        <TextInput value={p.name} placeholder="Name" onChangeText={setName} />
+        <Input value={p.name} placeholder="Name" onChangeText={setName} />
       ),
     },
     {
@@ -54,26 +56,24 @@ export default function ObservationPresetForm({
     {
       key: "numberOfObservations",
       render: (p) => (
-        <TextInput
-          style={styles.inputSeparator}
+        <Input
           value={String(p.numberOfObservations)}
           placeholder="Number of observations"
           keyboardType="numeric"
-          onChangeText={(v) => setNumberOfObservations(Number(v))}
+          onChangeText={(v: string) => setNumberOfObservations(Number(v))}
         />
       ),
     },
     {
       key: "intervalSeconds",
       render: (p) => (
-        <Picker
-          selectedValue={p.observationIntervalSeconds}
-          onValueChange={setObservationIntervalSeconds}
-        >
-          <Picker.Item label="15 seconds" value={15} />
-          <Picker.Item label="30 seconds" value={30} />
-          <Picker.Item label="60 seconds" value={60} />
-        </Picker>
+        <DropDownMenu
+          title="Observation Interval"
+          options={["15 seconds", "30 seconds", "60 seconds"]}
+          prevOption="15 seconds"
+          value={observationIntervalSeconds}
+          setValue={setObservationIntervalSeconds}
+        />
       ),
     },
   ];
@@ -88,24 +88,17 @@ export default function ObservationPresetForm({
   const fields = presetFieldMap[editPreset.type];
 
   return (
-    <View style={styles.inputContainer}>
+    <FormContainer title={"none"}>
       {fields.map((field) => (
         <React.Fragment key={field.key}>
           {field.render(editPreset as any)}
         </React.Fragment>
       ))}
-    </View>
+    </FormContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  inputContainer: {
-    backgroundColor: colors.offWhite,
-    borderRadius: 15,
-    paddingLeft: 15,
-    paddingRight: 15,
-    marginTop: 20,
-  },
   input: {
     paddingVertical: 10,
   },

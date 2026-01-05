@@ -7,13 +7,15 @@ import { useState } from "react";
 export default function DropDownMenu({
   title,
   options,
+  prevOption,
   value,
   setValue,
 }: {
   title: string;
+  prevOption: string;
   options: string[];
-  value: string;
-  setValue: (v: string) => void;
+  value: any;
+  setValue: (v: any) => void;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -59,6 +61,7 @@ export default function DropDownMenu({
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.offWhite,
     paddingVertical: 10,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -77,7 +80,8 @@ const styles = StyleSheet.create({
     color: colors.blue,
   },
   icon: {
-    fontSize: 18,
+    marginTop: 4,
+    fontSize: 14,
     color: colors.blue,
   },
   menu: {
