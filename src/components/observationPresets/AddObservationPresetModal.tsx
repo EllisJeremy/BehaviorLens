@@ -7,13 +7,13 @@ import ObservationPresetForm from "./ObservationPresetForm";
 
 export default function AddObservationPresetModal() {
   const { addObservationPreset } = useObservationPresetStore();
-  const { open, setOpen, name, clearForm } = useObservationModalStore();
+  const { open, setOpen, name, clearForm, uuid } = useObservationModalStore();
 
   function submitForm() {
     if (!name) return;
-    const uuid = Crypto.randomUUID();
+    const submitUuid = uuid === "" ? Crypto.randomUUID() : uuid;
     const state = useObservationModalStore.getState();
-    const preset = presetBuilder[state.type]({ ...state, uuid });
+    const preset = presetBuilder[state.type]({ ...state, uuid: submitUuid });
     addObservationPreset(preset);
     clearForm();
   }
@@ -22,7 +22,7 @@ export default function AddObservationPresetModal() {
     <SlideUpModal
       modalOpen={open}
       setModalOpen={setOpen}
-      title="observation preset"
+      title={uuid === "" ? "Add Preset" : "Edit Preset"}
       form={<ObservationPresetForm />}
       submitForm={submitForm}
       clearForm={clearForm}

@@ -5,6 +5,8 @@ export type ObservationPresetState = {
   open: boolean;
   setOpen: (val: boolean) => void;
 
+  uuid: string;
+  setUuid: (v: string) => void;
   name: string;
   setName: (v: string) => void;
   type: ObservationPresetEnum;
@@ -24,6 +26,8 @@ export const useObservationModalStore = create<ObservationPresetState>(
     open: false,
     setOpen: (val) => set({ open: val }),
 
+    uuid: "",
+    setUuid: (v) => set({ uuid: v }),
     name: "",
     setName: (v) => set({ name: v }),
     type: "interval",
@@ -39,6 +43,7 @@ export const useObservationModalStore = create<ObservationPresetState>(
     clearForm: () =>
       set({
         open: false,
+        uuid: "",
         name: "",
         type: "interval",
 

@@ -17,6 +17,7 @@ export default function ObservationTile({
     setNumberOfObservations,
     setObservationIntervalSeconds,
     setOpen,
+    setUuid,
   } = useObservationModalStore();
 
   return (
@@ -30,6 +31,7 @@ export default function ObservationTile({
         <Pressable
           style={styles.iconButton}
           onPress={() => {
+            setUuid(observationPreset.uuid);
             setName(observationPreset.name);
             setType(observationPreset.type);
             if (observationPreset.type === "interval") {
@@ -38,7 +40,6 @@ export default function ObservationTile({
                 observationPreset.observationIntervalSeconds
               );
             }
-
             setOpen(true);
           }}
         >

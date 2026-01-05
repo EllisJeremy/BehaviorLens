@@ -31,6 +31,7 @@ export const useStudentsModalStore = create<StudentsState>((set) => ({
   clearForm: () =>
     set({
       open: false,
+      uuid: "",
       firstName: "",
       lastName: "",
       grade: "",
