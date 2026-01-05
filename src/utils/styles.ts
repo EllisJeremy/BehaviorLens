@@ -8,3 +8,8 @@ export const colors = {
   green: "rgb(12, 185, 0)",
   blue: "rgb(45, 164, 255)",
 };
+
+export const fontSizes = {
+  text: 17,
+  subText: 15,
+};

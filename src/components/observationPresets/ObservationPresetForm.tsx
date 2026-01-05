@@ -2,7 +2,7 @@ import React from "react";
 import { TextInput, StyleSheet } from "react-native";
 import FormContainer from "../universal/form/FormContainer";
 import DropDownMenu from "../universal/form/DropDownMenu";
-import { colors } from "@/src/utils/colors";
+import { colors } from "@/src/utils/styles";
 import { useObservationModalStore } from "@/src/state/observations/useObservationsModalStore";
 import Input from "../universal/form/Input";
 import {

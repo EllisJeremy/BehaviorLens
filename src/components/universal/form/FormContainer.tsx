@@ -1,4 +1,4 @@
-import { colors } from "@/src/utils/colors";
+import { colors } from "@/src/utils/styles";
 import { StyleSheet, View } from "react-native";
 
 export default function FormContainer({

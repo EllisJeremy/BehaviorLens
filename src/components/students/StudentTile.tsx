@@ -5,7 +5,7 @@ import {
   StudentType,
 } from "@/src/state/students/useStudentsStore";
 import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStore";
-import { colors } from "@/src/utils/colors";
+import { colors, fontSizes } from "@/src/utils/styles";
 
 export default function StudentTile({
   uuid,
@@ -77,12 +77,12 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   text: {
-    fontSize: 18,
+    fontSize: fontSizes.text,
     fontWeight: "600",
     color: "#333",
   },
   grade: {
-    fontSize: 14,
+    fontSize: fontSizes.subText,
     color: "",
     marginTop: 2,
   },

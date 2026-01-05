@@ -1,4 +1,4 @@
-import { colors } from "@/src/utils/colors";
+import { colors, fontSizes } from "@/src/utils/styles";
 import { StyleSheet, TextInput } from "react-native";
 import { KeyboardTypeOptions } from "react-native";
 
@@ -28,6 +28,6 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: colors.offWhite,
     paddingVertical: 10,
-    fontSize: 18,
+    fontSize: fontSizes.text,
   },
 });

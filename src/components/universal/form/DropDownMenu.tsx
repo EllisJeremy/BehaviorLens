@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
-import { colors } from "@/src/utils/colors";
+import { colors, fontSizes } from "@/src/utils/styles";
 import Popover from "react-native-popover-view";
 import { useState } from "react";
 
@@ -73,27 +73,25 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   text: {
-    fontSize: 18,
+    fontSize: fontSizes.text,
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: fontSizes.text,
     color: colors.blue,
   },
   icon: {
     marginTop: 4,
-    fontSize: 14,
+    fontSize: fontSizes.text - 4,
     color: colors.blue,
   },
   menu: {
     backgroundColor: colors.lightGray,
     borderRadius: 12,
     minWidth: 200,
-
     gap: 1,
     overflow: "hidden",
   },
   menuItem: {
-    fontSize: 200,
     paddingVertical: 8,
     paddingHorizontal: 12,
     backgroundColor: colors.offWhite,

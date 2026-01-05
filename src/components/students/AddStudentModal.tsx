@@ -3,7 +3,7 @@ import { useStudentsStore } from "../../state/students/useStudentsStore";
 import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStore";
 import SlideUpModal from "../universal/SlideUpModal";
 import * as Crypto from "expo-crypto";
-import { colors } from "@/src/utils/colors";
+import { colors } from "@/src/utils/styles";
 import Input from "../universal/form/Input";
 import FormContainer from "../universal/form/FormContainer";
 

@@ -46,7 +46,7 @@ export const useObservationModalStore = create<ObservationPresetState>(
 
     // interval settings
     numberOfObservations: 20,
-    setNumberOfObservations: (v) => set({ observationIntervalSeconds: v }),
+    setNumberOfObservations: (v) => set({ numberOfObservations: v }),
     observationIntervalSeconds: 15,
     setObservationIntervalSeconds: (v) =>
       set({ observationIntervalSeconds: v }),

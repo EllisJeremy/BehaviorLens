@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { FlatList, StyleSheet, View, Pressable, Text } from "react-native";
 import StudentTile from "../components/students/StudentTile";
 import AddObservationPresetModal from "../components/observationPresets/AddObservationPresetModal";
-import { colors } from "../utils/colors";
+import { colors } from "../utils/styles";
 import { useObservationModalStore } from "../state/observations/useObservationsModalStore";
 import { useObservationPresetStore } from "../state/observations/useObservationsStore";
 import PlusButton from "../components/universal/PlusButton";

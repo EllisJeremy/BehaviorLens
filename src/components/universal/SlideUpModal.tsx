@@ -1,6 +1,6 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import Modal from "react-native-modal";
-import { colors } from "@/src/utils/colors";
+import { colors, fontSizes } from "@/src/utils/styles";
 
 export default function SlideUpModal({
   modalOpen,
@@ -28,7 +28,7 @@ export default function SlideUpModal({
           <Pressable onPress={clearForm}>
             <Text style={styles.button}>Cancel</Text>
           </Pressable>
-          <Text style={{ fontSize: 18 }}>{title}</Text>
+          <Text style={{ fontSize: fontSizes.text }}>{title}</Text>
           <Pressable onPress={submitForm}>
             <Text style={styles.button}> {"  Save"}</Text>
           </Pressable>
