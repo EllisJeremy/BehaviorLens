@@ -2,7 +2,7 @@ import { useStudentsStore } from "../../state/students/useStudentsStore";
 import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStore";
 import SlideUpModal from "../universal/SlideUpModal";
 import * as Crypto from "expo-crypto";
-import AddStudentForm from "./AddStudentForm";
+import StudentForm from "./StudentForm";
 
 export default function AddStudentModal() {
   const { addStudent } = useStudentsStore();
@@ -22,7 +22,7 @@ export default function AddStudentModal() {
       setModalOpen={setOpen}
       //title={editStudent.uuid === "" ? "Add Student" : "Edit Student"}
       title={"Add Student"}
-      form={<AddStudentForm />}
+      form={<StudentForm />}
       submitForm={submitForm}
       clearForm={clearForm}
     />

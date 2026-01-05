@@ -7,8 +7,7 @@ import ObservationPresetForm from "./ObservationPresetForm";
 
 export default function AddObservationPresetModal() {
   const { addObservationPreset } = useObservationPresetStore();
-  const { open, setOpen, name, clearForm, editPreset } =
-    useObservationModalStore();
+  const { open, setOpen, name, clearForm } = useObservationModalStore();
 
   function submitForm() {
     if (!name) return;
@@ -24,7 +23,7 @@ export default function AddObservationPresetModal() {
       modalOpen={open}
       setModalOpen={setOpen}
       title="observation preset"
-      form={<ObservationPresetForm editPreset={editPreset} />}
+      form={<ObservationPresetForm />}
       submitForm={submitForm}
       clearForm={clearForm}
     />

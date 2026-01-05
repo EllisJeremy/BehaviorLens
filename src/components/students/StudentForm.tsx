@@ -2,7 +2,7 @@ import Input from "../universal/form/Input";
 import FormContainer from "../universal/form/FormContainer";
 import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStore";
 
-export default function AddStudentForm() {
+export default function StudentForm() {
   const { firstName, setFirstName, lastName, setLastName, grade, setGrade } =
     useStudentsModalStore();
 

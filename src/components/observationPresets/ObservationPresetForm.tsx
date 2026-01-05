@@ -1,27 +1,20 @@
 import React from "react";
-import { TextInput, StyleSheet } from "react-native";
 import FormContainer from "../universal/form/FormContainer";
 import DropDownMenu from "../universal/form/DropDownMenu";
-import { colors } from "@/src/utils/styles";
 import { useObservationModalStore } from "@/src/state/observations/useObservationsModalStore";
 import Input from "../universal/form/Input";
 import {
   IntervalObservationPreset,
   BaseObservationPreset,
   ABCObservationPreset,
-  ObservationPreset,
 } from "@/src/types/observationTypes";
 
 type FieldRenderer<T> = {
   key: string;
-  render: (preset: T) => React.ReactNode;
+  render: React.ReactNode;
 };
 
-export default function ObservationPresetForm({
-  editPreset,
-}: {
-  editPreset: ObservationPreset;
-}) {
+export default function ObservationPresetForm() {
   const {
     name,
     setName,
@@ -36,13 +29,13 @@ export default function ObservationPresetForm({
   const baseFields: FieldRenderer<BaseObservationPreset>[] = [
     {
       key: "name",
-      render: (p) => (
+      render: (
         <Input defaultValue={name} placeholder="Name" onChangeText={setName} />
       ),
     },
     {
       key: "type",
-      render: (p) => (
+      render: (
         <DropDownMenu
           title="Observation Type"
           options={["interval", "abc"]}
@@ -56,7 +49,7 @@ export default function ObservationPresetForm({
   const intervalFields: FieldRenderer<IntervalObservationPreset>[] = [
     {
       key: "numberOfObservations",
-      render: (p) => (
+      render: (
         <Input
           defaultValue={String(numberOfObservations)}
           placeholder="Number of observations"
@@ -67,7 +60,7 @@ export default function ObservationPresetForm({
     },
     {
       key: "intervalSeconds",
-      render: (p) => (
+      render: (
         <DropDownMenu
           title="Observation Interval"
           options={["15 seconds", "30 seconds", "60 seconds"]}
@@ -90,9 +83,7 @@ export default function ObservationPresetForm({
   return (
     <FormContainer title={"none"}>
       {fields.map((field) => (
-        <React.Fragment key={field.key}>
-          {field.render(editPreset as any)}
-        </React.Fragment>
+        <React.Fragment key={field.key}>{field.render}</React.Fragment>
       ))}
     </FormContainer>
   );
