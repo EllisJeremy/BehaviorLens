@@ -5,7 +5,7 @@ export default function FormContainer({
   title,
   children,
 }: {
-  title: string;
+  title?: string;
   children: React.ReactNode;
 }) {
   return (

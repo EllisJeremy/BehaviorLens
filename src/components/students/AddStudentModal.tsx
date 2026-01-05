@@ -4,6 +4,8 @@ import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStor
 import SlideUpModal from "../universal/SlideUpModal";
 import * as Crypto from "expo-crypto";
 import { colors } from "@/src/utils/colors";
+import Input from "../universal/form/Input";
+import FormContainer from "../universal/form/FormContainer";
 
 export default function AddStudentModal() {
   const { addStudent } = useStudentsStore();
@@ -44,21 +46,16 @@ export default function AddStudentModal() {
     ];
 
     return (
-      <View style={styles.inputContainer}>
+      <FormContainer>
         {fields.map((field, i) => (
-          <TextInput
+          <Input
             key={i}
-            style={[
-              styles.input,
-              i < fields.length - 1 && styles.inputSeparator,
-            ]}
             defaultValue={field.value}
             onChangeText={field.onChange}
             placeholder={field.placeholder}
-            placeholderTextColor="#A0A0A0"
           />
         ))}
-      </View>
+      </FormContainer>
     );
   }
 

@@ -35,7 +35,11 @@ export default function ObservationPresetForm({
     {
       key: "name",
       render: (p) => (
-        <Input value={p.name} placeholder="Name" onChangeText={setName} />
+        <Input
+          defaultValue={p.name}
+          placeholder="Name"
+          onChangeText={setName}
+        />
       ),
     },
     {
@@ -57,7 +61,7 @@ export default function ObservationPresetForm({
       key: "numberOfObservations",
       render: (p) => (
         <Input
-          value={String(p.numberOfObservations)}
+          defaultValue={String(p.numberOfObservations)}
           placeholder="Number of observations"
           keyboardType="numeric"
           onChangeText={(v: string) => setNumberOfObservations(Number(v))}

@@ -3,12 +3,12 @@ import { StyleSheet, TextInput } from "react-native";
 import { KeyboardTypeOptions } from "react-native";
 
 export default function Input({
-  value,
+  defaultValue,
   placeholder,
   onChangeText,
   keyboardType,
 }: {
-  value: string;
+  defaultValue: string;
   placeholder: string;
   onChangeText: (v: string) => void;
   keyboardType?: KeyboardTypeOptions;
@@ -16,7 +16,7 @@ export default function Input({
   return (
     <TextInput
       style={styles.input}
-      value={value}
+      defaultValue={defaultValue}
       placeholder={placeholder}
       onChangeText={onChangeText}
       keyboardType={keyboardType ? keyboardType : "default"}
