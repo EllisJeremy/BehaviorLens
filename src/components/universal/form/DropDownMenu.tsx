@@ -7,12 +7,10 @@ import { useState } from "react";
 export default function DropDownMenu({
   title,
   options,
-  prevOption,
   value,
   setValue,
 }: {
   title: string;
-  prevOption: string;
   options: string[];
   value: any;
   setValue: (v: any) => void;

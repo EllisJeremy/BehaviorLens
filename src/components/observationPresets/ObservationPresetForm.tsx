@@ -23,11 +23,13 @@ export default function ObservationPresetForm({
   editPreset: ObservationPreset;
 }) {
   const {
+    name,
     setName,
     type,
     setType,
-    observationIntervalSeconds,
+    numberOfObservations,
     setNumberOfObservations,
+    observationIntervalSeconds,
     setObservationIntervalSeconds,
   } = useObservationModalStore();
 
@@ -35,11 +37,7 @@ export default function ObservationPresetForm({
     {
       key: "name",
       render: (p) => (
-        <Input
-          defaultValue={p.name}
-          placeholder="Name"
-          onChangeText={setName}
-        />
+        <Input defaultValue={name} placeholder="Name" onChangeText={setName} />
       ),
     },
     {
@@ -48,7 +46,6 @@ export default function ObservationPresetForm({
         <DropDownMenu
           title="Observation Type"
           options={["interval", "abc"]}
-          prevOption="interval"
           value={type}
           setValue={setType}
         />
@@ -61,7 +58,7 @@ export default function ObservationPresetForm({
       key: "numberOfObservations",
       render: (p) => (
         <Input
-          defaultValue={String(p.numberOfObservations)}
+          defaultValue={String(numberOfObservations)}
           placeholder="Number of observations"
           keyboardType="numeric"
           onChangeText={(v: string) => setNumberOfObservations(Number(v))}
@@ -74,7 +71,6 @@ export default function ObservationPresetForm({
         <DropDownMenu
           title="Observation Interval"
           options={["15 seconds", "30 seconds", "60 seconds"]}
-          prevOption="15 seconds"
           value={observationIntervalSeconds}
           setValue={setObservationIntervalSeconds}
         />

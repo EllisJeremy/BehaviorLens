@@ -32,8 +32,13 @@ export default function ObservationTile({
           onPress={() => {
             setName(observationPreset.name);
             setType(observationPreset.type);
-            //setNumberOfObservations(observationPreset.numberOfObservations);
-            //setObservationIntervalSeconds();
+            if (observationPreset.type === "interval") {
+              setNumberOfObservations(observationPreset.numberOfObservations);
+              setObservationIntervalSeconds(
+                observationPreset.observationIntervalSeconds
+              );
+            }
+
             setOpen(true);
           }}
         >
