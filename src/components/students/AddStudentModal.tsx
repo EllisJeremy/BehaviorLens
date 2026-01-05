@@ -6,13 +6,13 @@ import StudentForm from "./StudentForm";
 
 export default function AddStudentModal() {
   const { addStudent } = useStudentsStore();
-  const { open, setOpen, firstName, lastName, grade, clearForm } =
+  const { open, setOpen, firstName, lastName, grade, uuid, clearForm } =
     useStudentsModalStore();
 
   function submitForm() {
     if (!firstName) return;
-    const uuid = Crypto.randomUUID();
-    addStudent({ firstName, lastName, grade, uuid });
+    const submitUuid = uuid === "" ? Crypto.randomUUID() : uuid;
+    addStudent({ firstName, lastName, grade, uuid: submitUuid });
     clearForm();
   }
 
@@ -20,8 +20,7 @@ export default function AddStudentModal() {
     <SlideUpModal
       modalOpen={open}
       setModalOpen={setOpen}
-      //title={editStudent.uuid === "" ? "Add Student" : "Edit Student"}
-      title={"Add Student"}
+      title={uuid === "" ? "Add Student" : "Edit Student"}
       form={<StudentForm />}
       submitForm={submitForm}
       clearForm={clearForm}

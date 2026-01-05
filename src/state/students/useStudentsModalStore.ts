@@ -10,6 +10,8 @@ type StudentsState = {
   setLastName: (v: string) => void;
   grade: string;
   setGrade: (v: string) => void;
+  uuid: string;
+  setUuid: (v: string) => void;
 
   clearForm: () => void;
 };
@@ -23,6 +25,8 @@ export const useStudentsModalStore = create<StudentsState>((set) => ({
   setLastName: (v) => set({ lastName: v }),
   grade: "",
   setGrade: (v) => set({ grade: v }),
+  uuid: "",
+  setUuid: (v) => set({ uuid: v }),
 
   clearForm: () =>
     set({

@@ -14,7 +14,7 @@ export default function StudentTile({
   grade,
 }: StudentType) {
   const { removeStudent } = useStudentsStore();
-  const { setFirstName, setLastName, setGrade, setOpen } =
+  const { setFirstName, setLastName, setGrade, setOpen, setUuid } =
     useStudentsModalStore();
   return (
     <View style={styles.tile}>
@@ -32,6 +32,7 @@ export default function StudentTile({
             setFirstName(firstName);
             setLastName(lastName);
             setGrade(grade);
+            setUuid(uuid);
             setOpen(true);
           }}
         >
