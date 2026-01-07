@@ -1,5 +1,6 @@
 import React from "react";
 import FormContainer from "../universal/form/FormContainer";
+import { View } from "react-native";
 import DropDownMenu from "../universal/form/DropDownMenu";
 import { useObservationModalStore } from "@/src/state/observations/useObservationsModalStore";
 import Input from "../universal/form/Input";
@@ -28,45 +29,43 @@ export default function ObservationPresetForm() {
 
   const baseFields: FieldRenderer<BaseObservationPreset>[] = [
     {
-      key: "name",
-      render: (
-        <Input defaultValue={name} placeholder="Name" onChangeText={setName} />
-      ),
-    },
-    {
       key: "type",
       render: (
-        <DropDownMenu
-          title="Observation Type"
-          options={["interval", "abc"]}
-          value={type}
-          setValue={setType}
-        />
+        <FormContainer>
+          <Input
+            defaultValue={name}
+            placeholder="Name"
+            onChangeText={setName}
+          />
+          <DropDownMenu
+            title="Observation Type"
+            options={["interval", "abc"]}
+            value={type}
+            setValue={setType}
+          />
+        </FormContainer>
       ),
     },
   ];
 
   const intervalFields: FieldRenderer<IntervalObservationPreset>[] = [
     {
-      key: "numberOfObservations",
+      key: "interval",
       render: (
-        <Input
-          defaultValue={String(numberOfObservations)}
-          placeholder="Number of observations"
-          keyboardType="numeric"
-          onChangeText={(v: string) => setNumberOfObservations(Number(v))}
-        />
-      ),
-    },
-    {
-      key: "intervalSeconds",
-      render: (
-        <DropDownMenu
-          title="Observation Interval"
-          options={["15 seconds", "30 seconds", "60 seconds"]}
-          value={observationIntervalSeconds}
-          setValue={setObservationIntervalSeconds}
-        />
+        <FormContainer title={"interval settings"}>
+          <DropDownMenu
+            title="Observation Interval"
+            options={["15 seconds", "30 seconds", "60 seconds"]}
+            value={observationIntervalSeconds}
+            setValue={setObservationIntervalSeconds}
+          />
+          <Input
+            defaultValue={String(numberOfObservations)}
+            placeholder="Number of observations"
+            keyboardType="numeric"
+            onChangeText={(v: string) => setNumberOfObservations(Number(v))}
+          />
+        </FormContainer>
       ),
     },
   ];
@@ -81,10 +80,10 @@ export default function ObservationPresetForm() {
   const fields = presetFieldMap[type];
 
   return (
-    <FormContainer title={"none"}>
+    <View>
       {fields.map((field) => (
         <React.Fragment key={field.key}>{field.render}</React.Fragment>
       ))}
-    </FormContainer>
+    </View>
   );
 }
