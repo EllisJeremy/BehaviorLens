@@ -1,9 +1,10 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, Image } from "react-native";
 import Octicons from "@expo/vector-icons/Octicons";
 import { useObservationModalStore } from "@/src/state/observations/useObservationsModalStore";
 import { colors, fontSizes } from "@/src/utils/styles";
 import { ObservationPreset } from "@/src/types/observationTypes";
 import { useObservationPresetStore } from "@/src/state/observations/useObservationsStore";
+import { typeToIcon } from "@/src/utils/observationPresets/typeToIcon";
 
 export default function ObservationTile({
   observationPreset,
@@ -22,9 +23,15 @@ export default function ObservationTile({
 
   return (
     <View style={styles.tile}>
-      <View style={styles.info}>
-        <Text style={styles.text}>{observationPreset.name}</Text>
-        <Text style={styles.subText}>{observationPreset.type}</Text>
+      <View style={styles.iconAndInfo}>
+        <Image
+          source={typeToIcon[observationPreset.type]}
+          style={styles.icon}
+        />
+        <View style={styles.info}>
+          <Text style={styles.text}>{observationPreset.name}</Text>
+          <Text style={styles.subText}>{observationPreset.type}</Text>
+        </View>
       </View>
 
       <View style={styles.controls}>
@@ -68,6 +75,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 20,
+  },
+  iconAndInfo: {
+    flexDirection: "row",
+    gap: 15,
+    alignItems: "center",
+  },
+  icon: {
+    height: 30,
+    width: 30,
   },
   info: {
     flexShrink: 1,

@@ -1,8 +1,8 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { ObservationPresetEnum } from "@/src/types/observationTypes";
-import { ReactNode } from "react";
+import stopwatch from "@/assets/stopwatch.png";
+import abcSquares from "@/assets/abcSquares.png";
 
-export const typeToIcon: Record<ObservationPresetEnum, string> = {
-  interval: "timer-edit-outline",
-  abc: "alphabet-variant",
+export const typeToIcon: Record<ObservationPresetEnum, any> = {
+  interval: stopwatch,
+  abc: abcSquares,
 };
