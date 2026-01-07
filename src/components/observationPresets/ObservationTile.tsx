@@ -1,4 +1,11 @@
-import { Pressable, StyleSheet, Text, View, Image } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ActionSheetIOS,
+} from "react-native";
 import Octicons from "@expo/vector-icons/Octicons";
 import { useObservationModalStore } from "@/src/state/observations/useObservationsModalStore";
 import { colors, fontSizes } from "@/src/utils/styles";
@@ -58,7 +65,17 @@ export default function ObservationTile({
         <Pressable
           style={[styles.iconButton, styles.deleteButton]}
           onPress={() => {
-            removeObservationPreset(observationPreset.uuid);
+            ActionSheetIOS.showActionSheetWithOptions(
+              {
+                options: ["Cancel", "Delete"],
+                destructiveButtonIndex: 1,
+                cancelButtonIndex: 0,
+              },
+              (index: number) => {
+                if (index === 1)
+                  removeObservationPreset(observationPreset.uuid);
+              }
+            );
           }}
         >
           <Octicons name="trash" size={20} color="white" />

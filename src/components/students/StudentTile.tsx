@@ -1,4 +1,10 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  ActionSheetIOS,
+} from "react-native";
 import Octicons from "@expo/vector-icons/Octicons";
 import {
   useStudentsStore,
@@ -42,7 +48,16 @@ export default function StudentTile({
         <Pressable
           style={[styles.iconButton, styles.deleteButton]}
           onPress={() => {
-            removeStudent(uuid);
+            ActionSheetIOS.showActionSheetWithOptions(
+              {
+                options: ["Cancel", "Delete"],
+                destructiveButtonIndex: 1,
+                cancelButtonIndex: 0,
+              },
+              (index: number) => {
+                if (index === 1) removeStudent(uuid);
+              }
+            );
           }}
         >
           <Octicons name="trash" size={20} color="white" />
