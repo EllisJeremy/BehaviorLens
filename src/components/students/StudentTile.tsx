@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: fontSizes.text,
     fontWeight: "600",
-    color: "#333",
   },
   subText: {
     fontSize: fontSizes.subText,
