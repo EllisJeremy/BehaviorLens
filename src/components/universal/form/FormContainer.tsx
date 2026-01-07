@@ -1,5 +1,5 @@
 import { colors } from "@/src/utils/styles";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 
 export default function FormContainer({
   title,
@@ -9,18 +9,28 @@ export default function FormContainer({
   children: React.ReactNode;
 }) {
   return (
-    <View style={styles.outer}>
-      <View style={styles.inner}>{children}</View>
+    <View style={styles.full}>
+      {title && <Text style={styles.text}>{title.toUpperCase()}</Text>}
+      <View style={styles.outer}>
+        <View style={styles.inner}>{children}</View>
+      </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
+  full: {
+    marginTop: 20,
+  },
+  text: {
+    color: colors.gray,
+    marginLeft: 15,
+  },
   outer: {
     backgroundColor: colors.offWhite,
     borderRadius: 15,
     paddingLeft: 15,
     paddingRight: 15,
-    marginTop: 20,
+    marginTop: 5,
   },
   inner: {
     backgroundColor: colors.darkGray,
