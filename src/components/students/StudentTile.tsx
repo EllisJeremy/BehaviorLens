@@ -19,7 +19,7 @@ export default function StudentTile({
   return (
     <View style={styles.tile}>
       <View style={styles.info}>
-        <Text style={styles.text}>
+        <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">
           {firstName} {lastName}
         </Text>
         <Text style={styles.subText}>Grade {grade}</Text>
@@ -61,9 +61,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 20,
+    gap: 10,
   },
   info: {
     flexShrink: 1,
+    flex: 1,
   },
   text: {
     fontSize: fontSizes.text,

@@ -29,7 +29,9 @@ export default function ObservationTile({
           style={styles.icon}
         />
         <View style={styles.info}>
-          <Text style={styles.text}>{observationPreset.name}</Text>
+          <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">
+            {observationPreset.name}
+          </Text>
           <Text style={styles.subText}>{observationPreset.type}</Text>
         </View>
       </View>
@@ -75,11 +77,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 20,
+    gap: 10,
   },
   iconAndInfo: {
     flexDirection: "row",
     gap: 15,
     alignItems: "center",
+    flex: 1,
   },
   icon: {
     height: 30,
