@@ -4,6 +4,7 @@ import { View } from "react-native";
 import DropDownMenu from "../universal/form/DropDownMenu";
 import { useObservationModalStore } from "@/src/state/observations/useObservationsModalStore";
 import Input from "../universal/form/Input";
+import InputWithLabel from "../universal/form/InputWithLabel";
 import {
   IntervalObservationPreset,
   BaseObservationPreset,
@@ -59,11 +60,12 @@ export default function ObservationPresetForm() {
             value={observationIntervalSeconds}
             setValue={setObservationIntervalSeconds}
           />
-          <Input
+          <InputWithLabel
             defaultValue={String(numberOfObservations)}
-            placeholder="Number of observations"
+            placeholder="Number"
             keyboardType="numeric"
             onChangeText={(v: string) => setNumberOfObservations(Number(v))}
+            label="Number of Observations"
           />
         </FormContainer>
       ),

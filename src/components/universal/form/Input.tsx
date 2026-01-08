@@ -1,6 +1,5 @@
 import { colors, fontSizes } from "@/src/utils/styles";
-import { StyleSheet, TextInput } from "react-native";
-import { KeyboardTypeOptions } from "react-native";
+import { StyleSheet, TextInput, KeyboardTypeOptions } from "react-native";
 
 export default function Input({
   defaultValue,
