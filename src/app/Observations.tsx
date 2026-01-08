@@ -3,8 +3,8 @@ import { FlatList, StyleSheet, View, Pressable, Text } from "react-native";
 import ObservationTile from "../components/observationPresets/ObservationTile";
 import AddObservationPresetModal from "../components/observationPresets/AddObservationPresetModal";
 import { colors } from "../utils/styles";
-import { useObservationModalStore } from "../state/observations/useObservationsModalStore";
-import { useObservationPresetStore } from "../state/observations/useObservationsStore";
+import { useObservationModalStore } from "../state/observationPresets/useObservationsModalStore";
+import { useObservationPresetStore } from "../state/observationPresets/useObservationsStore";
 import PlusButton from "../components/universal/PlusButton";
 
 export default function Observations() {

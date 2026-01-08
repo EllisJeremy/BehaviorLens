@@ -7,10 +7,10 @@ import {
   ActionSheetIOS,
 } from "react-native";
 import Octicons from "@expo/vector-icons/Octicons";
-import { useObservationModalStore } from "@/src/state/observations/useObservationsModalStore";
+import { useObservationModalStore } from "@/src/state/observationPresets/useObservationsModalStore";
 import { colors, fontSizes } from "@/src/utils/styles";
 import { ObservationPreset } from "@/src/types/observationTypes";
-import { useObservationPresetStore } from "@/src/state/observations/useObservationsStore";
+import { useObservationPresetStore } from "@/src/state/observationPresets/useObservationsStore";
 import { typeToIcon } from "@/src/utils/observationPresets/typeToIcon";
 
 export default function ObservationTile({
