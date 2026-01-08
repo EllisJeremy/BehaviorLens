@@ -13,4 +13,5 @@ export const colors = {
 export const fontSizes = {
   text: 17,
   subText: 15,
+  smallTitle: 12,
 };
