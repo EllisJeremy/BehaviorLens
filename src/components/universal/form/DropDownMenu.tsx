@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     color: colors.blue,
   },
   menu: {
-    backgroundColor: colors.lightGray,
+    backgroundColor: colors.lighterGray,
     borderRadius: 12,
     minWidth: 200,
     gap: 1,
@@ -92,12 +92,12 @@ const styles = StyleSheet.create({
   menuItem: {
     paddingVertical: 8,
     paddingHorizontal: 12,
-    backgroundColor: colors.offWhite,
+    backgroundColor: "white",
     flexDirection: "row",
     justifyContent: "space-between",
   },
   menuItemPressed: {
-    backgroundColor: colors.lightGray,
+    backgroundColor: colors.lighterGray,
   },
   popover: {
     backgroundColor: "transparent",
