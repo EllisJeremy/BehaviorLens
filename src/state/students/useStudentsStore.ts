@@ -1,12 +1,6 @@
 import { create } from "zustand";
 import { loadObject, saveObject } from "../../utils/storage/storage";
-
-export type StudentType = {
-  uuid: string;
-  firstName: string;
-  lastName: string;
-  grade: string;
-};
+import { StudentType } from "@/src/types/studentType";
 
 type StudentsState = {
   students: Record<string, StudentType>;

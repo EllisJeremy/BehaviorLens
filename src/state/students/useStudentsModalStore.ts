@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { StudentType } from "./useStudentsStore";
 
 type StudentsState = {
   open: boolean;

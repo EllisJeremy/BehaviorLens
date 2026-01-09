@@ -1,60 +1,37 @@
 import { create } from "zustand";
 import { loadObject, saveObject } from "../../utils/storage/storage";
-import { ObservationPreset } from "@/src/types/observationTypes";
+import { SettingsType } from "@/src/types/settingsType";
 
-export type IntervalObservationPresetType = {
-  uuid: string;
-  name: string;
-  numberOfObservations: number;
-  observationIntervalSeconds: number;
+type SettingsStore = {
+  settings: SettingsType;
+
+  loadSettings: () => Promise<void>;
+  updateSettings: <K extends keyof SettingsType>(
+    key: K,
+    value: SettingsType[K]
+  ) => void;
 };
 
-type ObservationPresetStore = {
-  observationPresets: Record<string, ObservationPreset>;
+export const useObservationPresetStore = create<SettingsStore>((set, get) => ({
+  settings: {
+    username: "",
+  },
 
-  loadObservationPresets: () => Promise<void>;
-  addObservationPreset: (observationPreset: ObservationPreset) => void;
-  removeObservationPreset: (uuid: string) => void;
-};
+  loadSettings: async () => {
+    const data = await loadObject("settings");
+    if (data) set({ settings: data });
+  },
 
-export const useObservationPresetStore = create<ObservationPresetStore>(
-  (set, get) => ({
-    observationPresets: {},
+  updateSettings: (key, value) => {
+    set((state) => {
+      const newSettings = {
+        ...state.settings,
+        [key]: value,
+      };
 
-    loadObservationPresets: async () => {
-      const data = await loadObject("observationPreset");
-      if (data) set({ observationPresets: data });
-    },
+      saveObject("observationPreset", newSettings);
 
-    addObservationPreset: (observationPreset: ObservationPreset) => {
-      set((state) => {
-        const newObservationPresets = {
-          ...state.observationPresets,
-          [observationPreset.uuid]: observationPreset,
-        };
-
-        saveObject("observationPreset", newObservationPresets);
-
-        return { observationPresets: newObservationPresets };
-      });
-    },
-
-    removeObservationPreset: (uuid: string) => {
-      set((state) => {
-        const newObservationPresets = { ...state.observationPresets };
-        if (uuid in newObservationPresets) {
-          delete newObservationPresets[uuid];
-        } else {
-          console.error(
-            "ERROR: there is no observation preset with uuid",
-            uuid
-          );
-        }
-
-        saveObject("observationPreset", newObservationPresets);
-
-        return { observationPresets: newObservationPresets };
-      });
-    },
-  })
-);
+      return { settings: newSettings };
+    });
+  },
+}));
