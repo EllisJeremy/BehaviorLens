@@ -4,14 +4,16 @@ import { StyleSheet, View, Text } from "react-native";
 export default function FormContainer({
   title,
   children,
+  backgroundColor = colors.offWhite,
 }: {
   title?: string;
+  backgroundColor?: string;
   children: React.ReactNode;
 }) {
   return (
     <View style={styles.full}>
       {title && <Text style={styles.title}>{title.toUpperCase()}</Text>}
-      <View style={styles.outer}>
+      <View style={[styles.outer, { backgroundColor }]}>
         <View style={styles.inner}>{children}</View>
       </View>
     </View>
@@ -27,7 +29,6 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.smallTitle,
   },
   outer: {
-    backgroundColor: colors.offWhite,
     borderRadius: 15,
     paddingLeft: 15,
     paddingRight: 15,

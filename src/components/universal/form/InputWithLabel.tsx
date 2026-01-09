@@ -11,24 +11,26 @@ export default function InputWithLabel({
   defaultValue,
   placeholder,
   onChangeText,
-  keyboardType,
+  keyboardType = "default",
   label,
+  backgroundColor = colors.offWhite,
 }: {
   defaultValue: string;
   placeholder: string;
   onChangeText: (v: string) => void;
   keyboardType?: KeyboardTypeOptions;
   label: string;
+  backgroundColor?: string;
 }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, { backgroundColor }]}>{label}</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, { backgroundColor }]}
         defaultValue={defaultValue}
         placeholder={placeholder}
         onChangeText={onChangeText}
-        keyboardType={keyboardType ? keyboardType : "default"}
+        keyboardType={keyboardType}
       />
     </View>
   );

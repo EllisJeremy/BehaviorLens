@@ -9,16 +9,21 @@ export default function DropDownMenu({
   options,
   value,
   setValue,
+  backgroundColor = colors.offWhite,
 }: {
   title: string;
   options: string[];
   value: any;
   setValue: (v: any) => void;
+  backgroundColor: string;
 }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <Pressable style={styles.container} onPress={() => setOpen(true)}>
+    <Pressable
+      style={[styles.container, { backgroundColor }]}
+      onPress={() => setOpen(true)}
+    >
       <Text style={styles.text}>{title}</Text>
 
       <Popover

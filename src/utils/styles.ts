@@ -1,3 +1,10 @@
+export type ThemeColor = keyof typeof themeColors;
+
+export const themeColors = {
+  blue: "rgb(45, 164, 255)",
+  red: "rgb(255, 52, 52)",
+};
+
 export const colors = {
   offWhite: "rgb(240,240,240)",
   lighterGray: "rgb(226, 226, 227)",

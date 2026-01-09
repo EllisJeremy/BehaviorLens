@@ -12,9 +12,10 @@ type SettingsStore = {
   ) => void;
 };
 
-export const useObservationPresetStore = create<SettingsStore>((set, get) => ({
+export const useSettingsStore = create<SettingsStore>((set, get) => ({
   settings: {
     username: "",
+    themeColor: "",
   },
 
   loadSettings: async () => {
