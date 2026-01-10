@@ -6,11 +6,19 @@ import { useSettingsUIStore } from "../state/settings/useSettingsUIStore";
 import { useSettingsStore } from "../state/settings/useSettingsStore";
 import DropDownMenu from "../components/universal/form/DropDownMenu";
 import { ThemeColor, themeColors } from "../utils/styles";
+import { useEffect } from "react";
 
 export default function Settings() {
   const { username, setUsername, themeColor, setThemeColor } =
     useSettingsUIStore();
   const { updateSettings } = useSettingsStore();
+  const { settings } = useSettingsStore();
+
+  useEffect(() => {
+    setUsername(settings.username);
+    setThemeColor(settings.themeColor);
+  }, [settings]);
+
   return (
     <View style={styles.container}>
       <FormContainer title="settings" backgroundColor="white">

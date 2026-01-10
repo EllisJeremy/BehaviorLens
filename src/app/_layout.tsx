@@ -4,11 +4,16 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { colors } from "../utils/styles";
 import { useSettingsStore } from "../state/settings/useSettingsStore";
 import { themeColors } from "../utils/styles";
+import { useEffect } from "react";
 
 import { Tabs } from "expo-router";
 
 export default function RootLayout() {
-  const { settings } = useSettingsStore();
+  const { settings, loadSettings } = useSettingsStore();
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
   return (
     <Tabs
       screenOptions={{

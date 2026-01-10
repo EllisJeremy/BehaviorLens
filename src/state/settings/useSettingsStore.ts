@@ -30,7 +30,7 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
         [key]: value,
       };
 
-      saveObject("observationPreset", newSettings);
+      saveObject("settings", newSettings);
 
       return { settings: newSettings };
     });
