@@ -1,12 +1,11 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { useEffect } from "react";
+import { View, StyleSheet } from "react-native";
 import FormContainer from "../components/universal/form/FormContainer";
 import InputWithLabel from "../components/universal/form/InputWithLabel";
 import { useSettingsUIStore } from "../state/settings/useSettingsUIStore";
 import { useSettingsStore } from "../state/settings/useSettingsStore";
 import DropDownMenu from "../components/universal/form/DropDownMenu";
 import { ThemeColor, themeColors } from "../utils/styles";
-import { useEffect } from "react";
 
 export default function Settings() {
   const { username, setUsername, themeColor, setThemeColor } =

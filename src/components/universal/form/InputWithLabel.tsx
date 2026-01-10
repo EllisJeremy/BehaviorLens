@@ -6,6 +6,8 @@ import {
   View,
   Text,
 } from "react-native";
+import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
+import { themeColors } from "@/src/utils/styles";
 
 export default function InputWithLabel({
   defaultValue,
@@ -22,11 +24,16 @@ export default function InputWithLabel({
   label: string;
   backgroundColor?: string;
 }) {
+  const { settings } = useSettingsStore();
   return (
     <View style={styles.container}>
       <Text style={[styles.label, { backgroundColor }]}>{label}</Text>
       <TextInput
-        style={[styles.input, { backgroundColor }]}
+        style={[
+          styles.input,
+          { backgroundColor },
+          { color: themeColors[settings.themeColor] },
+        ]}
         defaultValue={defaultValue}
         placeholder={placeholder}
         onChangeText={onChangeText}
@@ -46,7 +53,6 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.text,
     flex: 1,
     textAlign: "right",
-    color: colors.blue,
   },
   label: {
     backgroundColor: colors.offWhite,

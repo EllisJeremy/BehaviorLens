@@ -1,6 +1,7 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import Modal from "react-native-modal";
-import { colors, fontSizes } from "@/src/utils/styles";
+import { themeColors, fontSizes } from "@/src/utils/styles";
+import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 
 export default function SlideUpModal({
   modalOpen,
@@ -17,6 +18,7 @@ export default function SlideUpModal({
   submitForm: () => void;
   clearForm: () => void;
 }) {
+  const { settings } = useSettingsStore();
   return (
     <Modal
       isVisible={modalOpen}
@@ -26,11 +28,25 @@ export default function SlideUpModal({
       <View style={styles.container}>
         <View style={styles.header}>
           <Pressable onPress={clearForm}>
-            <Text style={styles.button}>Cancel</Text>
+            <Text
+              style={[
+                styles.button,
+                { color: themeColors[settings.themeColor] },
+              ]}
+            >
+              Cancel
+            </Text>
           </Pressable>
           <Text style={{ fontSize: fontSizes.text }}>{title}</Text>
           <Pressable onPress={submitForm}>
-            <Text style={styles.button}> {"  Save"}</Text>
+            <Text
+              style={[
+                styles.button,
+                { color: themeColors[settings.themeColor] },
+              ]}
+            >
+              {"  Save"}
+            </Text>
           </Pressable>
         </View>
         {form}
@@ -56,7 +72,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   button: {
-    color: colors.blue,
     fontSize: 16,
   },
 });

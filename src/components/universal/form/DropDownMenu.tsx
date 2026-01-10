@@ -3,6 +3,8 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { colors, fontSizes } from "@/src/utils/styles";
 import Popover from "react-native-popover-view";
 import { useState } from "react";
+import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
+import { themeColors } from "@/src/utils/styles";
 
 export default function DropDownMenu({
   title,
@@ -18,7 +20,7 @@ export default function DropDownMenu({
   backgroundColor: string;
 }) {
   const [open, setOpen] = useState(false);
-
+  const { settings } = useSettingsStore();
   return (
     <Pressable
       style={[styles.container, { backgroundColor }]}
@@ -34,8 +36,18 @@ export default function DropDownMenu({
         arrowSize={{ width: 0, height: 0 }}
         from={
           <View style={styles.button}>
-            <Text style={styles.buttonText}>{value}</Text>
-            <Entypo style={styles.icon} name="select-arrows" />
+            <Text
+              style={[
+                styles.buttonText,
+                { color: themeColors[settings.themeColor] },
+              ]}
+            >
+              {value}
+            </Text>
+            <Entypo
+              style={[styles.icon, { color: themeColors[settings.themeColor] }]}
+              name="select-arrows"
+            />
           </View>
         }
       >
@@ -53,7 +65,15 @@ export default function DropDownMenu({
               }}
             >
               <Text style={styles.text}>{opt}</Text>
-              {opt === value && <Entypo style={styles.icon} name="check" />}
+              {opt === value && (
+                <Entypo
+                  style={[
+                    styles.icon,
+                    { color: themeColors[settings.themeColor] },
+                  ]}
+                  name="check"
+                />
+              )}
             </Pressable>
           ))}
         </View>
@@ -80,12 +100,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: fontSizes.text,
-    color: colors.blue,
   },
   icon: {
     marginTop: 4,
     fontSize: fontSizes.text - 4,
-    color: colors.blue,
   },
   menu: {
     backgroundColor: colors.lighterGray,

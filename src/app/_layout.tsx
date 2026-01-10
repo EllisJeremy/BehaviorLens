@@ -1,9 +1,8 @@
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { colors } from "../utils/styles";
-import { useSettingsStore } from "../state/settings/useSettingsStore";
 import { themeColors } from "../utils/styles";
+import { useSettingsStore } from "../state/settings/useSettingsStore";
 import { useEffect } from "react";
 
 import { Tabs } from "expo-router";

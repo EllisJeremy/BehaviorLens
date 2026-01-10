@@ -2,7 +2,15 @@ export type ThemeColor = keyof typeof themeColors;
 
 export const themeColors = {
   blue: "rgb(45, 164, 255)",
+  indigo: "rgb(99, 102, 241)",
+  purple: "rgb(168, 85, 247)",
   red: "rgb(255, 52, 52)",
+  orange: "rgb(255, 149, 0)",
+  amber: "rgb(245, 158, 11)",
+  teal: "rgb(20, 184, 166)",
+  cyan: "rgb(34, 211, 238)",
+  green: "rgb(16, 185, 129)",
+  slate: "rgb(100, 116, 139)",
 };
 
 export const colors = {
