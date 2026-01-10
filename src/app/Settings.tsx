@@ -5,18 +5,22 @@ import InputWithLabel from "../components/universal/form/InputWithLabel";
 import { useSettingsUIStore } from "../state/settings/useSettingsUIStore";
 import { useSettingsStore } from "../state/settings/useSettingsStore";
 import DropDownMenu from "../components/universal/form/DropDownMenu";
-import { themeColors } from "../utils/styles";
+import { ThemeColor, themeColors } from "../utils/styles";
 
 export default function Settings() {
   const { username, setUsername, themeColor, setThemeColor } =
     useSettingsUIStore();
+  const { updateSettings } = useSettingsStore();
   return (
     <View style={styles.container}>
       <FormContainer title="settings" backgroundColor="white">
         <InputWithLabel
           defaultValue={username}
           placeholder="enter username"
-          onChangeText={(v: string) => setUsername(v)}
+          onChangeText={(v: string) => {
+            updateSettings("username", v);
+            setUsername(v);
+          }}
           label="Username"
           backgroundColor="white"
         />
@@ -24,7 +28,10 @@ export default function Settings() {
           title="Theme Color"
           options={Object.keys(themeColors)}
           value={themeColor}
-          setValue={setThemeColor}
+          setValue={(v: ThemeColor) => {
+            updateSettings("themeColor", v);
+            setThemeColor(v);
+          }}
           backgroundColor="white"
         />
       </FormContainer>

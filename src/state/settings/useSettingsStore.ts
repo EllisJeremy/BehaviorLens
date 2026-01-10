@@ -15,7 +15,7 @@ type SettingsStore = {
 export const useSettingsStore = create<SettingsStore>((set, get) => ({
   settings: {
     username: "",
-    themeColor: "",
+    themeColor: "blue",
   },
 
   loadSettings: async () => {
