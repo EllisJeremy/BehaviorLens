@@ -1,4 +1,4 @@
-export type ThemeColor = keyof typeof themeColors;
+export type ThemeColor = (typeof themeColors)[keyof typeof themeColors];
 
 export const themeColors = {
   blue: "rgb(45, 164, 255)",

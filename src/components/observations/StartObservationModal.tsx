@@ -3,8 +3,8 @@ import FormContainer from "../universal/form/FormContainer";
 import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";
 import InputWithLabel from "../universal/form/InputWithLabel";
 import { useStudentsStore } from "@/src/state/students/useStudentsStore";
-import DropDownMenu from "../universal/form/DropDownMenu";
-import { Option } from "../universal/form/DropDownMenu";
+import DropDownMenu, { Option } from "../universal/form/DropDownMenu";
+import { View, Text } from "react-native";
 
 function StartObservationForm() {
   const { name, setName, studentUuid, setStudentUuid } =
@@ -17,20 +17,25 @@ function StartObservationForm() {
   }));
 
   return (
-    <FormContainer>
-      <InputWithLabel
-        placeholder="Enter Name"
-        label="Observation Name"
-        defaultValue={name}
-        onChangeText={setName}
-      />
-      <DropDownMenu
-        title="Assign Student"
-        options={studentOptions}
-        value={studentUuid}
-        setValue={setStudentUuid}
-      />
-    </FormContainer>
+    <View>
+      <FormContainer>
+        <InputWithLabel
+          placeholder="Enter Name"
+          label="Observation Name"
+          defaultValue={name}
+          onChangeText={setName}
+        />
+        <DropDownMenu
+          title="Assign Student"
+          options={studentOptions}
+          value={studentUuid}
+          setValue={setStudentUuid}
+        />
+      </FormContainer>
+      <FormContainer title="observation details">
+        <Text>asd</Text>
+      </FormContainer>
+    </View>
   );
 }
 export default function StartObservationModal() {

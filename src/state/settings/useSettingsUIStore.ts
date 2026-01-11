@@ -13,7 +13,7 @@ export const useSettingsUIStore = create<SettingsUIStore>((set) => ({
   setUsername: (v) => {
     set({ username: v });
   },
-  themeColor: "blue",
+  themeColor: "rgb(45, 164, 255)",
   setThemeColor: (v) => {
     set({ themeColor: v });
   },
