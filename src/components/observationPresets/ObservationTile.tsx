@@ -12,6 +12,7 @@ import { colors, fontSizes } from "@/src/utils/styles";
 import { ObservationPreset } from "@/src/types/observationTypes";
 import { useObservationPresetsStore } from "@/src/state/observationPresets/useObservationPresetsStore";
 import { typeToIcon } from "@/src/utils/observationPresets/typeToIcon";
+import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";
 
 export default function ObservationTile({
   observationPreset,
@@ -27,9 +28,14 @@ export default function ObservationTile({
     setOpen,
     setUuid,
   } = useObservationPresetsModalStore();
+  const { setOpen: setOpenStartModal } = useStartObservationModalStore();
+
+  function startObservation() {
+    setOpenStartModal(true);
+  }
 
   return (
-    <View style={styles.tile}>
+    <Pressable style={styles.tile} onPress={startObservation}>
       <View style={styles.iconAndInfo}>
         <Image
           source={typeToIcon[observationPreset.type]}
@@ -81,7 +87,7 @@ export default function ObservationTile({
           <Octicons name="trash" size={20} color="white" />
         </Pressable>
       </View>
-    </View>
+    </Pressable>
   );
 }
 

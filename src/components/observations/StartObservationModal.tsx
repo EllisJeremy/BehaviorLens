@@ -1,19 +1,34 @@
 import SlideUpModal from "../universal/SlideUpModal";
-import * as Crypto from "expo-crypto";
-import { useObservationPresetsStore } from "@/src/state/observationPresets/useObservationPresetsStore";
-import { useObservationPresetsModalStore } from "@/src/state/observationPresets/useObservationPresetsModalStore";
-import { presetBuilder } from "@/src/utils/observationPresets/presetBuilder";
-
+import FormContainer from "../universal/form/FormContainer";
 import Input from "../universal/form/Input";
-import { View } from "react-native";
+import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";
+import InputWithLabel from "../universal/form/InputWithLabel";
+import { useStudentsStore } from "@/src/state/students/useStudentsStore";
+import DropDownMenu from "../universal/form/DropDownMenu";
 
 function StartObservationForm() {
-  return <View></View>;
+  const { name, setName, studentUuid, setStudentUuid } =
+    useStartObservationModalStore();
+  const { students } = useStudentsStore();
+  return (
+    <FormContainer>
+      <InputWithLabel
+        placeholder="Enter Name"
+        label="Observation Name"
+        defaultValue={name}
+        onChangeText={setName}
+      />
+      <DropDownMenu
+        title="Assign Student"
+        options={Object.keys(students)}
+        value={studentUuid}
+        setValue={setStudentUuid}
+      />
+    </FormContainer>
+  );
 }
-export default function AddObservationPresetModal() {
-  const { addObservationPreset } = useObservationPresetsStore();
-  const { open, setOpen, name, clearForm, uuid } =
-    useObservationPresetsModalStore();
+export default function StartObservationModal() {
+  const { open, setOpen, name, clearForm } = useStartObservationModalStore();
 
   function submitForm() {
     if (!name) return;

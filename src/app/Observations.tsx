@@ -6,6 +6,7 @@ import { colors } from "../utils/styles";
 import { useObservationPresetsModalStore } from "../state/observationPresets/useObservationPresetsModalStore";
 import { useObservationPresetsStore } from "../state/observationPresets/useObservationPresetsStore";
 import PlusButton from "../components/universal/PlusButton";
+import StartObservationModal from "../components/observations/StartObservationModal";
 
 export default function Observations() {
   const { loadObservationPresets, observationPresets } =
@@ -44,6 +45,7 @@ export default function Observations() {
       <PlusButton onPress={() => setOpen(true)} />
 
       <AddObservationPresetModal />
+      <StartObservationModal />
     </View>
   );
 }

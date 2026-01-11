@@ -17,7 +17,7 @@ export default function DropDownMenu({
   options: string[];
   value: any;
   setValue: (v: any) => void;
-  backgroundColor: string;
+  backgroundColor?: string;
 }) {
   const [open, setOpen] = useState(false);
   const { settings } = useSettingsStore();
