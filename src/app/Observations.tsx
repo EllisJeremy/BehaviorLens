@@ -3,14 +3,14 @@ import { FlatList, StyleSheet, View, Pressable, Text } from "react-native";
 import ObservationTile from "../components/observationPresets/ObservationTile";
 import AddObservationPresetModal from "../components/observationPresets/AddObservationPresetModal";
 import { colors } from "../utils/styles";
-import { useObservationModalStore } from "../state/observationPresets/useObservationsModalStore";
-import { useObservationPresetStore } from "../state/observationPresets/useObservationsStore";
+import { useObservationPresetsModalStore } from "../state/observationPresets/useObservationPresetsModalStore";
+import { useObservationPresetsStore } from "../state/observationPresets/useObservationPresetsStore";
 import PlusButton from "../components/universal/PlusButton";
 
 export default function Observations() {
   const { loadObservationPresets, observationPresets } =
-    useObservationPresetStore();
-  const { setOpen } = useObservationModalStore();
+    useObservationPresetsStore();
+  const { setOpen } = useObservationPresetsModalStore();
 
   useEffect(() => {
     loadObservationPresets();

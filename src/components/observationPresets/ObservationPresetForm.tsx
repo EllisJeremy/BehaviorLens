@@ -2,7 +2,7 @@ import React from "react";
 import FormContainer from "../universal/form/FormContainer";
 import { View } from "react-native";
 import DropDownMenu from "../universal/form/DropDownMenu";
-import { useObservationModalStore } from "@/src/state/observationPresets/useObservationsModalStore";
+import { useObservationPresetsModalStore } from "@/src/state/observationPresets/useObservationPresetsModalStore";
 import Input from "../universal/form/Input";
 import InputWithLabel from "../universal/form/InputWithLabel";
 import {
@@ -26,7 +26,7 @@ export default function ObservationPresetForm() {
     setNumberOfObservations,
     observationIntervalSeconds,
     setObservationIntervalSeconds,
-  } = useObservationModalStore();
+  } = useObservationPresetsModalStore();
 
   const baseFields: FieldRenderer<BaseObservationPreset>[] = [
     {

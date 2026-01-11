@@ -21,7 +21,7 @@ export type ObservationPresetState = {
   clearForm: () => void;
 };
 
-export const useObservationModalStore = create<ObservationPresetState>(
+export const useObservationPresetsModalStore = create<ObservationPresetState>(
   (set) => ({
     open: false,
     setOpen: (val) => set({ open: val }),

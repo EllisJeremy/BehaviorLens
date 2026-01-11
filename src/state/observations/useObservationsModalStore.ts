@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { ObservationPresetEnum } from "@/src/types/observationTypes";
 
-export type ObservationPresetState = {
+export type ObservationModalState = {
   open: boolean;
   setOpen: (val: boolean) => void;
 
@@ -21,7 +21,7 @@ export type ObservationPresetState = {
   clearForm: () => void;
 };
 
-export const useObservationModalStore = create<ObservationPresetState>(
+export const useObservationPresetsModalStore = create<ObservationModalState>(
   (set) => ({
     open: false,
     setOpen: (val) => set({ open: val }),

@@ -2,7 +2,7 @@ import {
   ObservationPresetEnum,
   ObservationPreset,
 } from "@/src/types/observationTypes";
-import { ObservationPresetState } from "@/src/state/observationPresets/useObservationsModalStore";
+import { ObservationPresetState } from "@/src/state/observationPresets/useObservationPresetsModalStore";
 type BuilderContext = ObservationPresetState & { uuid: string };
 
 export const presetBuilder: Record<

@@ -10,7 +10,7 @@ type ObservationPresetStore = {
   removeObservationPreset: (uuid: string) => void;
 };
 
-export const useObservationPresetStore = create<ObservationPresetStore>(
+export const useObservationPresetsStore = create<ObservationPresetStore>(
   (set, get) => ({
     observationPresets: {},
 

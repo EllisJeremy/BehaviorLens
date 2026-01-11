@@ -1,18 +1,19 @@
 import SlideUpModal from "../universal/SlideUpModal";
 import * as Crypto from "expo-crypto";
-import { useObservationPresetStore } from "@/src/state/observationPresets/useObservationsStore";
-import { useObservationModalStore } from "@/src/state/observationPresets/useObservationsModalStore";
+import { useObservationPresetsStore } from "@/src/state/observationPresets/useObservationPresetsStore";
+import { useObservationPresetsModalStore } from "@/src/state/observationPresets/useObservationPresetsModalStore";
 import { presetBuilder } from "@/src/utils/observationPresets/presetBuilder";
 import ObservationPresetForm from "./ObservationPresetForm";
 
 export default function AddObservationPresetModal() {
-  const { addObservationPreset } = useObservationPresetStore();
-  const { open, setOpen, name, clearForm, uuid } = useObservationModalStore();
+  const { addObservationPreset } = useObservationPresetsStore();
+  const { open, setOpen, name, clearForm, uuid } =
+    useObservationPresetsModalStore();
 
   function submitForm() {
     if (!name) return;
     const submitUuid = uuid === "" ? Crypto.randomUUID() : uuid;
-    const state = useObservationModalStore.getState();
+    const state = useObservationPresetsModalStore.getState();
     const preset = presetBuilder[state.type]({ ...state, uuid: submitUuid });
     addObservationPreset(preset);
     clearForm();

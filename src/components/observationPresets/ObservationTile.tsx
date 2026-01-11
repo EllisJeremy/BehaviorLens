@@ -7,10 +7,10 @@ import {
   ActionSheetIOS,
 } from "react-native";
 import Octicons from "@expo/vector-icons/Octicons";
-import { useObservationModalStore } from "@/src/state/observationPresets/useObservationsModalStore";
+import { useObservationPresetsModalStore } from "@/src/state/observationPresets/useObservationPresetsModalStore";
 import { colors, fontSizes } from "@/src/utils/styles";
 import { ObservationPreset } from "@/src/types/observationTypes";
-import { useObservationPresetStore } from "@/src/state/observationPresets/useObservationsStore";
+import { useObservationPresetsStore } from "@/src/state/observationPresets/useObservationPresetsStore";
 import { typeToIcon } from "@/src/utils/observationPresets/typeToIcon";
 
 export default function ObservationTile({
@@ -18,7 +18,7 @@ export default function ObservationTile({
 }: {
   observationPreset: ObservationPreset;
 }) {
-  const { removeObservationPreset } = useObservationPresetStore();
+  const { removeObservationPreset } = useObservationPresetsStore();
   const {
     setName,
     setType,
@@ -26,7 +26,7 @@ export default function ObservationTile({
     setObservationIntervalSeconds,
     setOpen,
     setUuid,
-  } = useObservationModalStore();
+  } = useObservationPresetsModalStore();
 
   return (
     <View style={styles.tile}>
