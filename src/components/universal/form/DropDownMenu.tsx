@@ -10,7 +10,7 @@ export type Option<T = string> = {
   value: T;
 };
 
-export default function DropDownMenu({
+export default function DropDownMenu<T extends string | number>({
   title,
   options,
   value,
@@ -18,9 +18,9 @@ export default function DropDownMenu({
   backgroundColor = colors.offWhite,
 }: {
   title: string;
-  options: Option[];
+  options: Option<T>[];
   value: any;
-  setValue: (v: any) => void;
+  setValue: (v: T) => void;
   backgroundColor?: string;
 }) {
   const [open, setOpen] = useState(false);

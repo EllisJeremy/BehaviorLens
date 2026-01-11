@@ -1,7 +1,7 @@
 import React from "react";
 import FormContainer from "../universal/form/FormContainer";
 import { View } from "react-native";
-import DropDownMenu from "../universal/form/DropDownMenu";
+import DropDownMenu, { Option } from "../universal/form/DropDownMenu";
 import { useObservationPresetsModalStore } from "@/src/state/observationPresets/useObservationPresetsModalStore";
 import Input from "../universal/form/Input";
 import InputWithLabel from "../universal/form/InputWithLabel";
@@ -9,12 +9,24 @@ import {
   IntervalObservationPreset,
   BaseObservationPreset,
   ABCObservationPreset,
+  ObservationPresetEnum,
 } from "@/src/types/observationTypes";
 
 type FieldRenderer<T> = {
   key: string;
   render: React.ReactNode;
 };
+
+const intervalOptions: Option<number>[] = [
+  { label: "15 seconds", value: 15 },
+  { label: "30 seconds", value: 30 },
+  { label: "60 seconds", value: 60 },
+];
+
+const observationOptions: Option<ObservationPresetEnum>[] = [
+  { label: "interval", value: "interval" },
+  { label: "abc", value: "abc" },
+];
 
 export default function ObservationPresetForm() {
   const {
@@ -38,9 +50,9 @@ export default function ObservationPresetForm() {
             placeholder="Name"
             onChangeText={setName}
           />
-          <DropDownMenu
+          <DropDownMenu<ObservationPresetEnum>
             title="Observation Type"
-            options={["interval", "abc"]}
+            options={observationOptions}
             value={type}
             setValue={setType}
           />
@@ -56,7 +68,7 @@ export default function ObservationPresetForm() {
         <FormContainer title={"interval settings"}>
           <DropDownMenu
             title="Observation Interval"
-            options={["15 seconds", "30 seconds", "60 seconds"]}
+            options={intervalOptions}
             value={observationIntervalSeconds}
             setValue={setObservationIntervalSeconds}
           />
