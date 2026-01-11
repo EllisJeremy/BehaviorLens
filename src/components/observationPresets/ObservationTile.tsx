@@ -5,6 +5,7 @@ import {
   View,
   Image,
   ActionSheetIOS,
+  Alert,
 } from "react-native";
 import Octicons from "@expo/vector-icons/Octicons";
 import { useObservationPresetsModalStore } from "@/src/state/observationPresets/useObservationPresetsModalStore";
@@ -13,6 +14,9 @@ import { ObservationPreset } from "@/src/types/observationTypes";
 import { useObservationPresetsStore } from "@/src/state/observationPresets/useObservationPresetsStore";
 import { typeToIcon } from "@/src/utils/observationPresets/typeToIcon";
 import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";
+import { useStudentsStore } from "@/src/state/students/useStudentsStore";
+import { router } from "expo-router";
+import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStore";
 
 export default function ObservationTile({
   observationPreset,
@@ -29,9 +33,26 @@ export default function ObservationTile({
     setUuid,
   } = useObservationPresetsModalStore();
   const { setOpen: setOpenStartModal } = useStartObservationModalStore();
+  const { students } = useStudentsStore();
+  const { setOpen: setStudentOpen } = useStudentsModalStore();
 
   function startObservation() {
-    setOpenStartModal(true);
+    if (Object.keys(students).length > 0) {
+      setOpenStartModal(true);
+    } else {
+      Alert.alert(
+        "No Students",
+        "Observations require a student to be assigned to them. Create a student to continue.",
+        [
+          {
+            onPress: () => {
+              router.push("/Students");
+              setStudentOpen(true);
+            },
+          },
+        ]
+      );
+    }
   }
 
   return (

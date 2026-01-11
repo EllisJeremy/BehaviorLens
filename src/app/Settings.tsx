@@ -26,7 +26,6 @@ export default function Settings() {
       value: value,
     })
   );
-  console.log(settings);
 
   return (
     <View style={styles.container}>
