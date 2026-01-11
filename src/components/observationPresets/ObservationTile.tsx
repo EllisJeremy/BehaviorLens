@@ -17,6 +17,7 @@ import { useStartObservationModalStore } from "@/src/state/observations/useStart
 import { useStudentsStore } from "@/src/state/students/useStudentsStore";
 import { router } from "expo-router";
 import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStore";
+import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 
 export default function ObservationTile({
   observationPreset,
@@ -35,11 +36,10 @@ export default function ObservationTile({
   const { setOpen: setOpenStartModal } = useStartObservationModalStore();
   const { students } = useStudentsStore();
   const { setOpen: setStudentOpen } = useStudentsModalStore();
+  const { settings } = useSettingsStore();
 
   function startObservation() {
-    if (Object.keys(students).length > 0) {
-      setOpenStartModal(true);
-    } else {
+    if (Object.keys(students).length === 0) {
       Alert.alert(
         "No Students",
         "Observations require a student to be assigned to them. Create a student to continue.",
@@ -52,6 +52,28 @@ export default function ObservationTile({
           },
         ]
       );
+    } else if (settings.username === "") {
+      Alert.alert(
+        "No Username",
+        "You do not have a username set in settings. If you wish to continue without a name, the report for this observation will have a blank name",
+        [
+          {
+            text: "Set Name",
+            onPress: () => {
+              router.push("/Settings");
+            },
+          },
+          {
+            text: "Continue",
+            style: "destructive",
+            onPress: () => {
+              setOpenStartModal(true);
+            },
+          },
+        ]
+      );
+    } else {
+      setOpenStartModal(true);
     }
   }
 
