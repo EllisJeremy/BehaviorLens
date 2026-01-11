@@ -4,8 +4,10 @@ import FormContainer from "../components/universal/form/FormContainer";
 import InputWithLabel from "../components/universal/form/InputWithLabel";
 import { useSettingsUIStore } from "../state/settings/useSettingsUIStore";
 import { useSettingsStore } from "../state/settings/useSettingsStore";
-import DropDownMenu from "../components/universal/form/DropDownMenu";
 import { ThemeColor, themeColors } from "../utils/styles";
+import DropDownMenu, {
+  Option,
+} from "../components/universal/form/DropDownMenu";
 
 export default function Settings() {
   const { username, setUsername, themeColor, setThemeColor } =
@@ -17,6 +19,14 @@ export default function Settings() {
     setUsername(settings.username);
     setThemeColor(settings.themeColor);
   }, [settings]);
+
+  const themeColorOptions: Option<string>[] = Object.entries(themeColors).map(
+    ([key, value]) => ({
+      label: key,
+      value: value,
+    })
+  );
+  console.log(settings);
 
   return (
     <View style={styles.container}>
@@ -33,7 +43,7 @@ export default function Settings() {
         />
         <DropDownMenu
           title="Theme Color"
-          options={Object.keys(themeColors)}
+          options={themeColorOptions}
           value={themeColor}
           setValue={(v: ThemeColor) => {
             updateSettings("themeColor", v);

@@ -32,7 +32,7 @@ export default function InputWithLabel({
         style={[
           styles.input,
           { backgroundColor },
-          { color: themeColors[settings.themeColor] },
+          { color: settings.themeColor },
         ]}
         defaultValue={defaultValue}
         placeholder={placeholder}

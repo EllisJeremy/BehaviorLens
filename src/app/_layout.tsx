@@ -17,7 +17,7 @@ export default function RootLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: themeColors[settings.themeColor],
+        tabBarActiveTintColor: settings.themeColor,
         tabBarStyle: {
           paddingTop: 5,
           height: 85,

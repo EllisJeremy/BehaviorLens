@@ -1,15 +1,21 @@
 import SlideUpModal from "../universal/SlideUpModal";
 import FormContainer from "../universal/form/FormContainer";
-import Input from "../universal/form/Input";
 import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";
 import InputWithLabel from "../universal/form/InputWithLabel";
 import { useStudentsStore } from "@/src/state/students/useStudentsStore";
 import DropDownMenu from "../universal/form/DropDownMenu";
+import { Option } from "../universal/form/DropDownMenu";
 
 function StartObservationForm() {
   const { name, setName, studentUuid, setStudentUuid } =
     useStartObservationModalStore();
   const { students } = useStudentsStore();
+
+  const studentOptions: Option<string>[] = Object.values(students).map((s) => ({
+    label: `${s.firstName} ${s.lastName}`,
+    value: s.uuid,
+  }));
+
   return (
     <FormContainer>
       <InputWithLabel
@@ -20,7 +26,7 @@ function StartObservationForm() {
       />
       <DropDownMenu
         title="Assign Student"
-        options={Object.keys(students)}
+        options={studentOptions}
         value={studentUuid}
         setValue={setStudentUuid}
       />

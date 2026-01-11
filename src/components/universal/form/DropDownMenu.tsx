@@ -1,10 +1,14 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
-import { colors, fontSizes } from "@/src/utils/styles";
+import { colors, fontSizes, themeColors } from "@/src/utils/styles";
 import Popover from "react-native-popover-view";
 import { useState } from "react";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
-import { themeColors } from "@/src/utils/styles";
+
+export type Option<T = string> = {
+  label: string;
+  value: T;
+};
 
 export default function DropDownMenu({
   title,
@@ -14,13 +18,15 @@ export default function DropDownMenu({
   backgroundColor = colors.offWhite,
 }: {
   title: string;
-  options: string[];
+  options: Option[];
   value: any;
   setValue: (v: any) => void;
   backgroundColor?: string;
 }) {
   const [open, setOpen] = useState(false);
   const { settings } = useSettingsStore();
+  const selectedOption = options.find((o) => o.value === value);
+
   return (
     <Pressable
       style={[styles.container, { backgroundColor }]}
@@ -36,16 +42,11 @@ export default function DropDownMenu({
         arrowSize={{ width: 0, height: 0 }}
         from={
           <View style={styles.button}>
-            <Text
-              style={[
-                styles.buttonText,
-                { color: themeColors[settings.themeColor] },
-              ]}
-            >
-              {value}
+            <Text style={[styles.buttonText, { color: settings.themeColor }]}>
+              {selectedOption?.label ?? "Select"}
             </Text>
             <Entypo
-              style={[styles.icon, { color: themeColors[settings.themeColor] }]}
+              style={[styles.icon, { color: settings.themeColor }]}
               name="select-arrows"
             />
           </View>
@@ -54,23 +55,20 @@ export default function DropDownMenu({
         <View style={styles.menu}>
           {options.map((opt) => (
             <Pressable
-              key={opt}
+              key={opt.value}
               style={({ pressed }) => [
                 styles.menuItem,
                 pressed && styles.menuItemPressed,
               ]}
               onPress={() => {
-                setValue(opt);
+                setValue(opt.value);
                 setOpen(false);
               }}
             >
-              <Text style={styles.text}>{opt}</Text>
-              {opt === value && (
+              <Text style={styles.text}>{opt.label}</Text>
+              {opt.value === value && (
                 <Entypo
-                  style={[
-                    styles.icon,
-                    { color: themeColors[settings.themeColor] },
-                  ]}
+                  style={[styles.icon, { color: settings.themeColor }]}
                   name="check"
                 />
               )}
