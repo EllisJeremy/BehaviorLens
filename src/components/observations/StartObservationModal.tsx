@@ -4,7 +4,8 @@ import { useStartObservationModalStore } from "@/src/state/observations/useStart
 import InputWithLabel from "../universal/form/InputWithLabel";
 import { useStudentsStore } from "@/src/state/students/useStudentsStore";
 import DropDownMenu, { Option } from "../universal/form/DropDownMenu";
-import { View, Text } from "react-native";
+import { View } from "react-native";
+import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
 
 function StartObservationForm() {
   const { name, setName, studentUuid, setStudentUuid } =
@@ -36,10 +37,15 @@ function StartObservationForm() {
   );
 }
 export default function StartObservationModal() {
-  const { open, setOpen, name, clearForm } = useStartObservationModalStore();
+  const { open, setOpen, name, clearForm, preset } =
+    useStartObservationModalStore();
+  const { start } = useIntervalObservationStore();
 
   function submitForm() {
-    if (!name) return;
+    if (!name || preset?.type !== "interval") return;
+    setOpen(false);
+    start(preset.numberOfObservations);
+
     console.log("starting...");
   }
 

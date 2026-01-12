@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   title: {
     color: colors.gray,
     marginLeft: 15,
-    fontSize: fontSizes.smallTitle,
+    fontSize: fontSizes.small,
   },
   outer: {
     borderRadius: 15,

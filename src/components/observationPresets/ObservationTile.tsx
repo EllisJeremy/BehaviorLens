@@ -35,47 +35,49 @@ export default function ObservationTile({
     setOffTask,
     setOnTask,
   } = useObservationPresetsModalStore();
-  const { setOpen: setOpenStartModal } = useStartObservationModalStore();
+  const { openWithPreset } = useStartObservationModalStore();
   const { students } = useStudentsStore();
   const { setOpen: setStudentOpen } = useStudentsModalStore();
   const { settings } = useSettingsStore();
 
   function startObservation() {
-    if (Object.keys(students).length === 0) {
-      Alert.alert(
-        "No Students",
-        "Observations require a student to be assigned to them. Create a student to continue.",
-        [
-          {
-            onPress: () => {
-              router.push("/Students");
-              setStudentOpen(true);
+    if (observationPreset.type === "interval") {
+      if (Object.keys(students).length === 0) {
+        Alert.alert(
+          "No Students",
+          "Observations require a student to be assigned to them. Create a student to continue.",
+          [
+            {
+              onPress: () => {
+                router.push("/Students");
+                setStudentOpen(true);
+              },
             },
-          },
-        ]
-      );
-    } else if (settings.username === "") {
-      Alert.alert(
-        "No Username",
-        "You do not have a username set in settings. If you wish to continue without a name, the report for this observation will have a blank name",
-        [
-          {
-            text: "Set Name",
-            onPress: () => {
-              router.push("/Settings");
+          ]
+        );
+      } else if (settings.username === "") {
+        Alert.alert(
+          "No Username",
+          "You do not have a username set in settings. If you wish to continue without a name, the report for this observation will have a blank name",
+          [
+            {
+              text: "Set Name",
+              onPress: () => {
+                router.push("/Settings");
+              },
             },
-          },
-          {
-            text: "Continue",
-            style: "destructive",
-            onPress: () => {
-              setOpenStartModal(true);
+            {
+              text: "Continue",
+              style: "destructive",
+              onPress: () => {
+                openWithPreset(observationPreset);
+              },
             },
-          },
-        ]
-      );
-    } else {
-      setOpenStartModal(true);
+          ]
+        );
+      } else {
+        openWithPreset(observationPreset);
+      }
     }
   }
 

@@ -1,38 +1,42 @@
 import { create } from "zustand";
-import { ObservationPresetEnum } from "@/src/types/observationTypes";
+import { ObservationPreset } from "@/src/types/observationTypes";
 
-export type StartObservationModalStore = {
+type State = {
   open: boolean;
-  setOpen: (val: boolean) => void;
+  setOpen: (v: boolean) => void;
+  preset: ObservationPreset | null;
 
   name: string;
-  setName: (v: string) => void;
   studentUuid: string;
-  setStudentUuid: (v: string) => void;
-  type: ObservationPresetEnum;
-  setType: (v: ObservationPresetEnum) => void;
 
+  openWithPreset: (preset: ObservationPreset) => void;
+  setName: (v: string) => void;
+  setStudentUuid: (v: string) => void;
   clearForm: () => void;
 };
 
-export const useStartObservationModalStore = create<StartObservationModalStore>(
-  (set) => ({
-    open: false,
-    setOpen: (val) => set({ open: val }),
+export const useStartObservationModalStore = create<State>((set) => ({
+  open: false,
+  setOpen: (v) => set({ open: v }),
+  preset: null,
 
-    name: "",
-    setName: (v) => set({ name: v }),
-    studentUuid: "",
-    setStudentUuid: (v) => set({ studentUuid: v }),
-    type: "interval",
-    setType: (v) => set({ type: v }),
+  name: "",
+  studentUuid: "",
 
-    clearForm: () =>
-      set({
-        open: false,
-        name: "",
-        studentUuid: "",
-        type: "interval",
-      }),
-  })
-);
+  openWithPreset: (preset) =>
+    set({
+      open: true,
+      preset,
+    }),
+
+  setName: (v) => set({ name: v }),
+  setStudentUuid: (v) => set({ studentUuid: v }),
+
+  clearForm: () =>
+    set({
+      open: false,
+      preset: null,
+      name: "",
+      studentUuid: "",
+    }),
+}));

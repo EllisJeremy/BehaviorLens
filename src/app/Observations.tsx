@@ -7,11 +7,14 @@ import { useObservationPresetsModalStore } from "../state/observationPresets/use
 import { useObservationPresetsStore } from "../state/observationPresets/useObservationPresetsStore";
 import PlusButton from "../components/universal/PlusButton";
 import StartObservationModal from "../components/observations/StartObservationModal";
+import IntervalObservationModal from "../components/observations/interval/IntervalObservationModal";
+import { useStartObservationModalStore } from "../state/observations/useStartObservationModalStore";
 
 export default function Observations() {
   const { loadObservationPresets, observationPresets } =
     useObservationPresetsStore();
   const { setOpen } = useObservationPresetsModalStore();
+  const { preset } = useStartObservationModalStore();
 
   useEffect(() => {
     loadObservationPresets();
@@ -46,6 +49,7 @@ export default function Observations() {
 
       <AddObservationPresetModal />
       <StartObservationModal />
+      {preset && <IntervalObservationModal preset={preset} />}
     </View>
   );
 }

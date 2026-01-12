@@ -32,12 +32,7 @@ export default function SlideUpModal({
   const { settings } = useSettingsStore();
 
   return (
-    <Modal
-      isVisible={modalOpen}
-      onBackdropPress={() => setModalOpen(false)}
-      style={styles.modal}
-      avoidKeyboard={false}
-    >
+    <Modal isVisible={modalOpen} style={styles.modal} avoidKeyboard={false}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={styles.container}
