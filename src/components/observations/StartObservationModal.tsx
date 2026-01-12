@@ -32,9 +32,6 @@ function StartObservationForm() {
           setValue={setStudentUuid}
         />
       </FormContainer>
-      <FormContainer title="observation details">
-        <Text>asd</Text>
-      </FormContainer>
     </View>
   );
 }

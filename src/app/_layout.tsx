@@ -4,13 +4,16 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { themeColors } from "../utils/styles";
 import { useSettingsStore } from "../state/settings/useSettingsStore";
 import { useEffect } from "react";
+import { useStudentsStore } from "../state/students/useStudentsStore";
 
 import { Tabs } from "expo-router";
 
 export default function RootLayout() {
   const { settings, loadSettings } = useSettingsStore();
+  const { loadStudents } = useStudentsStore();
   useEffect(() => {
     loadSettings();
+    loadStudents();
   }, []);
 
   return (

@@ -105,7 +105,7 @@ export default function ObservationPresetForm() {
     {
       key: "offTaskList",
       render: (
-        <FormContainer title={"on task options"}>
+        <FormContainer title={"off task options"}>
           <EditableStringList
             values={offTaskList}
             onAdd={addOffTask}
