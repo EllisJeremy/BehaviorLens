@@ -39,14 +39,17 @@ function StartObservationForm() {
 export default function StartObservationModal() {
   const { open, setOpen, name, clearForm, preset } =
     useStartObservationModalStore();
-  const { start } = useIntervalObservationStore();
+  const { start, setOpen: setOpen2 } = useIntervalObservationStore();
 
   function submitForm() {
     if (!name || preset?.type !== "interval") return;
     setOpen(false);
-    start(preset.numberOfObservations);
 
-    console.log("starting...");
+    // Wait for the first modal to finish closing before opening the second
+    setTimeout(() => {
+      start(preset.numberOfObservations);
+      console.log("starting...");
+    }, 300); // 300ms is typical for modal animations
   }
 
   return (

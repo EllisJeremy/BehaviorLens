@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 type IntervalObservationState = {
   open: boolean;
+  setOpen: (v: boolean) => void;
 
   currentInterval: number;
   observations: (string | null)[];
@@ -19,6 +20,7 @@ type IntervalObservationState = {
 export const useIntervalObservationStore = create<IntervalObservationState>(
   (set) => ({
     open: false,
+    setOpen: (v) => set({ open: v }),
 
     currentInterval: 0,
     observations: [],
