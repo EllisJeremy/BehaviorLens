@@ -82,6 +82,26 @@ export default function ObservationPresetForm() {
         </FormContainer>
       ),
     },
+    {
+      key: "onTaskList",
+      render: (
+        <FormContainer title={"on task list"}>
+          <DropDownMenu
+            title="Observation Interval"
+            options={intervalOptions}
+            value={observationIntervalSeconds}
+            setValue={setObservationIntervalSeconds}
+          />
+          <InputWithLabel
+            defaultValue={String(numberOfObservations)}
+            placeholder="Number"
+            keyboardType="numeric"
+            onChangeText={(v: string) => setNumberOfObservations(Number(v))}
+            label="Number of Observations"
+          />
+        </FormContainer>
+      ),
+    },
   ];
 
   const abcFields: FieldRenderer<ABCObservationPreset>[] = [];
