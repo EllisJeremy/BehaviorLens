@@ -1,8 +1,8 @@
 import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
 import { colors, fontSizes } from "@/src/utils/styles";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
-import Octicons from "@expo/vector-icons/Octicons";
 import { useState } from "react";
+import Feather from "@expo/vector-icons/Feather";
 
 export default function EditableStringList({
   values,
@@ -38,7 +38,7 @@ export default function EditableStringList({
             hitSlop={10}
             style={styles.icon}
           >
-            <Octicons name="trash" size={16} color={colors.red} />
+            <Feather name="x" size={16} color={colors.red} />
           </Pressable>
         </View>
       ))}
