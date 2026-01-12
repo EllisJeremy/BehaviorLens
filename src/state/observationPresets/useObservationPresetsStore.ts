@@ -2,13 +2,6 @@ import { create } from "zustand";
 import { loadObject, saveObject } from "../../utils/storage/storage";
 import { ObservationPreset } from "@/src/types/observationTypes";
 
-export type IntervalObservationPresetType = {
-  uuid: string;
-  name: string;
-  numberOfObservations: number;
-  observationIntervalSeconds: number;
-};
-
 type ObservationPresetStore = {
   observationPresets: Record<string, ObservationPreset>;
 

@@ -32,6 +32,8 @@ export default function ObservationTile({
     setObservationIntervalSeconds,
     setOpen,
     setUuid,
+    setOffTask,
+    setOnTask,
   } = useObservationPresetsModalStore();
   const { setOpen: setOpenStartModal } = useStartObservationModalStore();
   const { students } = useStudentsStore();
@@ -99,11 +101,14 @@ export default function ObservationTile({
             setUuid(observationPreset.uuid);
             setName(observationPreset.name);
             setType(observationPreset.type);
+
             if (observationPreset.type === "interval") {
               setNumberOfObservations(observationPreset.numberOfObservations);
               setObservationIntervalSeconds(
                 observationPreset.observationIntervalSeconds
               );
+              setOnTask(observationPreset.onTaskList);
+              setOffTask(observationPreset.offTaskList);
             }
             setOpen(true);
           }}

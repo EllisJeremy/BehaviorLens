@@ -15,6 +15,8 @@ export const presetBuilder: Record<
     name: state.name,
     numberOfObservations: state.numberOfObservations,
     observationIntervalSeconds: state.observationIntervalSeconds,
+    onTaskList: state.onTaskList,
+    offTaskList: state.offTaskList,
   }),
 
   abc: (state) => ({

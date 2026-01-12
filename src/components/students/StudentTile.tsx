@@ -6,12 +6,10 @@ import {
   ActionSheetIOS,
 } from "react-native";
 import Octicons from "@expo/vector-icons/Octicons";
-import {
-  useStudentsStore,
-  StudentType,
-} from "@/src/state/students/useStudentsStore";
+import { useStudentsStore } from "@/src/state/students/useStudentsStore";
 import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStore";
 import { colors, fontSizes } from "@/src/utils/styles";
+import { StudentType } from "@/src/types/studentType";
 
 export default function StudentTile({
   uuid,

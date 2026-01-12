@@ -10,6 +10,8 @@ export type IntervalObservationPreset = BaseObservationPreset & {
   type: "interval";
   numberOfObservations: number;
   observationIntervalSeconds: number;
+  onTaskList: string[];
+  offTaskList: string[];
 };
 
 export type ABCObservationPreset = BaseObservationPreset & {
