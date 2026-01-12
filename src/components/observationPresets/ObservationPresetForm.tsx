@@ -11,6 +11,7 @@ import {
   ABCObservationPreset,
   ObservationPresetEnum,
 } from "@/src/types/observationTypes";
+import EditableStringList from "../universal/form/EditableStringList";
 
 type FieldRenderer<T> = {
   key: string;
@@ -38,6 +39,12 @@ export default function ObservationPresetForm() {
     setNumberOfObservations,
     observationIntervalSeconds,
     setObservationIntervalSeconds,
+    onTaskList,
+    addOnTask,
+    removeOnTask,
+    offTaskList,
+    addOffTask,
+    removeOffTask,
   } = useObservationPresetsModalStore();
 
   const baseFields: FieldRenderer<BaseObservationPreset>[] = [
@@ -86,18 +93,11 @@ export default function ObservationPresetForm() {
       key: "onTaskList",
       render: (
         <FormContainer title={"on task list"}>
-          <DropDownMenu
-            title="Observation Interval"
-            options={intervalOptions}
-            value={observationIntervalSeconds}
-            setValue={setObservationIntervalSeconds}
-          />
-          <InputWithLabel
-            defaultValue={String(numberOfObservations)}
-            placeholder="Number"
-            keyboardType="numeric"
-            onChangeText={(v: string) => setNumberOfObservations(Number(v))}
-            label="Number of Observations"
+          <EditableStringList
+            values={onTaskList}
+            onAdd={addOnTask}
+            onRemove={removeOnTask}
+            placeholder="Add behavior"
           />
         </FormContainer>
       ),

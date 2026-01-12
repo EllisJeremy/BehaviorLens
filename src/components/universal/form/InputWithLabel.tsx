@@ -7,7 +7,6 @@ import {
   Text,
 } from "react-native";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
-import { themeColors } from "@/src/utils/styles";
 
 export default function InputWithLabel({
   defaultValue,
