@@ -45,7 +45,9 @@ export default function IntervalObservationModal({
     observationIntervalSeconds,
     numberOfObservations,
   ]);
-
+  console.log("here");
+  console.log(preset);
+  console.log(open);
   return (
     <SlideUpModal
       modalOpen={open}

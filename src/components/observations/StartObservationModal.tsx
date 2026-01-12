@@ -37,19 +37,18 @@ function StartObservationForm() {
   );
 }
 export default function StartObservationModal() {
-  const { open, setOpen, name, clearForm, preset } =
+  const { open, setOpen, name, studentUuid, clearForm, preset } =
     useStartObservationModalStore();
-  const { start, setOpen: setOpen2 } = useIntervalObservationStore();
+  const { start } = useIntervalObservationStore();
 
   function submitForm() {
-    if (!name || preset?.type !== "interval") return;
+    if (!name || !studentUuid || preset?.type !== "interval") return;
     setOpen(false);
 
-    // Wait for the first modal to finish closing before opening the second
     setTimeout(() => {
       start(preset.numberOfObservations);
       console.log("starting...");
-    }, 300); // 300ms is typical for modal animations
+    }, 300);
   }
 
   return (
