@@ -58,7 +58,7 @@ export default function StartObservationModal() {
       console.log("About to start with preset:", preset);
       start(preset.numberOfObservations);
       console.log("starting...");
-    }, 300);
+    }, 400);
   }
 
   return (
