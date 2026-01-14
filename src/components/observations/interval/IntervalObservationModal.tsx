@@ -4,6 +4,7 @@ import SlideUpModal from "../../universal/SlideUpModal";
 import IntervalTile from "./IntervalTile";
 import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
 import { IntervalObservationPreset } from "@/src/types/observationTypes";
+import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";
 
 export default function IntervalObservationModal({
   preset,
@@ -19,6 +20,7 @@ export default function IntervalObservationModal({
     setObservation,
     paused,
   } = useIntervalObservationStore();
+  const { clearForm } = useStartObservationModalStore();
 
   const {
     observationIntervalSeconds,
@@ -48,13 +50,22 @@ export default function IntervalObservationModal({
   console.log("here");
   console.log(preset);
   console.log(open);
+  function exit() {
+    cancel(); // Close the interval modal first
+
+    // Wait for modal animation to complete before clearing preset
+    setTimeout(() => {
+      clearForm(); // Clear the start observation form
+    }, 300);
+  }
+
   return (
     <SlideUpModal
       modalOpen={open}
       setModalOpen={() => {}}
       title="Interval Observation"
-      clearForm={cancel}
-      submitForm={cancel} // save handled later
+      clearForm={exit}
+      submitForm={exit} // save handled later
       form={
         <ScrollView
           showsVerticalScrollIndicator={false}

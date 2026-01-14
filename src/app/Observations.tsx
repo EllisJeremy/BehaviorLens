@@ -19,6 +19,7 @@ export default function Observations() {
   useEffect(() => {
     loadObservationPresets();
   }, []);
+  console.log(preset);
 
   return (
     <View style={styles.container}>
