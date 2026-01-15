@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ObservationPresetEnum } from "@/src/types/observationTypes";
+import { ObservationPresetEnum } from "@/src/types/observations/observationTypes";
 
 const defaultOnTaskList = [
   "Engaged in Lesson",

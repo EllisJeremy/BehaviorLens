@@ -3,9 +3,10 @@ import { useEffect } from "react";
 import SlideUpModal from "../../universal/SlideUpModal";
 import IntervalTile from "./IntervalTile";
 import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
-import { IntervalObservationPreset } from "@/src/types/observationTypes";
+import { IntervalObservationPreset } from "@/src/types/observations/observationTypes";
 import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";
 import { constants } from "@/src/utils/constants";
+import { IntervalObservation } from "@/src/types/observations/intervalTypes";
 
 export default function IntervalObservationModal({
   preset,
@@ -72,10 +73,10 @@ export default function IntervalObservationModal({
             <IntervalTile
               key={i}
               index={i}
-              value={observations[i]}
+              observation={observations[i]}
               onTaskList={onTaskList}
               offTaskList={offTaskList}
-              setValue={(v) => setObservation(i, v)}
+              setObservation={(v: IntervalObservation) => setObservation(i, v)}
             />
           ))}
         </ScrollView>

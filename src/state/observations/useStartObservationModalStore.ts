@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ObservationPreset } from "@/src/types/observationTypes";
+import { ObservationPreset } from "@/src/types/observations/observationTypes";
 
 type State = {
   open: boolean;

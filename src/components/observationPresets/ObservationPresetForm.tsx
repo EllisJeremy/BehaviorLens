@@ -10,7 +10,7 @@ import {
   BaseObservationPreset,
   ABCObservationPreset,
   ObservationPresetEnum,
-} from "@/src/types/observationTypes";
+} from "@/src/types/observations/observationTypes";
 import EditableStringList from "../universal/form/EditableStringList";
 
 type FieldRenderer<T> = {

@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import DropDownMenu, { Option } from "../../universal/form/DropDownMenu";
 import { fontSizes, colors } from "@/src/utils/styles";
+import { IntervalObservation } from "@/src/types/observations/intervalTypes";
 
 function toOptions(values: string[]): Option<string>[] {
   return values.map((v) => ({
@@ -11,37 +12,39 @@ function toOptions(values: string[]): Option<string>[] {
 
 export default function IntervalTile({
   index,
-  value,
+  observation,
   onTaskList,
   offTaskList,
-  setValue,
+  setObservation,
 }: {
   index: number;
-  value: string | null;
+  observation: IntervalObservation | null;
   onTaskList: string[];
   offTaskList: string[];
-  setValue: (v: string) => void;
+  setObservation: (v: IntervalObservation) => void;
 }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Interval {index + 1}</Text>
-        <Text style={styles.value}>{value ?? "No observation"}</Text>
+        <Text style={styles.value}>
+          {observation?.value ?? "No observation"}
+        </Text>
       </View>
 
       <View style={styles.controls}>
         <DropDownMenu
           title="On task"
           options={toOptions(onTaskList)}
-          value={value ?? ""}
-          setValue={setValue}
+          value={""}
+          setValue={() => {}}
         />
 
         <DropDownMenu
           title="Off task"
           options={toOptions(offTaskList)}
-          value={value ?? ""}
-          setValue={setValue}
+          value={""}
+          setValue={() => {}}
         />
       </View>
     </View>

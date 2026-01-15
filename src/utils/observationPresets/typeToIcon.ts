@@ -1,4 +1,4 @@
-import { ObservationPresetEnum } from "@/src/types/observationTypes";
+import { ObservationPresetEnum } from "@/src/types/observations/observationTypes";
 import stopwatch from "@/assets/stopwatch.png";
 import abcSquares from "@/assets/abcSquares.png";
 

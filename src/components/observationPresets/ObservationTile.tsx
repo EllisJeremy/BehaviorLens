@@ -10,7 +10,7 @@ import {
 import Octicons from "@expo/vector-icons/Octicons";
 import { useObservationPresetsModalStore } from "@/src/state/observationPresets/useObservationPresetsModalStore";
 import { colors, fontSizes } from "@/src/utils/styles";
-import { ObservationPreset } from "@/src/types/observationTypes";
+import { ObservationPreset } from "@/src/types/observations/observationTypes";
 import { useObservationPresetsStore } from "@/src/state/observationPresets/useObservationPresetsStore";
 import { typeToIcon } from "@/src/utils/observationPresets/typeToIcon";
 import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";

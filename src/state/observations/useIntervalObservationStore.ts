@@ -1,17 +1,18 @@
 import { create } from "zustand";
+import { IntervalObservation } from "@/src/types/observations/intervalTypes";
 
 type IntervalObservationState = {
   open: boolean;
   setOpen: (v: boolean) => void;
 
   currentInterval: number;
-  observations: (string | null)[];
+  observations: (IntervalObservation | null)[];
   paused: boolean;
   startedAt: number | null;
 
   start: (totalIntervals: number) => void;
 
-  setObservation: (index: number, value: string) => void;
+  setObservation: (index: number, observation: IntervalObservation) => void;
   nextInterval: (totalIntervals: number) => void;
   togglePause: () => void;
   clearForm: () => void;

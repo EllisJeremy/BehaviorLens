@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { loadObject, saveObject } from "../../utils/storage/storage";
-import { ObservationPreset } from "@/src/types/observationTypes";
+import { ObservationPreset } from "@/src/types/observations/observationTypes";
 
 type ObservationPresetStore = {
   observationPresets: Record<string, ObservationPreset>;
