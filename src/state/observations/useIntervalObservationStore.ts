@@ -14,7 +14,7 @@ type IntervalObservationState = {
   setObservation: (index: number, value: string) => void;
   nextInterval: (totalIntervals: number) => void;
   togglePause: () => void;
-  cancel: () => void;
+  clearForm: () => void;
 };
 
 export const useIntervalObservationStore = create<IntervalObservationState>(
@@ -50,7 +50,7 @@ export const useIntervalObservationStore = create<IntervalObservationState>(
 
     togglePause: () => set((state) => ({ paused: !state.paused })),
 
-    cancel: () =>
+    clearForm: () =>
       set({
         open: false,
         currentInterval: 0,

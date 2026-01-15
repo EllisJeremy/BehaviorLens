@@ -5,6 +5,7 @@ import IntervalTile from "./IntervalTile";
 import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
 import { IntervalObservationPreset } from "@/src/types/observationTypes";
 import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";
+import { constants } from "@/src/utils/constants";
 
 export default function IntervalObservationModal({
   preset,
@@ -13,14 +14,14 @@ export default function IntervalObservationModal({
 }) {
   const {
     open,
-    cancel,
+    clearForm,
     currentInterval,
     observations,
     nextInterval,
     setObservation,
     paused,
   } = useIntervalObservationStore();
-  const { clearForm } = useStartObservationModalStore();
+  const { clearForm: clearStartForm } = useStartObservationModalStore();
 
   const {
     observationIntervalSeconds,
@@ -29,7 +30,6 @@ export default function IntervalObservationModal({
     offTaskList,
   } = preset;
 
-  // interval timer
   useEffect(() => {
     if (!open || paused) return;
     if (currentInterval >= numberOfObservations) return;
@@ -47,16 +47,13 @@ export default function IntervalObservationModal({
     observationIntervalSeconds,
     numberOfObservations,
   ]);
-  console.log("here");
-  console.log(preset);
-  console.log(open);
-  function exit() {
-    cancel(); // Close the interval modal first
 
-    // Wait for modal animation to complete before clearing preset
+  function exit() {
+    clearForm();
+
     setTimeout(() => {
-      clearForm(); // Clear the start observation form
-    }, 300);
+      clearStartForm();
+    }, constants.modalDelay);
   }
 
   return (
@@ -65,7 +62,7 @@ export default function IntervalObservationModal({
       setModalOpen={() => {}}
       title="Interval Observation"
       clearForm={exit}
-      submitForm={exit} // save handled later
+      submitForm={exit}
       form={
         <ScrollView
           showsVerticalScrollIndicator={false}

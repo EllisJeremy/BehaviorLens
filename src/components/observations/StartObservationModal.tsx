@@ -6,6 +6,7 @@ import { useStudentsStore } from "@/src/state/students/useStudentsStore";
 import DropDownMenu, { Option } from "../universal/form/DropDownMenu";
 import { View } from "react-native";
 import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
+import { constants } from "@/src/utils/constants";
 
 function StartObservationForm() {
   const { name, setName, studentUuid, setStudentUuid } =
@@ -58,7 +59,7 @@ export default function StartObservationModal() {
       console.log("About to start with preset:", preset);
       start(preset.numberOfObservations);
       console.log("starting...");
-    }, 400);
+    }, constants.modalDelay);
   }
 
   return (
