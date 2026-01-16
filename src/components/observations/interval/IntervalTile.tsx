@@ -2,49 +2,55 @@ import { View, Text, StyleSheet } from "react-native";
 import DropDownMenu, { Option } from "../../universal/form/DropDownMenu";
 import { fontSizes, colors } from "@/src/utils/styles";
 import { IntervalObservation } from "@/src/types/observations/intervalTypes";
-
-function toOptions(values: string[]): Option<string>[] {
-  return values.map((v) => ({
-    label: v,
-    value: v,
-  }));
-}
+import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
+import { listToOptions } from "@/src/utils/listToOptions";
+import MiniDropDownMenu from "./MiniDropDownMenu";
 
 export default function IntervalTile({
   index,
   observation,
   onTaskList,
   offTaskList,
-  setObservation,
 }: {
   index: number;
   observation: IntervalObservation | null;
   onTaskList: string[];
   offTaskList: string[];
-  setObservation: (v: IntervalObservation) => void;
 }) {
+  const { setObservation } = useIntervalObservationStore();
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Interval {index + 1}</Text>
-        <Text style={styles.value}>
+        <Text
+          style={[
+            styles.value,
+            {
+              color: observation
+                ? observation.isOnTask
+                  ? colors.green
+                  : colors.red
+                : colors.gray,
+            },
+          ]}
+        >
           {observation?.value ?? "No observation"}
         </Text>
       </View>
 
       <View style={styles.controls}>
-        <DropDownMenu
-          title="On task"
-          options={toOptions(onTaskList)}
-          value={""}
-          setValue={() => {}}
+        <MiniDropDownMenu
+          options={listToOptions(onTaskList)}
+          setValue={setObservation}
+          index={index}
+          isOnTask={true}
         />
 
-        <DropDownMenu
-          title="Off task"
-          options={toOptions(offTaskList)}
-          value={""}
-          setValue={() => {}}
+        <MiniDropDownMenu
+          options={listToOptions(offTaskList)}
+          setValue={setObservation}
+          index={index}
+          isOnTask={false}
         />
       </View>
     </View>
@@ -57,13 +63,16 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 12,
     marginBottom: 12,
-  },
-
-  header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 8,
+  },
+
+  header: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    gap: 10,
+    maxWidth: "40%",
   },
 
   title: {
@@ -72,11 +81,12 @@ export const styles = StyleSheet.create({
   },
 
   value: {
-    fontSize: fontSizes.small,
+    fontSize: fontSizes.text,
     color: colors.gray,
   },
 
   controls: {
-    gap: 8,
+    gap: 30,
+    flexDirection: "row",
   },
 });

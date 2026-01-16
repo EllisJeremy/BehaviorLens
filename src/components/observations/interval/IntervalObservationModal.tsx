@@ -76,7 +76,6 @@ export default function IntervalObservationModal({
               observation={observations[i]}
               onTaskList={onTaskList}
               offTaskList={offTaskList}
-              setObservation={(v: IntervalObservation) => setObservation(i, v)}
             />
           ))}
         </ScrollView>

@@ -9,6 +9,7 @@ import PlusButton from "../components/universal/PlusButton";
 import StartObservationModal from "../components/observations/StartObservationModal";
 import IntervalObservationModal from "../components/observations/interval/IntervalObservationModal";
 import { useStartObservationModalStore } from "../state/observations/useStartObservationModalStore";
+import IntervalTile from "../components/observations/interval/IntervalTile";
 
 export default function Observations() {
   const { loadObservationPresets, observationPresets } =
@@ -47,7 +48,14 @@ export default function Observations() {
       )}
 
       <PlusButton onPress={() => setOpen(true)} />
-
+      <IntervalTile
+        key={1}
+        index={1}
+        observation={null}
+        onTaskList={["a", "b", "c"]}
+        offTaskList={["a", "b", "c"]}
+        setObservation={() => {}}
+      />
       <AddObservationPresetModal />
       <StartObservationModal />
       {preset && <IntervalObservationModal preset={preset} />}

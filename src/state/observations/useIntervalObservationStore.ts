@@ -12,7 +12,7 @@ type IntervalObservationState = {
 
   start: (totalIntervals: number) => void;
 
-  setObservation: (index: number, observation: IntervalObservation) => void;
+  setObservation: (index: number, value: string, isOnTask: boolean) => void;
   nextInterval: (totalIntervals: number) => void;
   togglePause: () => void;
   clearForm: () => void;
@@ -37,10 +37,15 @@ export const useIntervalObservationStore = create<IntervalObservationState>(
         startedAt: Date.now(),
       }),
 
-    setObservation: (index, value) =>
+    setObservation: (index, value, isOnTask) =>
       set((state) => {
         const next = [...state.observations];
-        next[index] = value;
+        const currObservation: IntervalObservation = {
+          isOnTask,
+          value,
+          timestamp: new Date().toISOString(),
+        };
+        next[index] = currObservation;
         return { observations: next };
       }),
 
