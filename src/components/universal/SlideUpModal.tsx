@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingBottom: 10,
+    paddingBottom: 20,
   },
   title: {
     position: "absolute",

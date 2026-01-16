@@ -20,8 +20,8 @@ export default function IntervalTile({
   const { setObservation } = useIntervalObservationStore();
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Interval {index + 1}</Text>
+      <Text style={styles.title}>Interval {index + 1}</Text>
+      <View style={styles.content}>
         <Text
           style={[
             styles.value,
@@ -36,22 +36,22 @@ export default function IntervalTile({
         >
           {observation?.value ?? "No observation"}
         </Text>
-      </View>
 
-      <View style={styles.controls}>
-        <MiniDropDownMenu
-          options={listToOptions(onTaskList)}
-          setValue={setObservation}
-          index={index}
-          isOnTask={true}
-        />
+        <View style={styles.controls}>
+          <MiniDropDownMenu
+            options={listToOptions(onTaskList)}
+            setValue={setObservation}
+            index={index}
+            isOnTask={true}
+          />
 
-        <MiniDropDownMenu
-          options={listToOptions(offTaskList)}
-          setValue={setObservation}
-          index={index}
-          isOnTask={false}
-        />
+          <MiniDropDownMenu
+            options={listToOptions(offTaskList)}
+            setValue={setObservation}
+            index={index}
+            isOnTask={false}
+          />
+        </View>
       </View>
     </View>
   );
@@ -63,18 +63,14 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 12,
     marginBottom: 12,
+    gap: 10,
+  },
+  content: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    gap: 20,
   },
-
-  header: {
-    flexDirection: "column",
-    justifyContent: "space-between",
-    gap: 10,
-    maxWidth: "40%",
-  },
-
   title: {
     fontSize: fontSizes.text,
     fontWeight: "500",
@@ -83,10 +79,11 @@ export const styles = StyleSheet.create({
   value: {
     fontSize: fontSizes.text,
     color: colors.gray,
+    maxWidth: "40%",
   },
 
   controls: {
-    gap: 30,
+    gap: 20,
     flexDirection: "row",
   },
 });
