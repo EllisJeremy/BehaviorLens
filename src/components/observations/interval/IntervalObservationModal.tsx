@@ -10,6 +10,7 @@ import { IntervalObservation } from "@/src/types/observations/intervalTypes";
 import { colors } from "@/src/utils/styles";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 import { useTimer } from "use-timer";
+import { timeFormatter } from "@/src/utils/timeFormatter";
 
 export default function IntervalObservationModal({
   preset,
@@ -76,7 +77,10 @@ export default function IntervalObservationModal({
           style={[styles.controller, { borderTopColor: settings.themeColor }]}
         >
           <Text>{currentInterval}</Text>
-          <Text>{time}</Text>
+          <Text>{timeFormatter(time)}</Text>
+          <Text>
+            {observationIntervalSeconds - (time % observationIntervalSeconds)}
+          </Text>
         </View>
       </View>
     );
