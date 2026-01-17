@@ -57,13 +57,4 @@ const styles = StyleSheet.create({
     margin: "auto",
   },
   line: { height: 1, backgroundColor: colors.lighterGray },
-  add: {
-    backgroundColor: colors.green,
-    width: 90,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 8,
-    margin: 20,
-  },
 });

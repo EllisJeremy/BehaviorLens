@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View, Text } from "react-native";
+import { ScrollView, StyleSheet, View, Text, FlatList } from "react-native";
 import { useEffect } from "react";
 import SlideUpModal from "../../universal/SlideUpModal";
 import IntervalTile from "./IntervalTile";
@@ -7,6 +7,8 @@ import { IntervalObservationPreset } from "@/src/types/observations/observationT
 import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";
 import { constants } from "@/src/utils/constants";
 import { IntervalObservation } from "@/src/types/observations/intervalTypes";
+import { colors } from "@/src/utils/styles";
+import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 
 export default function IntervalObservationModal({
   preset,
@@ -22,6 +24,7 @@ export default function IntervalObservationModal({
     setObservation,
     paused,
   } = useIntervalObservationStore();
+  const { settings } = useSettingsStore();
 
   const { clearForm: clearStartForm } = useStartObservationModalStore();
 
@@ -60,23 +63,24 @@ export default function IntervalObservationModal({
 
   function IntervalObservation() {
     return (
-      <View>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 24 }}
-        >
-          {Array.from({ length: currentInterval }).map((_, i) => (
+      <View style={styles.container}>
+        <FlatList
+          data={observations.slice(0, currentInterval)}
+          keyExtractor={(_, i) => i.toString()}
+          style={styles.flatlist}
+          renderItem={({ item, index }) => (
             <IntervalTile
-              key={i}
-              index={i}
-              observation={observations[i]}
+              index={index}
+              observation={item}
               onTaskList={onTaskList}
               offTaskList={offTaskList}
             />
-          ))}
-        </ScrollView>
+          )}
+        />
 
-        <View style={styles.controller}>
+        <View
+          style={[styles.controller, { borderTopColor: settings.themeColor }]}
+        >
           <Text>{currentInterval}</Text>
         </View>
       </View>
@@ -91,15 +95,24 @@ export default function IntervalObservationModal({
       clearForm={exit}
       submitForm={exit}
       form={<IntervalObservation />}
+      scrollable={false}
+      padding={0}
     />
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  flatlist: {
+    padding: 20,
+  },
   controller: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
+    borderTopWidth: 1,
+
+    height: 100,
+
+    marginBottom: 25,
   },
 });

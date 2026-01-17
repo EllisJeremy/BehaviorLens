@@ -20,6 +20,8 @@ export default function SlideUpModal({
   submitForm,
   clearForm,
   saveText = "Save",
+  scrollable = true,
+  padding = 20,
 }: {
   modalOpen: boolean;
   setModalOpen: (val: boolean) => void;
@@ -28,6 +30,8 @@ export default function SlideUpModal({
   submitForm: () => void;
   clearForm: () => void;
   saveText?: string;
+  scrollable?: boolean;
+  padding?: number;
 }) {
   const { settings } = useSettingsStore();
 
@@ -52,14 +56,18 @@ export default function SlideUpModal({
             </Text>
           </Pressable>
         </View>
-
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
-        >
-          {form}
-        </ScrollView>
+        <View style={{ padding }}></View>
+        {scrollable ? (
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+          >
+            {form}
+          </ScrollView>
+        ) : (
+          form
+        )}
       </KeyboardAvoidingView>
     </Modal>
   );
@@ -72,7 +80,6 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: "white",
-    padding: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     height: "92%",
@@ -82,7 +89,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingBottom: 20,
+    padding: 20,
   },
   title: {
     position: "absolute",
