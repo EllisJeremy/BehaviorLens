@@ -29,7 +29,6 @@ export default function Observations() {
           <Text>Press a tile to start an observation</Text>
         </View>
       )}
-
       {Object.keys(observationPresets).length > 0 ? (
         <FlatList
           data={Object.values(observationPresets)}
@@ -46,19 +45,10 @@ export default function Observations() {
           <Text>Press + to add an Observation Preset</Text>
         </View>
       )}
-
       <PlusButton onPress={() => setOpen(true)} />
-      <IntervalTile
-        key={1}
-        index={1}
-        observation={null}
-        onTaskList={["a", "b", "c"]}
-        offTaskList={["a", "b", "c"]}
-        setObservation={() => {}}
-      />
       <AddObservationPresetModal />
       <StartObservationModal />
-      {preset && <IntervalObservationModal preset={preset} />}
+      {preset && <IntervalObservationModal preset={preset as any} />}
     </View>
   );
 }

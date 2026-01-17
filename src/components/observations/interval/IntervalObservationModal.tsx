@@ -22,6 +22,7 @@ export default function IntervalObservationModal({
     setObservation,
     paused,
   } = useIntervalObservationStore();
+
   const { clearForm: clearStartForm } = useStartObservationModalStore();
 
   const {
