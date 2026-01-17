@@ -56,9 +56,10 @@ export default function SlideUpModal({
             </Text>
           </Pressable>
         </View>
-        <View style={{ padding }}></View>
+
         {scrollable ? (
           <ScrollView
+            style={{ paddingLeft: padding, paddingRight: padding }}
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}

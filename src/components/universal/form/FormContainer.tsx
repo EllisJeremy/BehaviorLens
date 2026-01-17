@@ -21,7 +21,7 @@ export default function FormContainer({
 }
 const styles = StyleSheet.create({
   full: {
-    marginTop: 20,
+    marginBottom: 20,
   },
   title: {
     color: colors.gray,
