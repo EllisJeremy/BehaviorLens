@@ -107,7 +107,6 @@ export default function IntervalObservationModal({
                 {
                   borderWidth: borderAnim,
                   paddingLeft: status === "RUNNING" ? 0 : 4,
-
                   borderColor: settings.themeColor,
                 },
               ]}
@@ -153,6 +152,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 20,
+  },
+  info: {
+    height: 70,
+    justifyContent: "space-between",
+    alignItems: "stretch",
   },
   pause: {
     width: 70,

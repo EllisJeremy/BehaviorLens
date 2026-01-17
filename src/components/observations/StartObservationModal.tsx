@@ -43,22 +43,14 @@ export default function StartObservationModal() {
   const { start } = useIntervalObservationStore();
 
   function submitForm() {
-    console.log("submitForm called");
-    console.log("name:", name);
-    console.log("studentUuid:", studentUuid);
-    console.log("preset:", preset);
-
     if (!name || !studentUuid || preset?.type !== "interval") {
-      console.log("Validation failed!");
       return;
     }
 
     setOpen(false);
 
     setTimeout(() => {
-      console.log("About to start with preset:", preset);
       start(preset.numberOfObservations);
-      console.log("starting...");
     }, constants.modalDelay);
   }
 

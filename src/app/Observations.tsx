@@ -9,7 +9,6 @@ import PlusButton from "../components/universal/PlusButton";
 import StartObservationModal from "../components/observations/StartObservationModal";
 import IntervalObservationModal from "../components/observations/interval/IntervalObservationModal";
 import { useStartObservationModalStore } from "../state/observations/useStartObservationModalStore";
-import IntervalTile from "../components/observations/interval/IntervalTile";
 
 export default function Observations() {
   const { loadObservationPresets, observationPresets } =
@@ -20,7 +19,6 @@ export default function Observations() {
   useEffect(() => {
     loadObservationPresets();
   }, []);
-  console.log(preset);
 
   return (
     <View style={styles.container}>
@@ -61,13 +59,11 @@ const styles = StyleSheet.create({
   },
   hint: {
     margin: "auto",
-
     paddingBottom: 20,
   },
   placeHolder: {
     margin: "auto",
   },
-
   line: { height: 1, backgroundColor: colors.lighterGray },
   add: {
     backgroundColor: colors.green,
