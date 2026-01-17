@@ -16,17 +16,8 @@ export default function IntervalObservationModal({
 }: {
   preset: IntervalObservationPreset;
 }) {
-  const {
-    open,
-    clearForm,
-    currentInterval,
-    observations,
-    nextInterval,
-    setObservation,
-    paused,
-    seconds,
-    setSeconds,
-  } = useIntervalObservationStore();
+  const { open, clearForm, currentInterval, observations, nextInterval } =
+    useIntervalObservationStore();
   const { settings } = useSettingsStore();
 
   const { clearForm: clearStartForm } = useStartObservationModalStore();
