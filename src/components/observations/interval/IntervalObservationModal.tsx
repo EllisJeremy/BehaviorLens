@@ -1,4 +1,4 @@
-import { ScrollView } from "react-native";
+import { ScrollView, StyleSheet, View, Text } from "react-native";
 import { useEffect } from "react";
 import SlideUpModal from "../../universal/SlideUpModal";
 import IntervalTile from "./IntervalTile";
@@ -58,14 +58,9 @@ export default function IntervalObservationModal({
     }, constants.modalDelay);
   }
 
-  return (
-    <SlideUpModal
-      modalOpen={open}
-      setModalOpen={() => {}}
-      title="Interval Observation"
-      clearForm={exit}
-      submitForm={exit}
-      form={
+  function IntervalObservation() {
+    return (
+      <View>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 24 }}
@@ -80,7 +75,31 @@ export default function IntervalObservationModal({
             />
           ))}
         </ScrollView>
-      }
+
+        <View style={styles.controller}>
+          <Text>{currentInterval}</Text>
+        </View>
+      </View>
+    );
+  }
+
+  return (
+    <SlideUpModal
+      modalOpen={open}
+      setModalOpen={() => {}}
+      title="Interval Observation"
+      clearForm={exit}
+      submitForm={exit}
+      form={<IntervalObservation />}
     />
   );
 }
+
+const styles = StyleSheet.create({
+  controller: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+});
