@@ -9,6 +9,7 @@ import { constants } from "@/src/utils/constants";
 import { IntervalObservation } from "@/src/types/observations/intervalTypes";
 import { colors } from "@/src/utils/styles";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
+import { useTimer } from "use-timer";
 
 export default function IntervalObservationModal({
   preset,
@@ -23,6 +24,8 @@ export default function IntervalObservationModal({
     nextInterval,
     setObservation,
     paused,
+    seconds,
+    setSeconds,
   } = useIntervalObservationStore();
   const { settings } = useSettingsStore();
 
@@ -35,23 +38,23 @@ export default function IntervalObservationModal({
     offTaskList,
   } = preset;
 
+  const { time, start, pause, reset } = useTimer({
+    interval: 1000,
+  });
+
   useEffect(() => {
-    if (!open || paused) return;
-    if (currentInterval >= numberOfObservations) return;
+    if (open) {
+      start();
+    }
+  }, [open]);
 
-    const id = setTimeout(
-      () => nextInterval(numberOfObservations),
-      observationIntervalSeconds * 1000
-    );
+  useEffect(() => {
+    if (time === 0) return;
 
-    return () => clearTimeout(id);
-  }, [
-    open,
-    paused,
-    currentInterval,
-    observationIntervalSeconds,
-    numberOfObservations,
-  ]);
+    if (time % observationIntervalSeconds === 0) {
+      nextInterval(numberOfObservations);
+    }
+  }, [time]);
 
   function exit() {
     clearForm();
@@ -82,6 +85,7 @@ export default function IntervalObservationModal({
           style={[styles.controller, { borderTopColor: settings.themeColor }]}
         >
           <Text>{currentInterval}</Text>
+          <Text>{time}</Text>
         </View>
       </View>
     );
