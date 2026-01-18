@@ -19,6 +19,7 @@ import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 import { useTimer } from "use-timer";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { IntervalObservationType } from "@/src/types/observations/intervalTypes";
+import * as Progress from "react-native-progress";
 
 type Props = {
   preset: IntervalObservationPreset;
@@ -38,11 +39,11 @@ export default function IntervalObservationModal({ preset }: Props) {
     offTaskList,
   } = preset;
   const totalSeconds = observationIntervalSeconds * numberOfObservations;
+
   const { time, start, pause, status } = useTimer({
     interval: 1000,
     endTime: totalSeconds,
   });
-  console.log(observationIntervalSeconds * numberOfObservations);
   const borderAnim = useRef(new Animated.Value(2)).current;
 
   useEffect(() => {
@@ -128,22 +129,34 @@ const IntervalObservation = memo(function IntervalObservationType({
 }: BodyProps) {
   return (
     <View style={styles.container}>
-      <FlatList
-        data={observations.slice(0, currentInterval)}
-        keyExtractor={(item) => item.id}
-        maintainVisibleContentPosition={{
-          minIndexForVisible: 0,
-        }}
-        style={styles.flatlist}
-        renderItem={({ item, index }) => (
-          <IntervalTile
-            index={index}
-            observation={item}
-            onTaskList={onTaskList}
-            offTaskList={offTaskList}
-          />
-        )}
-      />
+      <View style={styles.flatList}>
+        <FlatList
+          data={observations.slice(0, currentInterval)}
+          keyExtractor={(item) => item.id}
+          style={{ flexShrink: 1 }}
+          maintainVisibleContentPosition={{
+            minIndexForVisible: 0,
+          }}
+          renderItem={({ item, index }) => (
+            <IntervalTile
+              index={index}
+              observation={item}
+              onTaskList={onTaskList}
+              offTaskList={offTaskList}
+            />
+          )}
+        />
+        <Progress.Bar
+          progress={
+            (time % observationIntervalSeconds) / observationIntervalSeconds
+          }
+          height={72}
+          width={null}
+          color={colors.offWhite}
+          borderColor={"white"}
+          borderRadius={12}
+        />
+      </View>
 
       <View style={styles.controller}>
         <Info
@@ -176,11 +189,12 @@ const IntervalObservation = memo(function IntervalObservationType({
 });
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  flatlist: {
+  container: { flex: 1 },
+  flatList: {
     padding: 20,
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "flex-start",
   },
   controller: {
     borderTopWidth: 1,

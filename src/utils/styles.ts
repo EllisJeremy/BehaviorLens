@@ -29,4 +29,5 @@ export const fontSizes = {
   text: 16,
   subText: 15,
   small: 12,
+  extraLarge: 30,
 };

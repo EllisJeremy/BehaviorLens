@@ -65,6 +65,7 @@ export const styles = StyleSheet.create({
     padding: 12,
     marginBottom: 12,
     gap: 10,
+    minHeight: 72,
   },
   content: {
     flexDirection: "row",

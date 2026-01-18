@@ -1,5 +1,6 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { timeFormatter } from "@/src/utils/timeFormatter";
+import { fontSizes } from "@/src/utils/styles";
 
 export default function Info({
   currentInterval,
@@ -12,11 +13,13 @@ export default function Info({
 }) {
   return (
     <View>
-      <Text>{currentInterval}</Text>
-      <Text>{timeFormatter(time)}</Text>
-      <Text>
-        {observationIntervalSeconds - (time % observationIntervalSeconds)}
-      </Text>
+      <Text style={styles.time}>{timeFormatter(time)}</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  time: {
+    fontSize: fontSizes.extraLarge,
+  },
+});
