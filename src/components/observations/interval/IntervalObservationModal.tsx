@@ -59,7 +59,7 @@ export default function IntervalObservationModal({ preset }: Props) {
 
   useEffect(() => {
     Animated.timing(borderAnim, {
-      toValue: status === "RUNNING" ? 3 : 2,
+      toValue: status === "RUNNING" ? 3.3 : 2.3,
       duration: 180,
       useNativeDriver: false,
     }).start();
@@ -72,7 +72,9 @@ export default function IntervalObservationModal({ preset }: Props) {
 
   function togglePause() {
     if (time === totalSeconds) return;
-    status === "RUNNING" ? pause() : start();
+    if (status === "RUNNING") {
+      pause();
+    } else start();
   }
 
   return (
@@ -133,7 +135,7 @@ const IntervalObservation = memo(function IntervalObservationType({
         <FlatList
           data={observations.slice(0, currentInterval)}
           keyExtractor={(item) => item.id}
-          style={{ flexShrink: 1 }}
+          style={{ flexGrow: 0 }}
           maintainVisibleContentPosition={{
             minIndexForVisible: 0,
           }}
@@ -193,8 +195,6 @@ const styles = StyleSheet.create({
   flatList: {
     padding: 20,
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "flex-start",
   },
   controller: {
     borderTopWidth: 1,
