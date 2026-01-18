@@ -26,11 +26,12 @@ export default function IntervalTile({
           style={[
             styles.value,
             {
-              color: observation?.isOnTask
-                ? observation.isOnTask
-                  ? colors.green
-                  : colors.red
-                : colors.gray,
+              color:
+                observation?.isOnTask !== null
+                  ? observation!.isOnTask
+                    ? colors.green
+                    : colors.red
+                  : colors.gray,
             },
           ]}
         >

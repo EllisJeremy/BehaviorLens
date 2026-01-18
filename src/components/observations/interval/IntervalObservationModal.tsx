@@ -1,4 +1,11 @@
-import { StyleSheet, View, FlatList, Pressable, Animated } from "react-native";
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Pressable,
+  Animated,
+  ActionSheetIOS,
+} from "react-native";
 import { useEffect, useRef, memo } from "react";
 import SlideUpModal from "../../universal/SlideUpModal";
 import IntervalTile from "./IntervalTile";
@@ -30,9 +37,12 @@ export default function IntervalObservationModal({ preset }: Props) {
     onTaskList,
     offTaskList,
   } = preset;
-
-  const { time, start, pause, status } = useTimer({ interval: 1000 });
-
+  const totalSeconds = observationIntervalSeconds * numberOfObservations;
+  const { time, start, pause, status } = useTimer({
+    interval: 1000,
+    endTime: totalSeconds,
+  });
+  console.log(observationIntervalSeconds * numberOfObservations);
   const borderAnim = useRef(new Animated.Value(2)).current;
 
   useEffect(() => {
@@ -59,6 +69,11 @@ export default function IntervalObservationModal({ preset }: Props) {
     setTimeout(clearStartForm, constants.modalDelay);
   }
 
+  function togglePause() {
+    if (time === totalSeconds) return;
+    status === "RUNNING" ? pause() : start();
+  }
+
   return (
     <SlideUpModal
       modalOpen={open}
@@ -79,7 +94,7 @@ export default function IntervalObservationModal({ preset }: Props) {
           borderAnim={borderAnim}
           themeColor={settings.themeColor}
           status={status}
-          onToggle={() => (status === "RUNNING" ? pause() : start())}
+          onToggle={togglePause}
         />
       }
     />
