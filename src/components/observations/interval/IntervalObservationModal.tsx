@@ -1,14 +1,8 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  FlatList,
-  Pressable,
-  Animated,
-} from "react-native";
-import { useEffect, useRef } from "react";
+import { StyleSheet, View, FlatList, Pressable, Animated } from "react-native";
+import { useEffect, useRef, memo } from "react";
 import SlideUpModal from "../../universal/SlideUpModal";
 import IntervalTile from "./IntervalTile";
+import Info from "./Info";
 import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
 import { IntervalObservationPreset } from "@/src/types/observations/observationTypes";
 import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";
@@ -16,16 +10,17 @@ import { constants } from "@/src/utils/constants";
 import { colors } from "@/src/utils/styles";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 import { useTimer } from "use-timer";
-import { timeFormatter } from "@/src/utils/timeFormatter";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { IntervalObservationType } from "@/src/types/observations/intervalTypes";
 
-export default function IntervalObservationModal({
-  preset,
-}: {
+type Props = {
   preset: IntervalObservationPreset;
-}) {
+};
+
+export default function IntervalObservationModal({ preset }: Props) {
   const { open, clearForm, currentInterval, observations, nextInterval } =
     useIntervalObservationStore();
+
   const { settings } = useSettingsStore();
   const { clearForm: clearStartForm } = useStartObservationModalStore();
 
@@ -36,9 +31,7 @@ export default function IntervalObservationModal({
     offTaskList,
   } = preset;
 
-  const { time, start, pause, reset, status } = useTimer({
-    interval: 1000,
-  });
+  const { time, start, pause, status } = useTimer({ interval: 1000 });
 
   const borderAnim = useRef(new Animated.Value(2)).current;
 
@@ -54,73 +47,16 @@ export default function IntervalObservationModal({
   }, [time]);
 
   useEffect(() => {
-    Animated.parallel([
-      Animated.timing(borderAnim, {
-        toValue: status === "RUNNING" ? 3 : 2,
-        duration: 180,
-        useNativeDriver: false,
-      }),
-    ]).start();
+    Animated.timing(borderAnim, {
+      toValue: status === "RUNNING" ? 3 : 2,
+      duration: 180,
+      useNativeDriver: false,
+    }).start();
   }, [status]);
 
   function exit() {
     clearForm();
-    setTimeout(() => {
-      clearStartForm();
-    }, constants.modalDelay);
-  }
-
-  function IntervalObservation() {
-    return (
-      <View style={styles.container}>
-        <FlatList
-          data={observations.slice(0, currentInterval)}
-          keyExtractor={(_, i) => i.toString()}
-          style={styles.flatlist}
-          renderItem={({ item, index }) => (
-            <IntervalTile
-              index={index}
-              observation={item}
-              onTaskList={onTaskList}
-              offTaskList={offTaskList}
-            />
-          )}
-        />
-
-        <View style={styles.controller}>
-          <View>
-            <Text>{currentInterval}</Text>
-            <Text>{timeFormatter(time)}</Text>
-            <Text>
-              {observationIntervalSeconds - (time % observationIntervalSeconds)}
-            </Text>
-          </View>
-
-          <Pressable
-            onPress={() => {
-              status === "RUNNING" ? pause() : start();
-            }}
-          >
-            <Animated.View
-              style={[
-                styles.pause,
-                {
-                  borderWidth: borderAnim,
-                  paddingLeft: status === "RUNNING" ? 0 : 4,
-                  borderColor: settings.themeColor,
-                },
-              ]}
-            >
-              <Ionicons
-                name={status === "RUNNING" ? "pause-outline" : "play-outline"}
-                size={40}
-                color={settings.themeColor}
-              />
-            </Animated.View>
-          </Pressable>
-        </View>
-      </View>
-    );
+    setTimeout(clearStartForm, constants.modalDelay);
   }
 
   return (
@@ -130,12 +66,99 @@ export default function IntervalObservationModal({
       title="Interval Observation"
       clearForm={exit}
       submitForm={exit}
-      form={<IntervalObservation />}
       scrollable={false}
       padding={0}
+      form={
+        <IntervalObservation
+          observations={observations}
+          currentInterval={currentInterval}
+          onTaskList={onTaskList}
+          offTaskList={offTaskList}
+          time={time}
+          observationIntervalSeconds={observationIntervalSeconds}
+          borderAnim={borderAnim}
+          themeColor={settings.themeColor}
+          status={status}
+          onToggle={() => (status === "RUNNING" ? pause() : start())}
+        />
+      }
     />
   );
 }
+
+type BodyProps = {
+  observations: IntervalObservationType[];
+  currentInterval: number;
+  onTaskList: string[];
+  offTaskList: string[];
+  time: number;
+  observationIntervalSeconds: number;
+  borderAnim: Animated.Value;
+  themeColor: string;
+  status: string;
+  onToggle: () => void;
+};
+
+const IntervalObservation = memo(function IntervalObservationType({
+  observations,
+  currentInterval,
+  onTaskList,
+  offTaskList,
+  time,
+  observationIntervalSeconds,
+  borderAnim,
+  themeColor,
+  status,
+  onToggle,
+}: BodyProps) {
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={observations.slice(0, currentInterval)}
+        keyExtractor={(item) => item.id}
+        maintainVisibleContentPosition={{
+          minIndexForVisible: 0,
+        }}
+        style={styles.flatlist}
+        renderItem={({ item, index }) => (
+          <IntervalTile
+            index={index}
+            observation={item}
+            onTaskList={onTaskList}
+            offTaskList={offTaskList}
+          />
+        )}
+      />
+
+      <View style={styles.controller}>
+        <Info
+          currentInterval={currentInterval}
+          time={time}
+          observationIntervalSeconds={observationIntervalSeconds}
+        />
+
+        <Pressable onPress={onToggle}>
+          <Animated.View
+            style={[
+              styles.pause,
+              {
+                borderWidth: borderAnim,
+                paddingLeft: status === "RUNNING" ? 0 : 4,
+                borderColor: themeColor,
+              },
+            ]}
+          >
+            <Ionicons
+              name={status === "RUNNING" ? "pause-outline" : "play-outline"}
+              size={40}
+              color={themeColor}
+            />
+          </Animated.View>
+        </Pressable>
+      </View>
+    </View>
+  );
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -152,11 +175,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 20,
-  },
-  info: {
-    height: 70,
-    justifyContent: "space-between",
-    alignItems: "stretch",
   },
   pause: {
     width: 70,

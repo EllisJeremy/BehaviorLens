@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import DropDownMenu, { Option } from "../../universal/form/DropDownMenu";
 import { fontSizes, colors } from "@/src/utils/styles";
-import { IntervalObservation } from "@/src/types/observations/intervalTypes";
+import { IntervalObservationType } from "@/src/types/observations/intervalTypes";
 import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
 import { listToOptions } from "@/src/utils/listToOptions";
 import MiniDropDownMenu from "./MiniDropDownMenu";
@@ -13,7 +13,7 @@ export default function IntervalTile({
   offTaskList,
 }: {
   index: number;
-  observation: IntervalObservation | null;
+  observation: IntervalObservationType | null;
   onTaskList: string[];
   offTaskList: string[];
 }) {
@@ -26,7 +26,7 @@ export default function IntervalTile({
           style={[
             styles.value,
             {
-              color: observation
+              color: observation?.isOnTask
                 ? observation.isOnTask
                   ? colors.green
                   : colors.red

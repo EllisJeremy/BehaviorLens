@@ -1,5 +1,6 @@
-export type IntervalObservation = {
-  isOnTask: boolean;
-  value: string;
-  timestamp: string;
+export type IntervalObservationType = {
+  id: string;
+  isOnTask: boolean | null;
+  value: string | null;
+  timestamp: string | null;
 };

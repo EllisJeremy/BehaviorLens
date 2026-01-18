@@ -1,12 +1,13 @@
 import { create } from "zustand";
-import { IntervalObservation } from "@/src/types/observations/intervalTypes";
+import { IntervalObservationType } from "@/src/types/observations/intervalTypes";
+import * as Crypto from "expo-crypto";
 
 type IntervalObservationState = {
   open: boolean;
   setOpen: (v: boolean) => void;
 
   currentInterval: number;
-  observations: (IntervalObservation | null)[];
+  observations: IntervalObservationType[];
   startedAt: number | null;
 
   start: (totalIntervals: number) => void;
@@ -29,19 +30,29 @@ export const useIntervalObservationStore = create<IntervalObservationState>(
       set({
         open: true,
         currentInterval: 0,
-        observations: Array(totalIntervals).fill(null),
+        observations: Array.from({ length: totalIntervals }, () => ({
+          id: Crypto.randomUUID(),
+          isOnTask: null,
+          value: null,
+          timestamp: null,
+        })),
         startedAt: Date.now(),
       }),
 
     setObservation: (index, value, isOnTask) =>
       set((state) => {
         const next = [...state.observations];
-        const currObservation: IntervalObservation = {
+        const existing = next[index];
+
+        if (!existing) return state;
+
+        next[index] = {
+          ...existing,
           isOnTask,
           value,
           timestamp: new Date().toISOString(),
         };
-        next[index] = currObservation;
+
         return { observations: next };
       }),
 
