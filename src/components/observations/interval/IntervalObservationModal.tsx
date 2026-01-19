@@ -192,6 +192,10 @@ const IntervalObservation = memo(function IntervalObservationType({
         />
         {currentInterval < numberOfObservations && (
           <View style={styles.progressTile}>
+            <Text style={styles.progressTitle}>{`Interval ${
+              currentInterval + 1
+            }`}</Text>
+            <Text style={styles.inProgress}>In progress</Text>
             <Animated.View
               style={[
                 styles.progressBar,
@@ -202,12 +206,7 @@ const IntervalObservation = memo(function IntervalObservationType({
                   }),
                 },
               ]}
-            >
-              <Text style={styles.progressTitle}>{`Interval ${
-                currentInterval + 1
-              }`}</Text>
-              <Text style={styles.inProgress}>In progress</Text>
-            </Animated.View>
+            ></Animated.View>
           </View>
         )}
       </View>
@@ -230,34 +229,29 @@ const styles = StyleSheet.create({
     padding: 20,
     flex: 1,
   },
-
   progressTile: {
     height: 75,
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "white",
+    backgroundColor: colors.offWhite,
     overflow: "hidden",
+    justifyContent: "space-between",
+    padding: 12,
   },
   progressBar: {
-    backgroundColor: colors.offWhite,
+    backgroundColor: colors.blue,
     borderRadius: 12,
-    minHeight: 72,
-    overflow: "hidden",
-
+    height: 5,
+    position: "absolute",
+    bottom: 0,
     justifyContent: "space-between",
   },
   progressTitle: {
-    width: 200,
     fontSize: fontSizes.text,
     fontWeight: "500",
-    marginLeft: 12,
-    marginTop: 12,
   },
   inProgress: {
     fontSize: fontSizes.text,
     color: colors.gray,
     width: 200,
-    marginLeft: 12,
-    marginBottom: 12,
   },
 });
