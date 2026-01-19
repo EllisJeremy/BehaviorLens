@@ -5,6 +5,7 @@ import {
   Pressable,
   Animated,
   ActionSheetIOS,
+  Text,
 } from "react-native";
 import { useEffect, useRef, memo } from "react";
 import SlideUpModal from "../../universal/SlideUpModal";
@@ -14,12 +15,11 @@ import { useIntervalObservationStore } from "@/src/state/observations/useInterva
 import { IntervalObservationPreset } from "@/src/types/observations/observationTypes";
 import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";
 import { constants } from "@/src/utils/constants";
-import { colors } from "@/src/utils/styles";
+import { colors, fontSizes } from "@/src/utils/styles";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 import { useTimer } from "use-timer";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { IntervalObservationType } from "@/src/types/observations/intervalTypes";
-import * as Progress from "react-native-progress";
 
 type Props = {
   preset: IntervalObservationPreset;
@@ -129,6 +129,17 @@ const IntervalObservation = memo(function IntervalObservationType({
   status,
   onToggle,
 }: BodyProps) {
+  const progress = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    progress.setValue(0);
+
+    Animated.timing(progress, {
+      toValue: 1,
+      duration: observationIntervalSeconds * 1000,
+      useNativeDriver: false,
+    }).start();
+  }, [currentInterval]);
+
   return (
     <View style={styles.container}>
       <View style={styles.flatList}>
@@ -148,16 +159,24 @@ const IntervalObservation = memo(function IntervalObservationType({
             />
           )}
         />
-        <Progress.Bar
-          progress={
-            (time % observationIntervalSeconds) / observationIntervalSeconds
-          }
-          height={72}
-          width={null}
-          color={colors.offWhite}
-          borderColor={"white"}
-          borderRadius={12}
-        />
+        <View style={styles.progressTile}>
+          <Animated.View
+            style={[
+              styles.progressBar,
+              {
+                width: progress.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: ["0%", "100%"],
+                }),
+              },
+            ]}
+          >
+            <Text style={styles.progressTitle}>{`Interval ${
+              currentInterval + 1
+            }`}</Text>
+            <Text style={styles.inProgress}>In progress</Text>
+          </Animated.View>
+        </View>
       </View>
 
       <View style={styles.controller}>
@@ -212,5 +231,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 35,
     marginRight: 20,
+  },
+  progressTile: {
+    height: 75,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "white",
+    overflow: "hidden",
+  },
+  progressBar: {
+    backgroundColor: colors.offWhite,
+    borderRadius: 12,
+    minHeight: 72,
+    overflow: "hidden",
+
+    justifyContent: "space-between",
+  },
+  progressTitle: {
+    width: 200,
+    fontSize: fontSizes.text,
+    fontWeight: "500",
+    marginLeft: 12,
+    marginTop: 12,
+  },
+  inProgress: {
+    fontSize: fontSizes.text,
+    color: colors.gray,
+    width: 200,
+    marginLeft: 12,
+    marginBottom: 12,
   },
 });
