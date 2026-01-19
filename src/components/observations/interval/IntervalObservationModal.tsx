@@ -195,7 +195,6 @@ const IntervalObservation = memo(function IntervalObservationType({
             <Text style={styles.progressTitle}>{`Interval ${
               currentInterval + 1
             }`}</Text>
-            <Text style={styles.inProgress}>In progress</Text>
             <Animated.View
               style={[
                 styles.progressBar,
@@ -233,17 +232,14 @@ const styles = StyleSheet.create({
     height: 75,
     borderRadius: 12,
     backgroundColor: colors.offWhite,
-    overflow: "hidden",
+    gap: 10,
     justifyContent: "space-between",
     padding: 12,
   },
   progressBar: {
     backgroundColor: colors.blue,
     borderRadius: 12,
-    height: 5,
-    position: "absolute",
-    bottom: 0,
-    justifyContent: "space-between",
+    height: 10,
   },
   progressTitle: {
     fontSize: fontSizes.text,
