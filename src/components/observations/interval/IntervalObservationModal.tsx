@@ -213,6 +213,8 @@ const IntervalObservation = memo(function IntervalObservationType({
       </View>
       <Controller
         time={time}
+        currentInterval={currentInterval}
+        numberOfObservations={numberOfObservations}
         borderAnim={borderAnim}
         themeColor={themeColor}
         status={status}

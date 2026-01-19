@@ -8,18 +8,28 @@ export default function Controller({
   borderAnim,
   themeColor,
   status,
+  currentInterval,
+  numberOfObservations,
+
   onToggle,
 }: {
   time: number;
   borderAnim: Animated.Value;
   themeColor: string;
   status: string;
+  currentInterval: number;
+  numberOfObservations: number;
   onToggle: () => void;
 }) {
   return (
     <View style={styles.controller}>
-      <Text style={styles.time}>{timeFormatter(time)}</Text>
-
+      <View>
+        <Text style={styles.time}>{timeFormatter(time)}</Text>
+        <Text style={styles.interval}>{`Interval ${Math.min(
+          currentInterval + 1,
+          numberOfObservations
+        )} / ${numberOfObservations}`}</Text>
+      </View>
       <Pressable onPress={onToggle}>
         <Animated.View
           style={[
@@ -45,16 +55,23 @@ export default function Controller({
 const styles = StyleSheet.create({
   time: {
     fontSize: fontSizes.extraLarge,
+    marginBottom: 10,
+  },
+  interval: {
+    fontSize: fontSizes.large,
+    color: colors.gray,
   },
 
   controller: {
     borderTopWidth: 1,
     borderTopColor: colors.gray,
-    height: 100,
-    marginBottom: 25,
+    height: 120,
+    marginBlock: 20,
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 20,
+    paddingLeft: 30,
+    paddingRight: 30,
+    alignItems: "center",
   },
   pause: {
     width: 70,
