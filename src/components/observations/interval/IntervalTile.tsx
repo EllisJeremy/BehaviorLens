@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Animated } from "react-native";
 import DropDownMenu, { Option } from "../../universal/form/DropDownMenu";
 import { fontSizes, colors } from "@/src/utils/styles";
 import { IntervalObservationType } from "@/src/types/observations/intervalTypes";
@@ -11,49 +11,69 @@ export default function IntervalTile({
   observation,
   onTaskList,
   offTaskList,
+  currentInterval,
+  progress,
 }: {
   index: number;
   observation: IntervalObservationType | null;
   onTaskList: string[];
   offTaskList: string[];
+  currentInterval: number;
+  progress: Animated.Value;
 }) {
   const { setObservation } = useIntervalObservationStore();
+  console.log(index, currentInterval);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Interval {index + 1}</Text>
-      <View style={styles.content}>
-        <Text
+
+      {index === currentInterval ? (
+        <Animated.View
           style={[
-            styles.value,
+            styles.progressBar,
             {
-              color:
-                observation?.isOnTask !== null
-                  ? observation!.isOnTask
-                    ? colors.green
-                    : colors.red
-                  : colors.gray,
+              width: progress.interpolate({
+                inputRange: [0, 1],
+                outputRange: ["0%", "100%"],
+              }),
             },
           ]}
-        >
-          {observation?.value ?? "No observation"}
-        </Text>
+        ></Animated.View>
+      ) : (
+        <View style={styles.content}>
+          <Text
+            style={[
+              styles.value,
+              {
+                color:
+                  observation?.isOnTask !== null
+                    ? observation!.isOnTask
+                      ? colors.green
+                      : colors.red
+                    : colors.gray,
+              },
+            ]}
+          >
+            {observation?.value ?? "No observation"}
+          </Text>
 
-        <View style={styles.controls}>
-          <MiniDropDownMenu
-            options={listToOptions(onTaskList)}
-            setValue={setObservation}
-            index={index}
-            isOnTask={true}
-          />
+          <View style={styles.controls}>
+            <MiniDropDownMenu
+              options={listToOptions(onTaskList)}
+              setValue={setObservation}
+              index={index}
+              isOnTask={true}
+            />
 
-          <MiniDropDownMenu
-            options={listToOptions(offTaskList)}
-            setValue={setObservation}
-            index={index}
-            isOnTask={false}
-          />
+            <MiniDropDownMenu
+              options={listToOptions(offTaskList)}
+              setValue={setObservation}
+              index={index}
+              isOnTask={false}
+            />
+          </View>
         </View>
-      </View>
+      )}
     </View>
   );
 }
@@ -72,6 +92,11 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     gap: 20,
+  },
+  progressBar: {
+    backgroundColor: colors.blue,
+    borderRadius: 12,
+    height: 5,
   },
   title: {
     fontSize: fontSizes.text,

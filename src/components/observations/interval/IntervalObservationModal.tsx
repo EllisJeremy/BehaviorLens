@@ -175,7 +175,7 @@ const IntervalObservation = memo(function IntervalObservationType({
     <View style={styles.container}>
       <View style={styles.flatList}>
         <FlatList
-          data={observations.slice(0, currentInterval)}
+          data={observations.slice(0, currentInterval + 1)}
           keyExtractor={(item) => item.id}
           style={{ flexGrow: 0 }}
           maintainVisibleContentPosition={{
@@ -187,27 +187,11 @@ const IntervalObservation = memo(function IntervalObservationType({
               observation={item}
               onTaskList={onTaskList}
               offTaskList={offTaskList}
+              currentInterval={currentInterval}
+              progress={progress}
             />
           )}
         />
-        {currentInterval < numberOfObservations && (
-          <View style={styles.progressTile}>
-            <Text style={styles.progressTitle}>{`Interval ${
-              currentInterval + 1
-            }`}</Text>
-            <Animated.View
-              style={[
-                styles.progressBar,
-                {
-                  width: progress.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: ["0%", "100%"],
-                  }),
-                },
-              ]}
-            ></Animated.View>
-          </View>
-        )}
       </View>
       <Controller
         time={time}
@@ -227,27 +211,5 @@ const styles = StyleSheet.create({
   flatList: {
     padding: 20,
     flex: 1,
-  },
-  progressTile: {
-    height: 75,
-    borderRadius: 12,
-    backgroundColor: colors.offWhite,
-    gap: 10,
-    justifyContent: "space-between",
-    padding: 12,
-  },
-  progressBar: {
-    backgroundColor: colors.blue,
-    borderRadius: 12,
-    height: 10,
-  },
-  progressTitle: {
-    fontSize: fontSizes.text,
-    fontWeight: "500",
-  },
-  inProgress: {
-    fontSize: fontSizes.text,
-    color: colors.gray,
-    width: 200,
   },
 });
