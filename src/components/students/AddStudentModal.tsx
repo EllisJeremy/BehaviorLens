@@ -19,7 +19,6 @@ export default function AddStudentModal() {
   return (
     <SlideUpModal
       modalOpen={open}
-      setModalOpen={setOpen}
       title={uuid === "" ? "Add Student" : "Edit Student"}
       form={<StudentForm />}
       submitForm={submitForm}

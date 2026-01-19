@@ -22,7 +22,6 @@ export default function AddObservationPresetModal() {
   return (
     <SlideUpModal
       modalOpen={open}
-      setModalOpen={setOpen}
       title={uuid === "" ? "Add Preset" : "Edit Preset"}
       form={<ObservationPresetForm />}
       submitForm={submitForm}

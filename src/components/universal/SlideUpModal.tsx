@@ -10,26 +10,25 @@ import {
 import Modal from "react-native-modal";
 import { fontSizes } from "@/src/utils/styles";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
-import Settings from "@/src/app/Settings";
 
 export default function SlideUpModal({
   modalOpen,
-  setModalOpen,
   title,
   form,
   submitForm,
   clearForm,
   saveText = "Save",
+  cancelText = "Cancel",
   scrollable = true,
   padding = 20,
 }: {
   modalOpen: boolean;
-  setModalOpen: (val: boolean) => void;
   title: string;
   form: React.ReactNode;
   submitForm: () => void;
   clearForm: () => void;
   saveText?: string;
+  cancelText?: string;
   scrollable?: boolean;
   padding?: number;
 }) {
@@ -44,7 +43,7 @@ export default function SlideUpModal({
         <View style={styles.header}>
           <Pressable onPress={clearForm}>
             <Text style={[styles.button, { color: settings.themeColor }]}>
-              Cancel
+              {cancelText}
             </Text>
           </Pressable>
 

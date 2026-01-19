@@ -58,7 +58,7 @@ export default function ObservationTile({
       } else if (settings.username === "") {
         Alert.alert(
           "No Username",
-          "You do not have a username set in settings. If you wish to continue without a name, the report for this observation will have a blank name",
+          "You do not have a username set in settings. If you wish to continue without a name, the report for this observation will have a blank name.",
           [
             {
               text: "Set Name",

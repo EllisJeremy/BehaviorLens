@@ -2,7 +2,6 @@ import {
   StyleSheet,
   View,
   FlatList,
-  Pressable,
   Animated,
   ActionSheetIOS,
   Text,
@@ -69,8 +68,21 @@ export default function IntervalObservationModal({ preset }: Props) {
   }, [status]);
 
   function exit() {
-    clearForm();
-    setTimeout(clearStartForm, constants.modalDelay);
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        title: "Cancel Observation",
+        message: "Your progress will not be saved",
+        options: ["Continue Observation", "Cancel Observation"],
+        destructiveButtonIndex: 1,
+        cancelButtonIndex: 0,
+      },
+      (index: number) => {
+        if (index === 1) {
+          clearForm();
+          setTimeout(clearStartForm, constants.modalDelay);
+        }
+      }
+    );
   }
 
   const progress = useRef(new Animated.Value(0)).current;
@@ -115,8 +127,8 @@ export default function IntervalObservationModal({ preset }: Props) {
 
   return (
     <SlideUpModal
+      saveText="Done"
       modalOpen={open}
-      setModalOpen={() => {}}
       title="Interval Observation"
       clearForm={exit}
       submitForm={exit}

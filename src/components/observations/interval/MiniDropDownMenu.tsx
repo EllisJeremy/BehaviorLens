@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   menuItemPressed: {
-    backgroundColor: colors.lighterGray,
+    backgroundColor: colors.offWhite,
   },
   popover: {
     backgroundColor: "transparent",
