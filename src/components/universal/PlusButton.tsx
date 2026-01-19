@@ -1,10 +1,15 @@
 import { StyleSheet, Pressable } from "react-native";
 import Octicons from "@expo/vector-icons/Octicons";
 import { colors } from "@/src/utils/styles";
+import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 
 export default function PlusButton({ onPress }: { onPress: () => void }) {
+  const { settings } = useSettingsStore();
   return (
-    <Pressable style={styles.add} onPress={onPress}>
+    <Pressable
+      style={[styles.add, { backgroundColor: settings.themeColor }]}
+      onPress={onPress}
+    >
       <Octicons name="plus" size={20} color="white" />
     </Pressable>
   );

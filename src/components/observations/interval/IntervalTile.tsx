@@ -13,6 +13,7 @@ export default function IntervalTile({
   offTaskList,
   currentInterval,
   progress,
+  themeColor,
 }: {
   index: number;
   observation: IntervalObservationType | null;
@@ -20,9 +21,9 @@ export default function IntervalTile({
   offTaskList: string[];
   currentInterval: number;
   progress: Animated.Value;
+  themeColor: string;
 }) {
   const { setObservation } = useIntervalObservationStore();
-  console.log(index, currentInterval);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Interval {index + 1}</Text>
@@ -32,6 +33,7 @@ export default function IntervalTile({
           style={[
             styles.progressBar,
             {
+              backgroundColor: themeColor,
               width: progress.interpolate({
                 inputRange: [0, 1],
                 outputRange: ["0%", "100%"],
@@ -84,8 +86,8 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 12,
     marginBottom: 12,
-    gap: 10,
-    minHeight: 75,
+    minHeight: 72,
+    justifyContent: "space-between",
   },
   content: {
     flexDirection: "row",
@@ -94,9 +96,8 @@ export const styles = StyleSheet.create({
     gap: 20,
   },
   progressBar: {
-    backgroundColor: colors.blue,
-    borderRadius: 12,
-    height: 5,
+    borderRadius: 10,
+    height: 15,
   },
   title: {
     fontSize: fontSizes.text,

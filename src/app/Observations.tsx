@@ -22,11 +22,6 @@ export default function Observations() {
 
   return (
     <View style={styles.container}>
-      {Object.keys(observationPresets).length > 0 && (
-        <View style={styles.hint}>
-          <Text>Press a tile to start an observation</Text>
-        </View>
-      )}
       {Object.keys(observationPresets).length > 0 ? (
         <FlatList
           data={Object.values(observationPresets)}

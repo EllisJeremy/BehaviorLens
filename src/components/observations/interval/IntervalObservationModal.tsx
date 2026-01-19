@@ -130,7 +130,6 @@ export default function IntervalObservationModal({ preset }: Props) {
           onTaskList={onTaskList}
           offTaskList={offTaskList}
           time={time}
-          observationIntervalSeconds={observationIntervalSeconds}
           borderAnim={borderAnim}
           themeColor={settings.themeColor}
           status={status}
@@ -149,7 +148,6 @@ type BodyProps = {
   onTaskList: string[];
   offTaskList: string[];
   time: number;
-  observationIntervalSeconds: number;
   borderAnim: Animated.Value;
   themeColor: string;
   status: string;
@@ -164,7 +162,6 @@ const IntervalObservation = memo(function IntervalObservationType({
   onTaskList,
   offTaskList,
   time,
-  observationIntervalSeconds,
   borderAnim,
   themeColor,
   status,
@@ -173,26 +170,25 @@ const IntervalObservation = memo(function IntervalObservationType({
 }: BodyProps) {
   return (
     <View style={styles.container}>
-      <View style={styles.flatList}>
-        <FlatList
-          data={observations.slice(0, currentInterval + 1)}
-          keyExtractor={(item) => item.id}
-          style={{ flexGrow: 0 }}
-          maintainVisibleContentPosition={{
-            minIndexForVisible: 0,
-          }}
-          renderItem={({ item, index }) => (
-            <IntervalTile
-              index={index}
-              observation={item}
-              onTaskList={onTaskList}
-              offTaskList={offTaskList}
-              currentInterval={currentInterval}
-              progress={progress}
-            />
-          )}
-        />
-      </View>
+      <FlatList
+        data={observations.slice(0, currentInterval + 1)}
+        keyExtractor={(item) => item.id}
+        style={styles.flatList}
+        maintainVisibleContentPosition={{
+          minIndexForVisible: 0,
+        }}
+        renderItem={({ item, index }) => (
+          <IntervalTile
+            index={index}
+            observation={item}
+            onTaskList={onTaskList}
+            offTaskList={offTaskList}
+            currentInterval={currentInterval}
+            progress={progress}
+            themeColor={themeColor}
+          />
+        )}
+      />
       <Controller
         time={time}
         currentInterval={currentInterval}
@@ -209,7 +205,7 @@ const IntervalObservation = memo(function IntervalObservationType({
 const styles = StyleSheet.create({
   container: { flex: 1 },
   flatList: {
-    padding: 20,
-    flex: 1,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
 });
