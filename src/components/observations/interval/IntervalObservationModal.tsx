@@ -6,11 +6,12 @@ import {
   Animated,
   ActionSheetIOS,
   Text,
+  Easing,
 } from "react-native";
 import { useEffect, useRef, memo } from "react";
 import SlideUpModal from "../../universal/SlideUpModal";
 import IntervalTile from "./IntervalTile";
-import Info from "./Info";
+import Controller from "./Controller";
 import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
 import { IntervalObservationPreset } from "@/src/types/observations/observationTypes";
 import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";
@@ -18,7 +19,6 @@ import { constants } from "@/src/utils/constants";
 import { colors, fontSizes } from "@/src/utils/styles";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 import { useTimer } from "use-timer";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { IntervalObservationType } from "@/src/types/observations/intervalTypes";
 
 type Props = {
@@ -47,7 +47,10 @@ export default function IntervalObservationModal({ preset }: Props) {
   const borderAnim = useRef(new Animated.Value(2)).current;
 
   useEffect(() => {
-    if (open) start();
+    if (open) {
+      start();
+      restartAnimation();
+    }
   }, [open]);
 
   useEffect(() => {
@@ -70,11 +73,44 @@ export default function IntervalObservationModal({ preset }: Props) {
     setTimeout(clearStartForm, constants.modalDelay);
   }
 
+  const progress = useRef(new Animated.Value(0)).current;
+  const progressRef = useRef(0);
+
+  function startAnimation() {
+    Animated.timing(progress, {
+      toValue: 1,
+      duration: (1 - progressRef.current) * observationIntervalSeconds * 1000,
+      useNativeDriver: false,
+      easing: Easing.linear,
+    }).start();
+  }
+
+  function pauseAnimation() {
+    progress.stopAnimation((value) => {
+      progressRef.current = value;
+    });
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    restartAnimation();
+  }, [currentInterval]);
+
+  function restartAnimation() {
+    progress.setValue(0);
+    progressRef.current = 0;
+    startAnimation();
+  }
+
   function togglePause() {
     if (time === totalSeconds) return;
     if (status === "RUNNING") {
       pause();
-    } else start();
+      pauseAnimation();
+    } else {
+      start();
+      startAnimation();
+    }
   }
 
   return (
@@ -90,6 +126,7 @@ export default function IntervalObservationModal({ preset }: Props) {
         <IntervalObservation
           observations={observations}
           currentInterval={currentInterval}
+          numberOfObservations={numberOfObservations}
           onTaskList={onTaskList}
           offTaskList={offTaskList}
           time={time}
@@ -98,6 +135,7 @@ export default function IntervalObservationModal({ preset }: Props) {
           themeColor={settings.themeColor}
           status={status}
           onToggle={togglePause}
+          progress={progress}
         />
       }
     />
@@ -107,6 +145,7 @@ export default function IntervalObservationModal({ preset }: Props) {
 type BodyProps = {
   observations: IntervalObservationType[];
   currentInterval: number;
+  numberOfObservations: number;
   onTaskList: string[];
   offTaskList: string[];
   time: number;
@@ -114,12 +153,14 @@ type BodyProps = {
   borderAnim: Animated.Value;
   themeColor: string;
   status: string;
+  progress: Animated.Value;
   onToggle: () => void;
 };
 
 const IntervalObservation = memo(function IntervalObservationType({
   observations,
   currentInterval,
+  numberOfObservations,
   onTaskList,
   offTaskList,
   time,
@@ -128,18 +169,8 @@ const IntervalObservation = memo(function IntervalObservationType({
   themeColor,
   status,
   onToggle,
+  progress,
 }: BodyProps) {
-  const progress = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    progress.setValue(0);
-
-    Animated.timing(progress, {
-      toValue: 1,
-      duration: observationIntervalSeconds * 1000,
-      useNativeDriver: false,
-    }).start();
-  }, [currentInterval]);
-
   return (
     <View style={styles.container}>
       <View style={styles.flatList}>
@@ -159,52 +190,34 @@ const IntervalObservation = memo(function IntervalObservationType({
             />
           )}
         />
-        <View style={styles.progressTile}>
-          <Animated.View
-            style={[
-              styles.progressBar,
-              {
-                width: progress.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: ["0%", "100%"],
-                }),
-              },
-            ]}
-          >
-            <Text style={styles.progressTitle}>{`Interval ${
-              currentInterval + 1
-            }`}</Text>
-            <Text style={styles.inProgress}>In progress</Text>
-          </Animated.View>
-        </View>
+        {currentInterval < numberOfObservations && (
+          <View style={styles.progressTile}>
+            <Animated.View
+              style={[
+                styles.progressBar,
+                {
+                  width: progress.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ["0%", "100%"],
+                  }),
+                },
+              ]}
+            >
+              <Text style={styles.progressTitle}>{`Interval ${
+                currentInterval + 1
+              }`}</Text>
+              <Text style={styles.inProgress}>In progress</Text>
+            </Animated.View>
+          </View>
+        )}
       </View>
-
-      <View style={styles.controller}>
-        <Info
-          currentInterval={currentInterval}
-          time={time}
-          observationIntervalSeconds={observationIntervalSeconds}
-        />
-
-        <Pressable onPress={onToggle}>
-          <Animated.View
-            style={[
-              styles.pause,
-              {
-                borderWidth: borderAnim,
-                paddingLeft: status === "RUNNING" ? 0 : 4,
-                borderColor: themeColor,
-              },
-            ]}
-          >
-            <Ionicons
-              name={status === "RUNNING" ? "pause-outline" : "play-outline"}
-              size={40}
-              color={themeColor}
-            />
-          </Animated.View>
-        </Pressable>
-      </View>
+      <Controller
+        time={time}
+        borderAnim={borderAnim}
+        themeColor={themeColor}
+        status={status}
+        onToggle={onToggle}
+      />
     </View>
   );
 });
@@ -215,23 +228,7 @@ const styles = StyleSheet.create({
     padding: 20,
     flex: 1,
   },
-  controller: {
-    borderTopWidth: 1,
-    borderTopColor: colors.gray,
-    height: 100,
-    marginBottom: 25,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 20,
-  },
-  pause: {
-    width: 70,
-    height: 70,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 35,
-    marginRight: 20,
-  },
+
   progressTile: {
     height: 75,
     borderRadius: 12,
