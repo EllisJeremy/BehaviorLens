@@ -88,6 +88,7 @@ export const styles = StyleSheet.create({
     marginBottom: 12,
     minHeight: 72,
     justifyContent: "space-between",
+    gap: 10,
   },
   content: {
     flexDirection: "row",

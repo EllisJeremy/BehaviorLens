@@ -57,6 +57,7 @@ export default function StartObservationModal() {
   return (
     <SlideUpModal
       modalOpen={open}
+      saveText="Start"
       title="Start Observation"
       form={<StartObservationForm />}
       submitForm={submitForm}
