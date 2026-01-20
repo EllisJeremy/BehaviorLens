@@ -15,7 +15,7 @@ export const useObservationPresetsStore = create<ObservationPresetStore>(
     observationPresets: {},
 
     loadObservationPresets: async () => {
-      const data = await loadObject("observationPreset");
+      const data = await loadObject("observationPresets");
       if (data) set({ observationPresets: data });
     },
 
@@ -26,7 +26,7 @@ export const useObservationPresetsStore = create<ObservationPresetStore>(
           [observationPreset.uuid]: observationPreset,
         };
 
-        saveObject("observationPreset", newObservationPresets);
+        saveObject("observationPresets", newObservationPresets);
 
         return { observationPresets: newObservationPresets };
       });
@@ -40,14 +40,14 @@ export const useObservationPresetsStore = create<ObservationPresetStore>(
         } else {
           console.error(
             "ERROR: there is no observation preset with uuid",
-            uuid
+            uuid,
           );
         }
 
-        saveObject("observationPreset", newObservationPresets);
+        saveObject("observationPresets", newObservationPresets);
 
         return { observationPresets: newObservationPresets };
       });
     },
-  })
+  }),
 );

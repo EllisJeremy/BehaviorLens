@@ -35,8 +35,8 @@ export default function ObservationPresetForm() {
     setName,
     type,
     setType,
-    numberOfObservations,
-    setNumberOfObservations,
+    totalIntervals,
+    setTotalIntervals,
     intervalSeconds,
     setIntervalSeconds,
     onTaskList,
@@ -80,10 +80,10 @@ export default function ObservationPresetForm() {
             setValue={setIntervalSeconds}
           />
           <InputWithLabel
-            defaultValue={String(numberOfObservations)}
+            defaultValue={String(totalIntervals)}
             placeholder="Number"
             keyboardType="numeric"
-            onChangeText={(v: string) => setNumberOfObservations(Number(v))}
+            onChangeText={(v: string) => setTotalIntervals(Number(v))}
             label="Number of Observations"
           />
         </FormContainer>

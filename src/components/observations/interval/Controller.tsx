@@ -9,7 +9,7 @@ export default function Controller({
   themeColor,
   status,
   currentInterval,
-  numberOfObservations,
+  totalIntervals,
 
   onToggle,
 }: {
@@ -18,7 +18,7 @@ export default function Controller({
   themeColor: string;
   status: string;
   currentInterval: number;
-  numberOfObservations: number;
+  totalIntervals: number;
   onToggle: () => void;
 }) {
   return (
@@ -27,8 +27,8 @@ export default function Controller({
         <Text style={styles.time}>{timeFormatter(time)}</Text>
         <Text style={styles.interval}>{`Interval ${Math.min(
           currentInterval + 1,
-          numberOfObservations
-        )} / ${numberOfObservations}`}</Text>
+          totalIntervals,
+        )} / ${totalIntervals}`}</Text>
       </View>
       <Pressable onPress={onToggle}>
         <Animated.View

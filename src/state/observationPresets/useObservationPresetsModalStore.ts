@@ -28,8 +28,8 @@ export type ObservationPresetState = {
   setType: (v: ObservationPresetEnum) => void;
 
   // interval settings
-  numberOfObservations: number;
-  setNumberOfObservations: (v: number) => void;
+  totalIntervals: number;
+  setTotalIntervals: (v: number) => void;
   intervalSeconds: number;
   setIntervalSeconds: (v: number) => void;
 
@@ -59,8 +59,8 @@ export const useObservationPresetsModalStore = create<ObservationPresetState>(
     setType: (v) => set({ type: v }),
 
     // interval settings
-    numberOfObservations: 20,
-    setNumberOfObservations: (v) => set({ numberOfObservations: v }),
+    totalIntervals: 20,
+    setTotalIntervals: (v) => set({ totalIntervals: v }),
     intervalSeconds: 15,
     setIntervalSeconds: (v) => set({ intervalSeconds: v }),
     onTaskList: defaultOnTaskList,
@@ -122,7 +122,7 @@ export const useObservationPresetsModalStore = create<ObservationPresetState>(
         onTaskList: defaultOnTaskList,
         offTaskList: defaultOffTaskList,
 
-        numberOfObservations: 20,
+        totalIntervals: 20,
         intervalSeconds: 15,
       }),
   }),

@@ -28,7 +28,7 @@ export default function ObservationTile({
   const {
     setName,
     setType,
-    setNumberOfObservations,
+    setTotalIntervals,
     setIntervalSeconds,
     setOpen,
     setUuid,
@@ -105,7 +105,7 @@ export default function ObservationTile({
             setType(observationPreset.type);
 
             if (observationPreset.type === "interval") {
-              setNumberOfObservations(observationPreset.numberOfObservations);
+              setTotalIntervals(observationPreset.totalIntervals);
               setIntervalSeconds(observationPreset.intervalSeconds);
               setOnTask(observationPreset.onTaskList);
               setOffTask(observationPreset.offTaskList);

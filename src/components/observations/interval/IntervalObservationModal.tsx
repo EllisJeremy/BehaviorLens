@@ -15,25 +15,37 @@ import { useIntervalObservationStore } from "@/src/state/observations/useInterva
 import { IntervalObservationPreset } from "@/src/types/observations/observationTypes";
 import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";
 import { constants } from "@/src/utils/constants";
-import { colors, fontSizes } from "@/src/utils/styles";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 import { useTimer } from "use-timer";
 import { IntervalObservationType } from "@/src/types/observations/intervalTypes";
+import * as Crypto from "expo-crypto";
+import { IntervalReportType } from "@/src/types/reportsTypes";
+import { useReportsStore } from "@/src/state/reports/useReportsStore";
 
-type Props = {
+export default function IntervalObservationModal({
+  preset,
+}: {
   preset: IntervalObservationPreset;
-};
-
-export default function IntervalObservationModal({ preset }: Props) {
-  const { open, clearForm, currentInterval, observations, nextInterval } =
-    useIntervalObservationStore();
+}) {
+  const {
+    open,
+    clearForm,
+    currentInterval,
+    observations,
+    nextInterval,
+    startedAt,
+  } = useIntervalObservationStore();
 
   const { settings } = useSettingsStore();
-  const { clearForm: clearStartForm } = useStartObservationModalStore();
+  const {
+    clearForm: clearStartForm,
+    name,
+    studentUuid,
+  } = useStartObservationModalStore();
 
-  const { intervalSeconds, numberOfObservations, onTaskList, offTaskList } =
-    preset;
-  const totalSeconds = intervalSeconds * numberOfObservations;
+  const { addReport } = useReportsStore();
+  const { intervalSeconds, totalIntervals, onTaskList, offTaskList } = preset;
+  const totalSeconds = intervalSeconds * totalIntervals;
 
   const { time, start, pause, status } = useTimer({
     interval: 1000,
@@ -51,7 +63,7 @@ export default function IntervalObservationModal({ preset }: Props) {
   useEffect(() => {
     if (time === 0) return;
     if (time % intervalSeconds === 0) {
-      nextInterval(numberOfObservations);
+      nextInterval(totalIntervals);
     }
   }, [time]);
 
@@ -74,6 +86,39 @@ export default function IntervalObservationModal({ preset }: Props) {
       },
       (index: number) => {
         if (index === 1) {
+          clearForm();
+          setTimeout(clearStartForm, constants.modalDelay);
+        }
+      },
+    );
+  }
+
+  function done() {
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        title: "Finish Observation",
+        message: "Exit the observation and save the data to a report",
+        options: ["Continue Observation", "Finish Observation"],
+        cancelButtonIndex: 0,
+      },
+      (index: number) => {
+        if (index === 1) {
+          if (startedAt) {
+            const report: IntervalReportType = {
+              uuid: Crypto.randomUUID(),
+              name,
+              studentUuid,
+              startedAt,
+              type: "interval",
+              totalIntervals,
+              intervalSeconds,
+              observations,
+            };
+            addReport(report);
+          } else {
+            console.error("missing timestamp");
+          }
+
           clearForm();
           setTimeout(clearStartForm, constants.modalDelay);
         }
@@ -127,14 +172,14 @@ export default function IntervalObservationModal({ preset }: Props) {
       modalOpen={open}
       title="Interval Observation"
       clearForm={exit}
-      submitForm={exit}
+      submitForm={done}
       scrollable={false}
       padding={0}
       form={
         <IntervalObservation
           observations={observations}
           currentInterval={currentInterval}
-          numberOfObservations={numberOfObservations}
+          totalIntervals={totalIntervals}
           onTaskList={onTaskList}
           offTaskList={offTaskList}
           time={time}
@@ -152,7 +197,7 @@ export default function IntervalObservationModal({ preset }: Props) {
 type BodyProps = {
   observations: IntervalObservationType[];
   currentInterval: number;
-  numberOfObservations: number;
+  totalIntervals: number;
   onTaskList: string[];
   offTaskList: string[];
   time: number;
@@ -166,7 +211,7 @@ type BodyProps = {
 const IntervalObservation = memo(function IntervalObservationType({
   observations,
   currentInterval,
-  numberOfObservations,
+  totalIntervals,
   onTaskList,
   offTaskList,
   time,
@@ -200,7 +245,7 @@ const IntervalObservation = memo(function IntervalObservationType({
       <Controller
         time={time}
         currentInterval={currentInterval}
-        numberOfObservations={numberOfObservations}
+        totalIntervals={totalIntervals}
         borderAnim={borderAnim}
         themeColor={themeColor}
         status={status}

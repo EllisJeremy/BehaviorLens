@@ -50,7 +50,7 @@ export const useIntervalObservationStore = create<IntervalObservationState>(
           ...existing,
           isOnTask,
           value,
-          timestamp: new Date().toISOString(),
+          timestamp: Date.now(),
         };
 
         return { observations: next };
@@ -68,5 +68,5 @@ export const useIntervalObservationStore = create<IntervalObservationState>(
         observations: [],
         startedAt: null,
       }),
-  })
+  }),
 );

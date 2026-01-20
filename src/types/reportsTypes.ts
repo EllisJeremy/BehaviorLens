@@ -5,15 +5,15 @@ export type BaseReportType = {
   uuid: string;
   name: string;
   studentUuid: string;
-  startedAt: string;
+  startedAt: number;
   type: ObservationPresetEnum;
 };
 
-export type IntervalObservationReportType = BaseReportType & {
+export type IntervalReportType = BaseReportType & {
   type: "interval";
   totalIntervals: number;
   intervalSeconds: number;
   observations: IntervalObservationType[];
 };
 
-export type ReportType = IntervalObservationReportType;
+export type ReportType = IntervalReportType;

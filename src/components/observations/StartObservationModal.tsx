@@ -50,7 +50,7 @@ export default function StartObservationModal() {
     setOpen(false);
 
     setTimeout(() => {
-      start(preset.numberOfObservations);
+      start(preset.totalIntervals);
     }, constants.modalDelay);
   }
 

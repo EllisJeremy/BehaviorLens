@@ -13,7 +13,7 @@ export const presetBuilder: Record<
     type: "interval",
     uuid: state.uuid,
     name: state.name,
-    numberOfObservations: state.numberOfObservations,
+    totalIntervals: state.totalIntervals,
     intervalSeconds: state.intervalSeconds,
     onTaskList: state.onTaskList,
     offTaskList: state.offTaskList,
