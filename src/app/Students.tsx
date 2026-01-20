@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { FlatList, StyleSheet, View, Text } from "react-native";
 import StudentTile from "../components/students/StudentTile";
 import AddStudentModal from "../components/students/AddStudentModal";
@@ -8,12 +7,8 @@ import PlusButton from "../components/universal/PlusButton";
 import { colors } from "../utils/styles";
 
 export default function Students() {
-  const { loadStudents, students } = useStudentsStore();
+  const { students } = useStudentsStore();
   const { setOpen } = useStudentsModalStore();
-
-  useEffect(() => {
-    loadStudents();
-  }, []);
 
   return (
     <View style={styles.container}>
