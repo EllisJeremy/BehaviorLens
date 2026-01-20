@@ -12,6 +12,7 @@ export type BaseReportType = {
 export type IntervalReportType = BaseReportType & {
   type: "interval";
   totalIntervals: number;
+  finalInterval: number;
   intervalSeconds: number;
   observations: IntervalObservationType[];
 };

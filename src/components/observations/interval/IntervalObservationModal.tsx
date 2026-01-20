@@ -111,8 +111,9 @@ export default function IntervalObservationModal({
               startedAt,
               type: "interval",
               totalIntervals,
+              finalInterval: currentInterval,
               intervalSeconds,
-              observations,
+              observations: observations.splice(0, currentInterval),
             };
             addReport(report);
           } else {
