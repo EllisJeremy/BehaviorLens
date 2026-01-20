@@ -14,6 +14,7 @@ export const themeColors = {
 };
 
 export const colors = {
+  white: "white",
   offWhite: "rgb(240,240,240)",
   lighterGray: "rgb(226, 226, 227)",
   lightGray: "rgb(197,197,197)",

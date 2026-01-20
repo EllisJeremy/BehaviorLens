@@ -10,7 +10,7 @@ export default function PlusButton({ onPress }: { onPress: () => void }) {
       style={[styles.add, { backgroundColor: settings.themeColor }]}
       onPress={onPress}
     >
-      <Octicons name="plus" size={20} color="white" />
+      <Octicons name="plus" size={20} color={colors.white} />
     </Pressable>
   );
 }

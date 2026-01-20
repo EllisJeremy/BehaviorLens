@@ -115,7 +115,7 @@ export default function ObservationTile({
             setOpen(true);
           }}
         >
-          <Octicons name="pencil" size={20} color="white" />
+          <Octicons name="pencil" size={20} color={colors.white} />
         </Pressable>
 
         <Pressable
@@ -134,7 +134,7 @@ export default function ObservationTile({
             );
           }}
         >
-          <Octicons name="trash" size={20} color="white" />
+          <Octicons name="trash" size={20} color={colors.white} />
         </Pressable>
       </View>
     </Pressable>

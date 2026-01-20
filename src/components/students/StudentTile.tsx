@@ -40,7 +40,7 @@ export default function StudentTile({
             setOpen(true);
           }}
         >
-          <Octicons name="pencil" size={20} color="white" />
+          <Octicons name="pencil" size={20} color={colors.white} />
         </Pressable>
 
         <Pressable
@@ -58,7 +58,7 @@ export default function StudentTile({
             );
           }}
         >
-          <Octicons name="trash" size={20} color="white" />
+          <Octicons name="trash" size={20} color={colors.white} />
         </Pressable>
       </View>
     </View>

@@ -4,7 +4,7 @@ import FormContainer from "../components/universal/form/FormContainer";
 import InputWithLabel from "../components/universal/form/InputWithLabel";
 import { useSettingsUIStore } from "../state/settings/useSettingsUIStore";
 import { useSettingsStore } from "../state/settings/useSettingsStore";
-import { ThemeColor, themeColors } from "../utils/styles";
+import { ThemeColor, themeColors, colors } from "../utils/styles";
 import DropDownMenu, {
   Option,
 } from "../components/universal/form/DropDownMenu";
@@ -24,12 +24,12 @@ export default function Settings() {
     ([key, value]) => ({
       label: key,
       value: value,
-    })
+    }),
   );
 
   return (
     <View style={styles.container}>
-      <FormContainer title="settings" backgroundColor="white">
+      <FormContainer title="settings" backgroundColor={colors.white}>
         <InputWithLabel
           defaultValue={username}
           placeholder="enter username"
@@ -38,7 +38,7 @@ export default function Settings() {
             setUsername(v);
           }}
           label="Username"
-          backgroundColor="white"
+          backgroundColor={colors.white}
         />
         <DropDownMenu
           title="Theme Color"
@@ -48,7 +48,7 @@ export default function Settings() {
             updateSettings("themeColor", v);
             setThemeColor(v);
           }}
-          backgroundColor="white"
+          backgroundColor={colors.white}
         />
       </FormContainer>
     </View>

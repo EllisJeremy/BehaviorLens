@@ -8,7 +8,7 @@ import {
   Platform,
 } from "react-native";
 import Modal from "react-native-modal";
-import { fontSizes } from "@/src/utils/styles";
+import { fontSizes, colors } from "@/src/utils/styles";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 
 export default function SlideUpModal({
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   container: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     height: "92%",

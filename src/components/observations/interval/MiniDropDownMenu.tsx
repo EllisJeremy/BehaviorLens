@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   menuItem: {
     paddingVertical: 8,
     paddingHorizontal: 12,
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     flexDirection: "row",
     justifyContent: "space-between",
   },
