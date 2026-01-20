@@ -16,14 +16,7 @@ export default function Students() {
         <FlatList
           data={Object.values(students)}
           keyExtractor={(_, i) => i.toString()}
-          renderItem={({ item }) => (
-            <StudentTile
-              uuid={item.uuid}
-              firstName={item.firstName}
-              lastName={item.lastName}
-              grade={item.grade}
-            />
-          )}
+          renderItem={({ item }) => <StudentTile student={item} />}
           ListHeaderComponent={() => <View style={styles.line} />}
           ItemSeparatorComponent={() => <View style={styles.line} />}
           ListFooterComponent={() => <View style={styles.line} />}

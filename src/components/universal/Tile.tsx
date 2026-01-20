@@ -15,7 +15,6 @@ import { colors, fontSizes } from "@/src/utils/styles";
 export default function Tile({
   title,
   subTitle,
-  object,
   onEdit,
   onRemove,
   onPress,
@@ -23,23 +22,23 @@ export default function Tile({
 }: {
   title: string;
   subTitle: string;
-  object: any;
-  onEdit?: (object: any) => void;
-  onRemove: (object: any) => void;
-  onPress?: (object: any) => void;
-  iconSource: ImageSourcePropType;
+  onEdit?: () => void;
+  onRemove: () => void;
+  onPress?: () => void;
+  iconSource?: ImageSourcePropType;
 }) {
   return (
     <Pressable
       style={styles.tile}
       onPress={() => {
         if (onPress) {
-          onPress(object);
+          onPress();
         }
       }}
     >
       <View style={styles.iconAndInfo}>
-        <Image source={iconSource} style={styles.icon} />
+        {iconSource && <Image source={iconSource} style={styles.icon} />}
+
         <View style={styles.info}>
           <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">
             {title}
@@ -50,12 +49,7 @@ export default function Tile({
 
       <View style={styles.controls}>
         {onEdit && (
-          <Pressable
-            style={styles.iconButton}
-            onPress={() => {
-              onEdit(object);
-            }}
-          >
+          <Pressable style={styles.iconButton} onPress={onEdit}>
             <Octicons name="pencil" size={20} color={colors.white} />
           </Pressable>
         )}
@@ -70,7 +64,7 @@ export default function Tile({
                 cancelButtonIndex: 0,
               },
               (index: number) => {
-                if (index === 1) onRemove(object);
+                if (index === 1) onRemove();
               },
             );
           }}
