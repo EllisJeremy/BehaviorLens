@@ -5,20 +5,20 @@ import { ReportType } from "@/src/types/reportsTypes";
 type ReportsStore = {
   reports: Record<string, ReportType>;
 
-  loadObservationPresets: () => Promise<void>;
-  addObservationPreset: (report: ReportType) => void;
-  removeObservationPreset: (uuid: string) => void;
+  loadReports: () => Promise<void>;
+  addReport: (report: ReportType) => void;
+  removeReport: (uuid: string) => void;
 };
 
 export const useReportsStore = create<ReportsStore>((set, get) => ({
   reports: {},
 
-  loadObservationPresets: async () => {
+  loadReports: async () => {
     const data = await loadObject("reports");
     if (data) set({ reports: data });
   },
 
-  addObservationPreset: (report: ReportType) => {
+  addReport: (report: ReportType) => {
     set((state) => {
       const newReports = {
         ...state.reports,
@@ -31,7 +31,7 @@ export const useReportsStore = create<ReportsStore>((set, get) => ({
     });
   },
 
-  removeObservationPreset: (uuid: string) => {
+  removeReport: (uuid: string) => {
     set((state) => {
       const newReports = { ...state.reports };
       if (uuid in newReports) {

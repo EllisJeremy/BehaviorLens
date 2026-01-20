@@ -11,14 +11,9 @@ import IntervalObservationModal from "../components/observations/interval/Interv
 import { useStartObservationModalStore } from "../state/observations/useStartObservationModalStore";
 
 export default function Observations() {
-  const { loadObservationPresets, observationPresets } =
-    useObservationPresetsStore();
+  const { observationPresets } = useObservationPresetsStore();
   const { setOpen } = useObservationPresetsModalStore();
   const { preset } = useStartObservationModalStore();
-
-  useEffect(() => {
-    loadObservationPresets();
-  }, []);
 
   return (
     <View style={styles.container}>

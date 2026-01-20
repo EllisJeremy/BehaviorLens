@@ -1,19 +1,24 @@
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { themeColors } from "../utils/styles";
 import { useSettingsStore } from "../state/settings/useSettingsStore";
 import { useEffect } from "react";
 import { useStudentsStore } from "../state/students/useStudentsStore";
+import { useObservationPresetsStore } from "../state/observationPresets/useObservationPresetsStore";
+import { useReportsStore } from "../state/reports/useReportsStore";
 
 import { Tabs } from "expo-router";
 
 export default function RootLayout() {
   const { settings, loadSettings } = useSettingsStore();
   const { loadStudents } = useStudentsStore();
+  const { loadObservationPresets } = useObservationPresetsStore();
+  const { loadReports } = useReportsStore();
   useEffect(() => {
     loadSettings();
     loadStudents();
+    loadObservationPresets();
+    loadReports();
   }, []);
 
   return (
