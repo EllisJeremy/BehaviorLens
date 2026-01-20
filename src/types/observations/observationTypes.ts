@@ -9,7 +9,7 @@ export type ObservationPresetEnum = "interval" | "abc";
 export type IntervalObservationPreset = BaseObservationPreset & {
   type: "interval";
   numberOfObservations: number;
-  observationIntervalSeconds: number;
+  intervalSeconds: number;
   onTaskList: string[];
   offTaskList: string[];
 };

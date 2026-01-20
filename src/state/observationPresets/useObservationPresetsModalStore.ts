@@ -30,8 +30,8 @@ export type ObservationPresetState = {
   // interval settings
   numberOfObservations: number;
   setNumberOfObservations: (v: number) => void;
-  observationIntervalSeconds: number;
-  setObservationIntervalSeconds: (v: number) => void;
+  intervalSeconds: number;
+  setIntervalSeconds: (v: number) => void;
 
   onTaskList: string[];
   setOnTask: (v: string[]) => void;
@@ -61,9 +61,8 @@ export const useObservationPresetsModalStore = create<ObservationPresetState>(
     // interval settings
     numberOfObservations: 20,
     setNumberOfObservations: (v) => set({ numberOfObservations: v }),
-    observationIntervalSeconds: 15,
-    setObservationIntervalSeconds: (v) =>
-      set({ observationIntervalSeconds: v }),
+    intervalSeconds: 15,
+    setIntervalSeconds: (v) => set({ intervalSeconds: v }),
     onTaskList: defaultOnTaskList,
     setOnTask: (v) => set({ onTaskList: v }),
     addOnTask: (label) =>
@@ -73,7 +72,7 @@ export const useObservationPresetsModalStore = create<ObservationPresetState>(
 
         if (
           state.onTaskList.some(
-            (b) => b.toLowerCase() === normalized.toLowerCase()
+            (b) => b.toLowerCase() === normalized.toLowerCase(),
           )
         ) {
           return state;
@@ -98,7 +97,7 @@ export const useObservationPresetsModalStore = create<ObservationPresetState>(
 
         if (
           state.offTaskList.some(
-            (b) => b.toLowerCase() === normalized.toLowerCase()
+            (b) => b.toLowerCase() === normalized.toLowerCase(),
           )
         ) {
           return state;
@@ -124,7 +123,7 @@ export const useObservationPresetsModalStore = create<ObservationPresetState>(
         offTaskList: defaultOffTaskList,
 
         numberOfObservations: 20,
-        observationIntervalSeconds: 15,
+        intervalSeconds: 15,
       }),
-  })
+  }),
 );

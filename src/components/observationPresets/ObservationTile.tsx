@@ -29,7 +29,7 @@ export default function ObservationTile({
     setName,
     setType,
     setNumberOfObservations,
-    setObservationIntervalSeconds,
+    setIntervalSeconds,
     setOpen,
     setUuid,
     setOffTask,
@@ -53,7 +53,7 @@ export default function ObservationTile({
                 setStudentOpen(true);
               },
             },
-          ]
+          ],
         );
       } else if (settings.username === "") {
         Alert.alert(
@@ -73,7 +73,7 @@ export default function ObservationTile({
                 openWithPreset(observationPreset);
               },
             },
-          ]
+          ],
         );
       } else {
         openWithPreset(observationPreset);
@@ -106,9 +106,7 @@ export default function ObservationTile({
 
             if (observationPreset.type === "interval") {
               setNumberOfObservations(observationPreset.numberOfObservations);
-              setObservationIntervalSeconds(
-                observationPreset.observationIntervalSeconds
-              );
+              setIntervalSeconds(observationPreset.intervalSeconds);
               setOnTask(observationPreset.onTaskList);
               setOffTask(observationPreset.offTaskList);
             }
@@ -130,7 +128,7 @@ export default function ObservationTile({
               (index: number) => {
                 if (index === 1)
                   removeObservationPreset(observationPreset.uuid);
-              }
+              },
             );
           }}
         >

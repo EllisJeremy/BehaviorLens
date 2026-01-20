@@ -4,12 +4,3 @@ export type IntervalObservationType = {
   value: string | null;
   timestamp: string | null;
 };
-
-export type IntervalObservationReportType = {
-  name: string;
-  studentUuid: string;
-  startedAt: string;
-  totalIntervals: number;
-  intervalSeconds: number;
-  observations: IntervalObservationType[];
-};

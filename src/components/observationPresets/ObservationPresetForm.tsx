@@ -19,7 +19,6 @@ type FieldRenderer<T> = {
 };
 
 const intervalOptions: Option<number>[] = [
-  { label: "5 seconds", value: 5 },
   { label: "15 seconds", value: 15 },
   { label: "30 seconds", value: 30 },
   { label: "60 seconds", value: 60 },
@@ -38,8 +37,8 @@ export default function ObservationPresetForm() {
     setType,
     numberOfObservations,
     setNumberOfObservations,
-    observationIntervalSeconds,
-    setObservationIntervalSeconds,
+    intervalSeconds,
+    setIntervalSeconds,
     onTaskList,
     addOnTask,
     removeOnTask,
@@ -77,8 +76,8 @@ export default function ObservationPresetForm() {
           <DropDownMenu
             title="Observation Interval"
             options={intervalOptions}
-            value={observationIntervalSeconds}
-            setValue={setObservationIntervalSeconds}
+            value={intervalSeconds}
+            setValue={setIntervalSeconds}
           />
           <InputWithLabel
             defaultValue={String(numberOfObservations)}

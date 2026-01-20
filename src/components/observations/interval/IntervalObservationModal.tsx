@@ -31,13 +31,9 @@ export default function IntervalObservationModal({ preset }: Props) {
   const { settings } = useSettingsStore();
   const { clearForm: clearStartForm } = useStartObservationModalStore();
 
-  const {
-    observationIntervalSeconds,
-    numberOfObservations,
-    onTaskList,
-    offTaskList,
-  } = preset;
-  const totalSeconds = observationIntervalSeconds * numberOfObservations;
+  const { intervalSeconds, numberOfObservations, onTaskList, offTaskList } =
+    preset;
+  const totalSeconds = intervalSeconds * numberOfObservations;
 
   const { time, start, pause, status } = useTimer({
     interval: 1000,
@@ -54,7 +50,7 @@ export default function IntervalObservationModal({ preset }: Props) {
 
   useEffect(() => {
     if (time === 0) return;
-    if (time % observationIntervalSeconds === 0) {
+    if (time % intervalSeconds === 0) {
       nextInterval(numberOfObservations);
     }
   }, [time]);
@@ -81,7 +77,7 @@ export default function IntervalObservationModal({ preset }: Props) {
           clearForm();
           setTimeout(clearStartForm, constants.modalDelay);
         }
-      }
+      },
     );
   }
 
@@ -91,7 +87,7 @@ export default function IntervalObservationModal({ preset }: Props) {
   function startAnimation() {
     Animated.timing(progress, {
       toValue: 1,
-      duration: (1 - progressRef.current) * observationIntervalSeconds * 1000,
+      duration: (1 - progressRef.current) * intervalSeconds * 1000,
       useNativeDriver: false,
       easing: Easing.linear,
     }).start();
