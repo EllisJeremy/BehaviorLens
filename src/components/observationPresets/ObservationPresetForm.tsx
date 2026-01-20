@@ -52,9 +52,10 @@ export default function ObservationPresetForm() {
       key: "type",
       render: (
         <FormContainer>
-          <Input
+          <InputWithLabel
+            label="Name"
             defaultValue={name}
-            placeholder="Name"
+            placeholder="Enter name"
             onChangeText={setName}
           />
           <DropDownMenu<ObservationPresetEnum>

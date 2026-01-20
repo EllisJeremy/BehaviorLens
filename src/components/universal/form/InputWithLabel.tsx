@@ -45,6 +45,8 @@ export default function InputWithLabel({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
+    backgroundColor: colors.offWhite,
+    gap: 15,
   },
   input: {
     backgroundColor: colors.offWhite,
