@@ -1,48 +1,48 @@
 import { create } from "zustand";
 import { loadObject, saveObject } from "../../utils/storage/storage";
-import { ObservationPreset } from "@/src/types/observations/observationTypes";
+import { ReportType } from "@/src/types/reportsTypes";
 
 type ReportsStore = {
-  observationPresets: Record<string, ObservationPreset>;
+  reports: Record<string, ReportType>;
 
   loadObservationPresets: () => Promise<void>;
-  addObservationPreset: (observationPreset: ObservationPreset) => void;
+  addObservationPreset: (report: ReportType) => void;
   removeObservationPreset: (uuid: string) => void;
 };
 
 export const useReportsStore = create<ReportsStore>((set, get) => ({
-  observationPresets: {},
+  reports: {},
 
   loadObservationPresets: async () => {
-    const data = await loadObject("observationPreset");
-    if (data) set({ observationPresets: data });
+    const data = await loadObject("reports");
+    if (data) set({ reports: data });
   },
 
-  addObservationPreset: (observationPreset: ObservationPreset) => {
+  addObservationPreset: (report: ReportType) => {
     set((state) => {
-      const newObservationPresets = {
-        ...state.observationPresets,
-        [observationPreset.uuid]: observationPreset,
+      const newReports = {
+        ...state.reports,
+        [report.uuid]: report,
       };
 
-      saveObject("observationPreset", newObservationPresets);
+      saveObject("reports", newReports);
 
-      return { observationPresets: newObservationPresets };
+      return { reports: newReports };
     });
   },
 
   removeObservationPreset: (uuid: string) => {
     set((state) => {
-      const newObservationPresets = { ...state.observationPresets };
-      if (uuid in newObservationPresets) {
-        delete newObservationPresets[uuid];
+      const newReports = { ...state.reports };
+      if (uuid in newReports) {
+        delete newReports[uuid];
       } else {
-        console.error("ERROR: there is no observation preset with uuid", uuid);
+        console.error("ERROR: there is no report with uuid", uuid);
       }
 
-      saveObject("observationPreset", newObservationPresets);
+      saveObject("reports", newReports);
 
-      return { observationPresets: newObservationPresets };
+      return { reports: newReports };
     });
   },
 }));
