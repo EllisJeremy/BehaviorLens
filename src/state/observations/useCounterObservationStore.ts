@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type IntervalCounterState = {
+type CounterObservationState = {
   open: boolean;
   setOpen: (v: boolean) => void;
 
@@ -11,26 +11,28 @@ type IntervalCounterState = {
   clearForm: () => void;
 };
 
-export const useIntervalCounterStore = create<IntervalCounterState>((set) => ({
-  open: false,
-  setOpen: (v) => set({ open: v }),
+export const useCounterObservationStore = create<CounterObservationState>(
+  (set) => ({
+    open: false,
+    setOpen: (v) => set({ open: v }),
 
-  counter: {},
-  startedAt: null,
+    counter: {},
+    startedAt: null,
 
-  start: (observationsList) =>
-    set({
-      open: true,
-      counter: Object.fromEntries(
-        observationsList.map((behavior) => [behavior, []]),
-      ),
-      startedAt: Date.now(),
-    }),
+    start: (behaviorsList) =>
+      set({
+        open: true,
+        counter: Object.fromEntries(
+          behaviorsList.map((behavior) => [behavior, []]),
+        ),
+        startedAt: Date.now(),
+      }),
 
-  clearForm: () =>
-    set({
-      open: false,
-      counter: {},
-      startedAt: null,
-    }),
-}));
+    clearForm: () =>
+      set({
+        open: false,
+        counter: {},
+        startedAt: null,
+      }),
+  }),
+);

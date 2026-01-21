@@ -9,6 +9,7 @@ import PlusButton from "../components/universal/PlusButton";
 import StartObservationModal from "../components/observations/StartObservationModal";
 import IntervalObservationModal from "../components/observations/interval/IntervalObservationModal";
 import { useStartObservationModalStore } from "../state/observations/useStartObservationModalStore";
+import CounterObservationModal from "../components/observations/counter/CounterObservationModal";
 
 export default function Observations() {
   const { observationPresets } = useObservationPresetsStore();
@@ -37,6 +38,7 @@ export default function Observations() {
       <AddObservationPresetModal />
       <StartObservationModal />
       {preset && <IntervalObservationModal preset={preset as any} />}
+      {preset && <CounterObservationModal preset={preset as any} />}
     </View>
   );
 }

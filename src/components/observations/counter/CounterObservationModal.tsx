@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { useEffect, useRef, memo } from "react";
 import SlideUpModal from "../../universal/SlideUpModal";
-import IntervalTile from "./IntervalTile";
 import Controller from "../Controller";
 import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
 import { IntervalObservationPreset } from "@/src/types/observations/observationTypes";
@@ -22,20 +21,15 @@ import { IntervalReportType } from "@/src/types/reportsTypes";
 import { useReportsStore } from "@/src/state/reports/useReportsStore";
 import { savePDF } from "@/src/utils/pdf/storePDF";
 import { createIntervalPDF } from "@/src/utils/pdf/createPDF";
+import { CounterObservationPreset } from "@/src/types/observations/observationTypes";
+import { useCounterObservationStore } from "@/src/state/observations/useCounterObservationStore";
 
-export default function IntervalObservationModal({
+export default function CounterObservationModal({
   preset,
 }: {
-  preset: IntervalObservationPreset;
+  preset: CounterObservationPreset;
 }) {
-  const {
-    open,
-    clearForm,
-    currentInterval,
-    observations,
-    nextInterval,
-    startedAt,
-  } = useIntervalObservationStore();
+  const { open, clearForm, startedAt, counter } = useCounterObservationStore();
 
   const { settings } = useSettingsStore();
   const {
@@ -45,8 +39,7 @@ export default function IntervalObservationModal({
   } = useStartObservationModalStore();
 
   const { addReport } = useReportsStore();
-  const { intervalSeconds, totalIntervals, onTaskList, offTaskList } = preset;
-  const totalSeconds = intervalSeconds * totalIntervals;
+  const { totalSeconds } = preset;
 
   const { time, start, pause, status } = useTimer({
     interval: 1000,
@@ -57,16 +50,8 @@ export default function IntervalObservationModal({
   useEffect(() => {
     if (open) {
       start();
-      restartAnimation();
     }
   }, [open]);
-
-  useEffect(() => {
-    if (time === 0) return;
-    if (time % intervalSeconds === 0) {
-      nextInterval(totalIntervals);
-    }
-  }, [time]);
 
   useEffect(() => {
     Animated.timing(borderAnim, {
@@ -106,23 +91,8 @@ export default function IntervalObservationModal({
         if (index === 1) {
           if (startedAt) {
             const filename = `${name}-${Date.now()}.pdf`;
-            const report: IntervalReportType = {
-              uuid: Crypto.randomUUID(),
-              filename: filename,
-              name,
-              studentUuid,
-              startedAt,
-              type: "interval",
-              totalIntervals,
-              finalInterval: currentInterval,
-              intervalSeconds,
-              observations: observations.splice(0, currentInterval),
-            };
-            addReport(report);
 
-            const intervalPDF = createIntervalPDF(report);
-
-            await savePDF(intervalPDF, filename);
+            console.log("done");
           } else {
             console.error("missing timestamp");
           }
@@ -137,40 +107,12 @@ export default function IntervalObservationModal({
   const progress = useRef(new Animated.Value(0)).current;
   const progressRef = useRef(0);
 
-  function startAnimation() {
-    Animated.timing(progress, {
-      toValue: 1,
-      duration: (1 - progressRef.current) * intervalSeconds * 1000,
-      useNativeDriver: false,
-      easing: Easing.linear,
-    }).start();
-  }
-
-  function pauseAnimation() {
-    progress.stopAnimation((value) => {
-      progressRef.current = value;
-    });
-  }
-
-  useEffect(() => {
-    if (!open) return;
-    restartAnimation();
-  }, [currentInterval]);
-
-  function restartAnimation() {
-    progress.setValue(0);
-    progressRef.current = 0;
-    startAnimation();
-  }
-
   function togglePause() {
     if (time === totalSeconds) return;
     if (status === "RUNNING") {
       pause();
-      pauseAnimation();
     } else {
       start();
-      startAnimation();
     }
   }
 
@@ -184,18 +126,13 @@ export default function IntervalObservationModal({
       scrollable={false}
       padding={0}
       form={
-        <IntervalObservation
-          observations={observations}
-          currentInterval={currentInterval}
-          totalIntervals={totalIntervals}
-          onTaskList={onTaskList}
-          offTaskList={offTaskList}
+        <CounterObservation
+          counter={counter}
           time={time}
           borderAnim={borderAnim}
           themeColor={settings.themeColor}
           status={status}
           onToggle={togglePause}
-          progress={progress}
         />
       }
     />
@@ -203,57 +140,29 @@ export default function IntervalObservationModal({
 }
 
 type BodyProps = {
-  observations: IntervalObservationType[];
-  currentInterval: number;
-  totalIntervals: number;
-  onTaskList: string[];
-  offTaskList: string[];
+  counter: any;
   time: number;
   borderAnim: Animated.Value;
   themeColor: string;
   status: string;
-  progress: Animated.Value;
   onToggle: () => void;
 };
 
-const IntervalObservation = memo(function IntervalObservationType({
-  observations,
-  currentInterval,
-  totalIntervals,
-  onTaskList,
-  offTaskList,
+const CounterObservation = memo(function IntervalObservationType({
+  counter,
   time,
   borderAnim,
   themeColor,
   status,
   onToggle,
-  progress,
 }: BodyProps) {
+  console.log(counter);
   return (
     <View style={styles.container}>
-      <FlatList
-        data={observations.slice(0, currentInterval + 1)}
-        keyExtractor={(item) => item.id}
-        style={styles.flatList}
-        maintainVisibleContentPosition={{
-          minIndexForVisible: 0,
-        }}
-        renderItem={({ item, index }) => (
-          <IntervalTile
-            index={index}
-            observation={item}
-            onTaskList={onTaskList}
-            offTaskList={offTaskList}
-            currentInterval={currentInterval}
-            progress={progress}
-            themeColor={themeColor}
-          />
-        )}
-      />
       <Controller
         time={time}
-        currentInterval={currentInterval}
-        totalIntervals={totalIntervals}
+        currentInterval={1}
+        totalIntervals={1}
         borderAnim={borderAnim}
         themeColor={themeColor}
         status={status}

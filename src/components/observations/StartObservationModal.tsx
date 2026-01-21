@@ -7,6 +7,7 @@ import DropDownMenu, { Option } from "../universal/form/DropDownMenu";
 import { View } from "react-native";
 import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
 import { constants } from "@/src/utils/constants";
+import { useCounterObservationStore } from "@/src/state/observations/useCounterObservationStore";
 
 function StartObservationForm() {
   const { name, setName, studentUuid, setStudentUuid } =
@@ -41,6 +42,7 @@ export default function StartObservationModal() {
   const { open, setOpen, name, studentUuid, clearForm, preset } =
     useStartObservationModalStore();
   const { start: startInterval } = useIntervalObservationStore();
+  const { start: startCounter } = useCounterObservationStore();
 
   function submitForm() {
     if (!name || !studentUuid || !preset) {
@@ -51,7 +53,10 @@ export default function StartObservationModal() {
 
     setTimeout(() => {
       if (preset.type === "interval") startInterval(preset.totalIntervals);
-      if (preset.type === "counter") return;
+      if (preset.type === "counter") {
+        console.log(preset.behaviorsList);
+        startCounter(preset.behaviorsList);
+      }
     }, constants.modalDelay);
   }
 
