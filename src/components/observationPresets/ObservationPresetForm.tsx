@@ -45,6 +45,11 @@ export default function ObservationPresetForm() {
     offTaskList,
     addOffTask,
     removeOffTask,
+    totalSeconds,
+    setTotalSeconds,
+    behaviorsList,
+    addBehavior,
+    removeBehavior,
   } = useObservationPresetsModalStore();
 
   const baseFields: FieldRenderer<BaseObservationPreset>[] = [
@@ -118,7 +123,35 @@ export default function ObservationPresetForm() {
     },
   ];
 
-  const counterFields: FieldRenderer<CounterObservationPreset>[] = [];
+  const counterFields: FieldRenderer<CounterObservationPreset>[] = [
+    {
+      key: "totalSeconds",
+      render: (
+        <FormContainer title={"Observation length"}>
+          <InputWithLabel
+            defaultValue={String(totalSeconds / 60)}
+            placeholder="Number"
+            keyboardType="numeric"
+            onChangeText={(v: string) => setTotalSeconds(Number(v) * 60)}
+            label="Observation Length in Minuets"
+          />
+        </FormContainer>
+      ),
+    },
+    {
+      key: "behaviorsList",
+      render: (
+        <FormContainer title={"behaviors to count"}>
+          <EditableStringList
+            values={behaviorsList}
+            onAdd={addBehavior}
+            onRemove={removeBehavior}
+            placeholder="Add behavior"
+          />
+        </FormContainer>
+      ),
+    },
+  ];
 
   const presetFieldMap = {
     interval: [...baseFields, ...intervalFields],

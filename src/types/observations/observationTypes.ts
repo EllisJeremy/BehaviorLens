@@ -16,8 +16,8 @@ export type IntervalObservationPreset = BaseObservationPreset & {
 
 export type CounterObservationPreset = BaseObservationPreset & {
   type: "counter";
-  totalTime: number;
-  observationList: string[];
+  totalSeconds: number;
+  behaviorsList: string[];
 };
 
 export type ObservationPreset =

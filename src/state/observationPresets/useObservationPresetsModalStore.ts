@@ -16,6 +16,13 @@ const defaultOffTaskList = [
   "Physical Aggression",
 ];
 
+const defaultCounterObservationsList = [
+  "Engaged in Lesson",
+  "Taking Notes",
+  "Positive Peer Interaction",
+  "Positive Teacher Interaction",
+];
+
 export type ObservationPresetState = {
   open: boolean;
   setOpen: (val: boolean) => void;
@@ -42,6 +49,14 @@ export type ObservationPresetState = {
   setOffTask: (v: string[]) => void;
   addOffTask: (label: string) => void;
   removeOffTask: (label: string) => void;
+
+  // counter settings
+  totalSeconds: number;
+  setTotalSeconds: (v: number) => void;
+  behaviorsList: string[];
+  setBehavoirsList: (v: string[]) => void;
+  addBehavior: (v: string) => void;
+  removeBehavior: (v: string) => void;
 
   clearForm: () => void;
 };
@@ -113,6 +128,34 @@ export const useObservationPresetsModalStore = create<ObservationPresetState>(
         offTaskList: state.offTaskList.filter((b) => b !== label),
       })),
 
+    // counter settings
+    totalSeconds: 1200,
+    setTotalSeconds: (v) => set({ totalSeconds: v }),
+    behaviorsList: defaultCounterObservationsList,
+    setBehavoirsList: (v) => set({ behaviorsList: v }),
+    addBehavior: (v) =>
+      set((state) => {
+        const normalized = v.trim();
+        if (!normalized) return state;
+
+        if (
+          state.behaviorsList.some(
+            (b) => b.toLowerCase() === normalized.toLowerCase(),
+          )
+        ) {
+          return state;
+        }
+
+        return {
+          behaviorsList: [...state.behaviorsList, normalized],
+        };
+      }),
+
+    removeBehavior: (v) =>
+      set((state) => ({
+        behaviorsList: state.behaviorsList.filter((b) => b !== v),
+      })),
+
     clearForm: () =>
       set({
         open: false,
@@ -121,9 +164,11 @@ export const useObservationPresetsModalStore = create<ObservationPresetState>(
         type: "interval",
         onTaskList: defaultOnTaskList,
         offTaskList: defaultOffTaskList,
-
         totalIntervals: 20,
         intervalSeconds: 15,
+
+        totalSeconds: 0,
+        behaviorsList: defaultCounterObservationsList,
       }),
   }),
 );
