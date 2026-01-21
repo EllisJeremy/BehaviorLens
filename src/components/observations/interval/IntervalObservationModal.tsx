@@ -21,6 +21,8 @@ import { IntervalObservationType } from "@/src/types/observations/intervalTypes"
 import * as Crypto from "expo-crypto";
 import { IntervalReportType } from "@/src/types/reportsTypes";
 import { useReportsStore } from "@/src/state/reports/useReportsStore";
+import { savePDF } from "@/src/utils/pdf/storePDF";
+import { createPDF } from "@/src/utils/pdf/createPDF";
 
 export default function IntervalObservationModal({
   preset,
@@ -101,11 +103,18 @@ export default function IntervalObservationModal({
         options: ["Continue Observation", "Finish Observation"],
         cancelButtonIndex: 0,
       },
-      (index: number) => {
+      async (index: number) => {
         if (index === 1) {
           if (startedAt) {
+            const content = createPDF();
+            const filename = `${name}-${Date.now()}.pdf`;
+            const uri = await savePDF(content, filename);
+            console.log(uri);
+            console.log("break");
+
             const report: IntervalReportType = {
               uuid: Crypto.randomUUID(),
+              filename: filename,
               name,
               studentUuid,
               startedAt,

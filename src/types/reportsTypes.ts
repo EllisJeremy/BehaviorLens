@@ -3,6 +3,7 @@ import { ObservationPresetEnum } from "./observations/observationTypes";
 
 export type BaseReportType = {
   uuid: string;
+  filename: string;
   name: string;
   studentUuid: string;
   startedAt: number;
