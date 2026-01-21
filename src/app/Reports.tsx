@@ -2,12 +2,13 @@ import { FlatList, StyleSheet, View, Text } from "react-native";
 import { colors } from "../utils/styles";
 import { useReportsStore } from "../state/reports/useReportsStore";
 import ReportTile from "../components/reports/ReportTile";
-import { PDFViewer } from "../components/reports/PDFViewer";
+import ReportModal from "../components/reports/ReportModal";
 import { useReportModalStore } from "../state/reports/useReportModalStore";
 
 export default function Reports() {
   const { reports } = useReportsStore();
-  const { open, setOpen, filename } = useReportModalStore();
+  const { filename } = useReportModalStore();
+  console.log("page", filename);
 
   return (
     <View style={styles.container}>
@@ -25,13 +26,7 @@ export default function Reports() {
           <Text>Complete an observation to create a report</Text>
         </View>
       )}
-      <PDFViewer
-        filename={filename}
-        visible={open}
-        onClose={() => {
-          setOpen(false);
-        }}
-      />
+      <ReportModal />
     </View>
   );
 }

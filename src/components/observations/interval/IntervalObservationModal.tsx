@@ -108,9 +108,7 @@ export default function IntervalObservationModal({
           if (startedAt) {
             const content = createPDF();
             const filename = `${name}-${Date.now()}.pdf`;
-            const uri = await savePDF(content, filename);
-            console.log(uri);
-            console.log("break");
+            await savePDF(content, filename);
 
             const report: IntervalReportType = {
               uuid: Crypto.randomUUID(),

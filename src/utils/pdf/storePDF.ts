@@ -20,9 +20,6 @@ export function deletePDF(filename: string) {
 export function getPDF(filename: string) {
   const pdf = new File(Paths.document, filename);
 
-  console.log("Looking for PDF at:", pdf.uri);
-  console.log("PDF exists:", pdf.exists);
-
   if (!pdf.exists) {
     throw new Error(`PDF not found: ${filename}`);
   }

@@ -25,7 +25,7 @@ export default function SlideUpModal({
   modalOpen: boolean;
   title: string;
   form: React.ReactNode;
-  submitForm: () => void;
+  submitForm?: () => void;
   clearForm: () => void;
   saveText?: string;
   cancelText?: string;
@@ -48,12 +48,13 @@ export default function SlideUpModal({
           </Pressable>
 
           <Text style={styles.title}>{title}</Text>
-
-          <Pressable onPress={submitForm}>
-            <Text style={[styles.button, { color: settings.themeColor }]}>
-              {saveText}
-            </Text>
-          </Pressable>
+          {submitForm && (
+            <Pressable onPress={submitForm}>
+              <Text style={[styles.button, { color: settings.themeColor }]}>
+                {saveText}
+              </Text>
+            </Pressable>
+          )}
         </View>
 
         {scrollable ? (
