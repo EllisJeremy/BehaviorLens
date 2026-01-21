@@ -45,8 +45,8 @@ export default function ObservationPresetForm() {
     offTaskList,
     addOffTask,
     removeOffTask,
-    totalSeconds,
-    setTotalSeconds,
+    totalMins,
+    setTotalMins,
     behaviorsList,
     addBehavior,
     removeBehavior,
@@ -125,14 +125,14 @@ export default function ObservationPresetForm() {
 
   const counterFields: FieldRenderer<CounterObservationPreset>[] = [
     {
-      key: "totalSeconds",
+      key: "totalMins",
       render: (
         <FormContainer title={"Observation length"}>
           <InputWithLabel
-            defaultValue={String(totalSeconds / 60)}
+            defaultValue={String(totalMins)}
             placeholder="Number"
             keyboardType="numeric"
-            onChangeText={(v: string) => setTotalSeconds(Number(v) * 60)}
+            onChangeText={(v: string) => setTotalMins(Number(v))}
             label="Observation Length in Minuets"
           />
         </FormContainer>

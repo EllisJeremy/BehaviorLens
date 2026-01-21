@@ -23,7 +23,7 @@ export const presetBuilder: Record<
     type: "counter",
     name: state.name,
     uuid: state.uuid,
-    totalSeconds: state.totalSeconds,
+    totalMins: state.totalMins,
     behaviorsList: state.behaviorsList,
   }),
 };

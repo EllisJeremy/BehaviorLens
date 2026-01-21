@@ -39,7 +39,8 @@ export default function CounterObservationModal({
   } = useStartObservationModalStore();
 
   const { addReport } = useReportsStore();
-  const { totalSeconds } = preset;
+  const { totalMins } = preset;
+  const totalSeconds = totalMins * 60;
 
   const { time, start, pause, status } = useTimer({
     interval: 1000,

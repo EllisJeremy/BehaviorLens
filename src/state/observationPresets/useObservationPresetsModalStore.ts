@@ -51,10 +51,10 @@ export type ObservationPresetState = {
   removeOffTask: (label: string) => void;
 
   // counter settings
-  totalSeconds: number;
-  setTotalSeconds: (v: number) => void;
+  totalMins: number;
+  setTotalMins: (v: number) => void;
   behaviorsList: string[];
-  setBehavoirsList: (v: string[]) => void;
+  setBehaviorList: (v: string[]) => void;
   addBehavior: (v: string) => void;
   removeBehavior: (v: string) => void;
 
@@ -129,10 +129,10 @@ export const useObservationPresetsModalStore = create<ObservationPresetState>(
       })),
 
     // counter settings
-    totalSeconds: 1200,
-    setTotalSeconds: (v) => set({ totalSeconds: v }),
+    totalMins: 20,
+    setTotalMins: (v) => set({ totalMins: v }),
     behaviorsList: defaultCounterObservationsList,
-    setBehavoirsList: (v) => set({ behaviorsList: v }),
+    setBehaviorList: (v) => set({ behaviorsList: v }),
     addBehavior: (v) =>
       set((state) => {
         const normalized = v.trim();
@@ -167,7 +167,7 @@ export const useObservationPresetsModalStore = create<ObservationPresetState>(
         totalIntervals: 20,
         intervalSeconds: 15,
 
-        totalSeconds: 0,
+        totalMins: 20,
         behaviorsList: defaultCounterObservationsList,
       }),
   }),
