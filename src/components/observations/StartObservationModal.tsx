@@ -40,17 +40,18 @@ function StartObservationForm() {
 export default function StartObservationModal() {
   const { open, setOpen, name, studentUuid, clearForm, preset } =
     useStartObservationModalStore();
-  const { start } = useIntervalObservationStore();
+  const { start: startInterval } = useIntervalObservationStore();
 
   function submitForm() {
-    if (!name || !studentUuid || preset?.type !== "interval") {
+    if (!name || !studentUuid || !preset) {
       return;
     }
 
     setOpen(false);
 
     setTimeout(() => {
-      start(preset.totalIntervals);
+      if (preset.type === "interval") startInterval(preset.totalIntervals);
+      if (preset.type === "counter") return;
     }, constants.modalDelay);
   }
 

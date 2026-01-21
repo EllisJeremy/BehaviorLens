@@ -32,43 +32,41 @@ export default function ObservationTile({
   const { settings } = useSettingsStore();
 
   function onPress() {
-    if (observationPreset.type === "interval") {
-      if (Object.keys(students).length === 0) {
-        Alert.alert(
-          "No Students",
-          "Observations require a student to be assigned to them. Create a student to continue.",
-          [
-            {
-              onPress: () => {
-                router.push("/Students");
-                setStudentOpen(true);
-              },
+    if (Object.keys(students).length === 0) {
+      Alert.alert(
+        "No Students",
+        "Observations require a student to be assigned to them. Create a student to continue.",
+        [
+          {
+            onPress: () => {
+              router.push("/Students");
+              setStudentOpen(true);
             },
-          ],
-        );
-      } else if (settings.username === "") {
-        Alert.alert(
-          "No Username",
-          "You do not have a username set in settings. If you wish to continue without a name, the report for this observation will have a blank name.",
-          [
-            {
-              text: "Set Name",
-              onPress: () => {
-                router.push("/Settings");
-              },
+          },
+        ],
+      );
+    } else if (settings.username === "") {
+      Alert.alert(
+        "No Username",
+        "You do not have a username set in settings. If you wish to continue without a name, the report for this observation will have a blank name.",
+        [
+          {
+            text: "Set Name",
+            onPress: () => {
+              router.push("/Settings");
             },
-            {
-              text: "Continue",
-              style: "destructive",
-              onPress: () => {
-                openWithPreset(observationPreset);
-              },
+          },
+          {
+            text: "Continue",
+            style: "destructive",
+            onPress: () => {
+              openWithPreset(observationPreset);
             },
-          ],
-        );
-      } else {
-        openWithPreset(observationPreset);
-      }
+          },
+        ],
+      );
+    } else {
+      openWithPreset(observationPreset);
     }
   }
 
