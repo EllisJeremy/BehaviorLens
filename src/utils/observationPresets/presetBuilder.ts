@@ -19,8 +19,8 @@ export const presetBuilder: Record<
     offTaskList: state.offTaskList,
   }),
 
-  abc: (state) => ({
-    type: "abc",
+  counter: (state) => ({
+    type: "counter",
     name: state.name,
     uuid: state.uuid,
   }),

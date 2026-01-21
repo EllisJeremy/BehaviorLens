@@ -22,7 +22,7 @@ import * as Crypto from "expo-crypto";
 import { IntervalReportType } from "@/src/types/reportsTypes";
 import { useReportsStore } from "@/src/state/reports/useReportsStore";
 import { savePDF } from "@/src/utils/pdf/storePDF";
-import { createPDF } from "@/src/utils/pdf/createPDF";
+import { createIntervalPDF } from "@/src/utils/pdf/createPDF";
 
 export default function IntervalObservationModal({
   preset,
@@ -106,10 +106,7 @@ export default function IntervalObservationModal({
       async (index: number) => {
         if (index === 1) {
           if (startedAt) {
-            const content = createPDF();
             const filename = `${name}-${Date.now()}.pdf`;
-            await savePDF(content, filename);
-
             const report: IntervalReportType = {
               uuid: Crypto.randomUUID(),
               filename: filename,
@@ -123,6 +120,10 @@ export default function IntervalObservationModal({
               observations: observations.splice(0, currentInterval),
             };
             addReport(report);
+
+            const intervalPDF = createIntervalPDF(report);
+
+            await savePDF(intervalPDF, filename);
           } else {
             console.error("missing timestamp");
           }

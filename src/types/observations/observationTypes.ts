@@ -4,7 +4,7 @@ export type BaseObservationPreset = {
   type: ObservationPresetEnum;
 };
 
-export type ObservationPresetEnum = "interval" | "abc";
+export type ObservationPresetEnum = "interval" | "counter";
 
 export type IntervalObservationPreset = BaseObservationPreset & {
   type: "interval";
@@ -14,10 +14,12 @@ export type IntervalObservationPreset = BaseObservationPreset & {
   offTaskList: string[];
 };
 
-export type ABCObservationPreset = BaseObservationPreset & {
-  type: "abc";
+export type CounterObservationPreset = BaseObservationPreset & {
+  type: "counter";
+  totalTime: number;
+  observationList: string[];
 };
 
 export type ObservationPreset =
   | IntervalObservationPreset
-  | ABCObservationPreset;
+  | CounterObservationPreset;

@@ -5,5 +5,5 @@ import { ImageSourcePropType } from "react-native";
 
 export const typeToIcon: Record<ObservationPresetEnum, ImageSourcePropType> = {
   interval: stopwatch,
-  abc: abcSquares,
+  counter: abcSquares,
 };

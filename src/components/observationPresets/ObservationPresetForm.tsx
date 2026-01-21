@@ -8,7 +8,7 @@ import InputWithLabel from "../universal/form/InputWithLabel";
 import {
   IntervalObservationPreset,
   BaseObservationPreset,
-  ABCObservationPreset,
+  CounterObservationPreset,
   ObservationPresetEnum,
 } from "@/src/types/observations/observationTypes";
 import EditableStringList from "../universal/form/EditableStringList";
@@ -26,7 +26,7 @@ const intervalOptions: Option<number>[] = [
 
 const observationOptions: Option<ObservationPresetEnum>[] = [
   { label: "interval", value: "interval" },
-  { label: "abc", value: "abc" },
+  { label: "counter", value: "counter" },
 ];
 
 export default function ObservationPresetForm() {
@@ -118,11 +118,11 @@ export default function ObservationPresetForm() {
     },
   ];
 
-  const abcFields: FieldRenderer<ABCObservationPreset>[] = [];
+  const counterFields: FieldRenderer<CounterObservationPreset>[] = [];
 
   const presetFieldMap = {
     interval: [...baseFields, ...intervalFields],
-    abc: [...baseFields, ...abcFields],
+    counter: [...baseFields, ...counterFields],
   };
 
   const fields = presetFieldMap[type];

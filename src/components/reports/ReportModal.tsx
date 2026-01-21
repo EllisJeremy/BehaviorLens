@@ -6,7 +6,7 @@ import { useReportModalStore } from "@/src/state/reports/useReportModalStore";
 
 export default function ReportModal() {
   const { open, setOpen, filename, clear } = useReportModalStore();
-  console.log(filename);
+
   function PDF() {
     try {
       const uri = getPDF(filename);
@@ -25,7 +25,7 @@ export default function ReportModal() {
 
   return (
     <SlideUpModal
-      title="report"
+      title="Report"
       modalOpen={open}
       form={<PDF />}
       clearForm={clear}
