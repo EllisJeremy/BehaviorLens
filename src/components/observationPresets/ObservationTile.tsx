@@ -88,10 +88,19 @@ export default function ObservationTile({
     removeObservationPreset(observationPreset.uuid);
   }
 
+  const totalMins =
+    observationPreset.type === "interval"
+      ? Math.floor(
+          (observationPreset.intervalSeconds *
+            observationPreset.totalIntervals) /
+            60,
+        )
+      : observationPreset.totalMins;
+
   return (
     <Tile
       title={observationPreset.name}
-      subTitle={observationPreset.type}
+      subTitle={`${totalMins} mins`}
       onPress={onPress}
       onEdit={onEdit}
       onRemove={onRemove}

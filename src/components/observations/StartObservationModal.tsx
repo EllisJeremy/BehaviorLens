@@ -53,10 +53,7 @@ export default function StartObservationModal() {
 
     setTimeout(() => {
       if (preset.type === "interval") startInterval(preset.totalIntervals);
-      if (preset.type === "counter") {
-        console.log(preset.behaviorsList);
-        startCounter(preset.behaviorsList);
-      }
+      if (preset.type === "counter") startCounter(preset.behaviorsList);
     }, constants.modalDelay);
   }
 
