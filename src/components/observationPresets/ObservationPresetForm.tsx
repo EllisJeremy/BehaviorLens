@@ -124,7 +124,7 @@ export default function ObservationPresetForm() {
     {
       key: "interval",
       render: (
-        <FormContainer title={"interval settings"}>
+        <FormContainer title={"Interval settings"}>
           <DropDownMenu
             title="Observation interval"
             options={intervalOptions}

@@ -24,4 +24,10 @@ export type IntervalReportType = BaseReportType & {
   observations: IntervalObservationType[];
 };
 
-export type ReportType = IntervalReportType;
+export type CounterReportType = BaseReportType & {
+  type: "counter";
+  totalMins: number;
+  counter: Record<string, number[]>;
+};
+
+export type ReportType = IntervalReportType | CounterReportType;

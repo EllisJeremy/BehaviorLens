@@ -11,6 +11,7 @@ import {
 import Octicons from "@expo/vector-icons/Octicons";
 import { useObservationPresetsModalStore } from "@/src/state/observationPresets/useObservationPresetsModalStore";
 import { colors, fontSizes } from "@/src/utils/styles";
+import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 
 export default function Tile({
   title,
@@ -27,6 +28,7 @@ export default function Tile({
   onPress?: () => void;
   iconSource?: ImageSourcePropType;
 }) {
+  const { settings } = useSettingsStore();
   return (
     <Pressable
       style={styles.tile}
@@ -49,7 +51,13 @@ export default function Tile({
 
       <View style={styles.controls}>
         {onEdit && (
-          <Pressable style={styles.iconButton} onPress={onEdit}>
+          <Pressable
+            style={[
+              styles.iconButton,
+              { backgroundColor: settings.themeColor },
+            ]}
+            onPress={onEdit}
+          >
             <Octicons name="pencil" size={20} color={colors.white} />
           </Pressable>
         )}
@@ -122,6 +130,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   deleteButton: {
-    backgroundColor: colors.red,
+    backgroundColor: colors.black,
   },
 });

@@ -17,18 +17,20 @@ export default function Controller({
   borderAnim: Animated.Value;
   themeColor: string;
   status: string;
-  currentInterval: number;
-  totalIntervals: number;
+  currentInterval?: number;
+  totalIntervals?: number;
   onToggle: () => void;
 }) {
   return (
     <View style={styles.controller}>
       <View>
         <Text style={styles.time}>{timeFormatter(time)}</Text>
-        <Text style={styles.interval}>{`interval ${Math.min(
-          currentInterval + 1,
-          totalIntervals,
-        )} / ${totalIntervals}`}</Text>
+        {totalIntervals !== undefined && currentInterval !== undefined && (
+          <Text style={styles.interval}>{`Interval ${Math.min(
+            currentInterval + 1,
+            totalIntervals,
+          )} / ${totalIntervals}`}</Text>
+        )}
       </View>
       <Pressable onPress={onToggle}>
         <Animated.View

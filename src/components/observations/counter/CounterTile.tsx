@@ -1,17 +1,37 @@
-import { View, Text, StyleSheet, Animated } from "react-native";
+import { View, Text, StyleSheet, Animated, Pressable } from "react-native";
 import { fontSizes, colors } from "@/src/utils/styles";
 import { useCounterObservationStore } from "@/src/state/observations/useCounterObservationStore";
+import Octicons from "@expo/vector-icons/Octicons";
+import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 
 export default function CounterTile({ behavior }: { behavior: string }) {
   const { counter, pushCount, popCount } = useCounterObservationStore();
+  const { settings } = useSettingsStore();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{behavior}</Text>
 
       <View style={styles.content}>
-        <Text style={styles.value}>{counter[behavior]}</Text>
+        <Text style={[styles.value, { color: settings.themeColor }]}>
+          {counter[behavior].length}
+        </Text>
 
-        <View style={styles.controls}></View>
+        <View style={styles.controls}>
+          <Pressable
+            onPress={() => {
+              popCount(behavior);
+            }}
+          >
+            <Octicons name="dash" size={40} color={colors.darkGray} />
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              pushCount(behavior);
+            }}
+          >
+            <Octicons name="plus" size={40} color={settings.themeColor} />
+          </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -40,11 +60,11 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: fontSizes.text,
     fontWeight: "500",
+    color: colors.darkGray,
   },
 
   value: {
-    fontSize: fontSizes.text,
-    color: colors.gray,
+    fontSize: fontSizes.extraLarge,
     maxWidth: "40%",
   },
 

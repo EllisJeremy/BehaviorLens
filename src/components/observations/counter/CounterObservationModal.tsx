@@ -17,7 +17,10 @@ import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 import { useTimer } from "use-timer";
 import { IntervalObservationType } from "@/src/types/observations/intervalTypes";
 import * as Crypto from "expo-crypto";
-import { IntervalReportType } from "@/src/types/reportsTypes";
+import {
+  CounterReportType,
+  IntervalReportType,
+} from "@/src/types/reportsTypes";
 import { useReportsStore } from "@/src/state/reports/useReportsStore";
 import { savePDF } from "@/src/utils/pdf/storePDF";
 import { createIntervalPDF } from "@/src/utils/pdf/createPDF";
@@ -40,7 +43,8 @@ export default function CounterObservationModal({
   } = useStartObservationModalStore();
 
   const { addReport } = useReportsStore();
-  const { totalMins } = preset;
+  const { totalMins, subject, educationalSetting, instructionalSetting } =
+    preset;
   const totalSeconds = totalMins * 60;
 
   const { time, start, pause, status } = useTimer({
@@ -93,8 +97,24 @@ export default function CounterObservationModal({
         if (index === 1) {
           if (startedAt) {
             const filename = `${name}-${Date.now()}.pdf`;
+            const report: CounterReportType = {
+              uuid: Crypto.randomUUID(),
+              filename: filename,
+              name,
+              studentUuid,
+              startedAt,
+              type: "counter",
+              subject,
+              educationalSetting,
+              instructionalSetting,
+              totalMins,
+              counter,
+            };
+            addReport(report);
 
-            console.log("done");
+            //const intervalPDF = createIntervalPDF(report);
+
+            //await savePDF(intervalPDF, filename);
           } else {
             console.error("missing timestamp");
           }
@@ -119,7 +139,7 @@ export default function CounterObservationModal({
     <SlideUpModal
       saveText="Done"
       modalOpen={open}
-      title="interval Observation"
+      title="Counter Observation"
       clearForm={exit}
       submitForm={done}
       scrollable={false}
@@ -155,7 +175,6 @@ const CounterObservation = memo(function IntervalObservationType({
   status,
   onToggle,
 }: BodyProps) {
-  console.log(counter);
   return (
     <View style={styles.container}>
       <View style={styles.flatList}>
@@ -165,8 +184,6 @@ const CounterObservation = memo(function IntervalObservationType({
       </View>
       <Controller
         time={time}
-        currentInterval={1}
-        totalIntervals={1}
         borderAnim={borderAnim}
         themeColor={themeColor}
         status={status}
