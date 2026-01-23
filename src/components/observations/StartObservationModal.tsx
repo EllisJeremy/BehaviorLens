@@ -52,8 +52,8 @@ export default function StartObservationModal() {
     setOpen(false);
 
     setTimeout(() => {
-      if (preset.type === "interval") startInterval(preset.totalIntervals);
-      if (preset.type === "counter") startCounter(preset.behaviorsList);
+      if (preset.type === "Interval") startInterval(preset.totalIntervals);
+      if (preset.type === "Counter") startCounter(preset.behaviorsList);
     }, constants.modalDelay);
   }
 

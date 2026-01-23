@@ -10,7 +10,7 @@ export const presetBuilder: Record<
   (state: BuilderContext) => ObservationPreset
 > = {
   interval: (state) => ({
-    type: "interval",
+    type: "Interval",
     uuid: state.uuid,
     name: state.name,
     totalIntervals: state.totalIntervals,
@@ -20,7 +20,7 @@ export const presetBuilder: Record<
   }),
 
   counter: (state) => ({
-    type: "counter",
+    type: "Counter",
     name: state.name,
     uuid: state.uuid,
     totalMins: state.totalMins,

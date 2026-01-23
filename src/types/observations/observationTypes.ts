@@ -2,12 +2,16 @@ export type BaseObservationPreset = {
   uuid: string;
   name: string;
   type: ObservationPresetEnum;
+  subject: string;
+  educationalSetting: EducationalSettingEnum;
+  instructionalSetting: string;
 };
 
-export type ObservationPresetEnum = "interval" | "counter";
+export type ObservationPresetEnum = "Interval" | "Counter";
+export type EducationalSettingEnum = "General Education" | "Special Education";
 
 export type IntervalObservationPreset = BaseObservationPreset & {
-  type: "interval";
+  type: "Interval";
   totalIntervals: number;
   intervalSeconds: number;
   onTaskList: string[];
@@ -15,7 +19,7 @@ export type IntervalObservationPreset = BaseObservationPreset & {
 };
 
 export type CounterObservationPreset = BaseObservationPreset & {
-  type: "counter";
+  type: "Counter";
   totalMins: number;
   behaviorsList: string[];
 };

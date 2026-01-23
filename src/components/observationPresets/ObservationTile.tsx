@@ -75,7 +75,7 @@ export default function ObservationTile({
     setName(observationPreset.name);
     setType(observationPreset.type);
 
-    if (observationPreset.type === "interval") {
+    if (observationPreset.type === "Interval") {
       setTotalIntervals(observationPreset.totalIntervals);
       setIntervalSeconds(observationPreset.intervalSeconds);
       setOnTask(observationPreset.onTaskList);
@@ -89,7 +89,7 @@ export default function ObservationTile({
   }
 
   const totalMins =
-    observationPreset.type === "interval"
+    observationPreset.type === "Interval"
       ? Math.floor(
           (observationPreset.intervalSeconds *
             observationPreset.totalIntervals) /

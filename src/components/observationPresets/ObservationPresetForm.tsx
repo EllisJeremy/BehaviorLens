@@ -3,13 +3,13 @@ import FormContainer from "../universal/form/FormContainer";
 import { View } from "react-native";
 import DropDownMenu, { Option } from "../universal/form/DropDownMenu";
 import { useObservationPresetsModalStore } from "@/src/state/observationPresets/useObservationPresetsModalStore";
-import Input from "../universal/form/Input";
 import InputWithLabel from "../universal/form/InputWithLabel";
 import {
   IntervalObservationPreset,
   BaseObservationPreset,
   CounterObservationPreset,
   ObservationPresetEnum,
+  EducationalSettingEnum,
 } from "@/src/types/observations/observationTypes";
 import EditableStringList from "../universal/form/EditableStringList";
 
@@ -25,8 +25,30 @@ const intervalOptions: Option<number>[] = [
 ];
 
 const observationOptions: Option<ObservationPresetEnum>[] = [
-  { label: "interval", value: "interval" },
-  { label: "counter", value: "counter" },
+  { label: "Interval", value: "Interval" },
+  { label: "Counter", value: "Counter" },
+];
+
+const educationalSettingOptions: Option<EducationalSettingEnum>[] = [
+  { label: "General Education", value: "General Education" },
+  { label: "Special Education", value: "Special Education" },
+];
+
+const subjectOptions: Option<string>[] = [
+  { label: "Math", value: "Math" },
+  { label: "English", value: "English" },
+  { label: "Science", value: "Science" },
+  { label: "Social Studies", value: "Social Studies" },
+  { label: "Art", value: "Art" },
+  { label: "Physical Education", value: "Physical Education" },
+  { label: "Other", value: "Other" },
+];
+
+const instructionalSettingOptions: Option<string>[] = [
+  { label: "Whole Group", value: "Whole Group" },
+  { label: "Small Group", value: "Small Group" },
+  { label: "Partner Work", value: "Partner Work" },
+  { label: "Independent Seat Work", value: "Independent Seat Work" },
 ];
 
 export default function ObservationPresetForm() {
@@ -35,6 +57,12 @@ export default function ObservationPresetForm() {
     setName,
     type,
     setType,
+    subject,
+    setSubject,
+    educationalSetting,
+    setEducationalSetting,
+    instructionalSetting,
+    setInstructionalSetting,
     totalIntervals,
     setTotalIntervals,
     intervalSeconds,
@@ -69,6 +97,24 @@ export default function ObservationPresetForm() {
             value={type}
             setValue={setType}
           />
+          <DropDownMenu
+            title="subject"
+            options={subjectOptions}
+            value={subject}
+            setValue={setSubject}
+          />
+          <DropDownMenu<EducationalSettingEnum>
+            title="Educational Setting"
+            options={educationalSettingOptions}
+            value={educationalSetting}
+            setValue={setEducationalSetting}
+          />
+          <DropDownMenu
+            title="Instructional Setting"
+            options={instructionalSettingOptions}
+            value={instructionalSetting}
+            setValue={setInstructionalSetting}
+          />
         </FormContainer>
       ),
     },
@@ -76,7 +122,7 @@ export default function ObservationPresetForm() {
 
   const intervalFields: FieldRenderer<IntervalObservationPreset>[] = [
     {
-      key: "interval",
+      key: "Interval",
       render: (
         <FormContainer title={"interval settings"}>
           <DropDownMenu
@@ -154,8 +200,8 @@ export default function ObservationPresetForm() {
   ];
 
   const presetFieldMap = {
-    interval: [...baseFields, ...intervalFields],
-    counter: [...baseFields, ...counterFields],
+    Interval: [...baseFields, ...intervalFields],
+    Counter: [...baseFields, ...counterFields],
   };
 
   const fields = presetFieldMap[type];

@@ -112,7 +112,7 @@ export default function IntervalObservationModal({
               name,
               studentUuid,
               startedAt,
-              type: "interval",
+              type: "Interval",
               totalIntervals,
               finalInterval: currentInterval,
               intervalSeconds,

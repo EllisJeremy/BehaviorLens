@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { ObservationPresetEnum } from "@/src/types/observations/observationTypes";
+import { EducationalSettingEnum } from "@/src/types/observations/observationTypes";
 
 const defaultOnTaskList = [
   "Engaged in Lesson",
@@ -33,6 +34,12 @@ export type ObservationPresetState = {
   setName: (v: string) => void;
   type: ObservationPresetEnum;
   setType: (v: ObservationPresetEnum) => void;
+  subject: string;
+  setSubject: (v: string) => void;
+  educationalSetting: EducationalSettingEnum;
+  setEducationalSetting: (v: EducationalSettingEnum) => void;
+  instructionalSetting: string;
+  setInstructionalSetting: (v: string) => void;
 
   // interval settings
   totalIntervals: number;
@@ -70,8 +77,14 @@ export const useObservationPresetsModalStore = create<ObservationPresetState>(
     setUuid: (v) => set({ uuid: v }),
     name: "",
     setName: (v) => set({ name: v }),
-    type: "interval",
+    type: "Interval",
     setType: (v) => set({ type: v }),
+    subject: "",
+    setSubject: (v) => set({ subject: v }),
+    educationalSetting: "General Education",
+    setEducationalSetting: (v) => set({ educationalSetting: v }),
+    instructionalSetting: "",
+    setInstructionalSetting: (v) => set({ instructionalSetting: v }),
 
     // interval settings
     totalIntervals: 20,
@@ -161,7 +174,10 @@ export const useObservationPresetsModalStore = create<ObservationPresetState>(
         open: false,
         uuid: "",
         name: "",
-        type: "interval",
+        type: "Interval",
+        subject: "",
+        educationalSetting: "General Education",
+        instructionalSetting: "",
         onTaskList: defaultOnTaskList,
         offTaskList: defaultOffTaskList,
         totalIntervals: 20,
