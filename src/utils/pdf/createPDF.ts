@@ -1,30 +1,12 @@
-import { IntervalReportType } from "@/src/types/reportsTypes";
+import {
+  IntervalReportType,
+  CounterReportType,
+  BaseReportType,
+  ReportType,
+} from "@/src/types/reportsTypes";
 
-export function createIntervalPDF(report: IntervalReportType) {
-  const completedObservations = report.observations.filter(
-    (obs) => obs.isOnTask !== null,
-  );
-  const onTaskCount = completedObservations.filter(
-    (obs) => obs.isOnTask === true,
-  ).length;
-  const offTaskCount = completedObservations.filter(
-    (obs) => obs.isOnTask === false,
-  ).length;
-  const skippedCount = report.observations.filter(
-    (obs) => obs.isOnTask === null,
-  ).length;
-
-  const onTaskPercentage =
-    completedObservations.length > 0
-      ? ((onTaskCount / completedObservations.length) * 100).toFixed(1)
-      : "0";
-
-  const offTaskPercentage =
-    completedObservations.length > 0
-      ? ((offTaskCount / completedObservations.length) * 100).toFixed(1)
-      : "0";
-
-  // Format date
+// Shared header component
+function createReportHeader(report: BaseReportType) {
   const date = new Date(report.startedAt);
   const formattedDate = date.toLocaleDateString("en-US", {
     month: "long",
@@ -34,41 +16,23 @@ export function createIntervalPDF(report: IntervalReportType) {
     minute: "2-digit",
   });
 
-  // Duration calculation
-  const durationMinutes = Math.floor(
-    (report.finalInterval * report.intervalSeconds) / 60,
-  );
-
-  // Create interval timeline data for graph
-  const timelineData = report.observations.map((obs, index) => {
-    const status =
-      obs.isOnTask === null ? "skipped" : obs.isOnTask ? "on-task" : "off-task";
-    return { interval: index + 1, status };
-  });
-
-  // Generate bar chart SVG
-  const barWidth = 600 / report.finalInterval;
-  const barChart = timelineData
-    .map((data, i) => {
-      const color =
-        data.status === "on-task"
-          ? "#4CAF50"
-          : data.status === "off-task"
-            ? "#F44336"
-            : "#9E9E9E";
-      return `<rect x="${i * barWidth}" y="20" width="${barWidth - 2}" height="80" fill="${color}" rx="2"/>`;
-    })
-    .join("");
-
-  // Generate pie chart (simple approach with CSS conic-gradient)
-  const pieChartPercentage = parseFloat(onTaskPercentage);
-
   return `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
+    <div class="header">
+      <h1>${report.name}</h1>
+      <div class="meta">
+        <strong>Observation Type:</strong> ${report.type === "interval" ? "Interval Recording" : "Frequency Counter"}<br>
+        <strong>Date:</strong> ${formattedDate}<br>
+        <strong>Subject:</strong> ${report.subject}<br>
+        <strong>Educational Setting:</strong> ${report.educationalSetting}<br>
+        <strong>Instructional Setting:</strong> ${report.instructionalSetting}
+      </div>
+    </div>
+  `;
+}
+
+// Shared styles
+function getSharedStyles() {
+  return `
     * {
       margin: 0;
       padding: 0;
@@ -97,6 +61,7 @@ export function createIntervalPDF(report: IntervalReportType) {
     .meta {
       color: #666;
       font-size: 14px;
+      line-height: 1.8;
     }
     
     .stats-grid {
@@ -139,10 +104,6 @@ export function createIntervalPDF(report: IntervalReportType) {
       border-bottom: 2px solid #e0e0e0;
     }
     
-    .chart-container {
-      margin: 20px 0;
-    }
-    
     .legend {
       display: flex;
       gap: 20px;
@@ -160,17 +121,6 @@ export function createIntervalPDF(report: IntervalReportType) {
       width: 16px;
       height: 16px;
       border-radius: 3px;
-    }
-    
-    .pie-chart {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: conic-gradient(
-        #4CAF50 0deg ${pieChartPercentage * 3.6}deg,
-        #F44336 ${pieChartPercentage * 3.6}deg 360deg
-      );
-      margin: 20px auto;
     }
     
     table {
@@ -221,6 +171,54 @@ export function createIntervalPDF(report: IntervalReportType) {
       color: #757575;
     }
     
+    .pie-chart {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      margin: 20px auto;
+    }
+    
+    .bar-container {
+      background: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    
+    .behavior-bar {
+      margin: 15px 0;
+    }
+    
+    .behavior-label {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .bar-bg {
+      background: #e0e0e0;
+      height: 30px;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .bar-fill {
+      background: linear-gradient(90deg, #2196F3, #1976D2);
+      height: 100%;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 12px;
+      color: white;
+      font-weight: bold;
+      font-size: 12px;
+      transition: width 0.3s ease;
+    }
+    
     .footer {
       margin-top: 50px;
       padding-top: 20px;
@@ -229,17 +227,64 @@ export function createIntervalPDF(report: IntervalReportType) {
       color: #999;
       font-size: 12px;
     }
+  `;
+}
+
+// Interval PDF
+function createIntervalPDF(report: IntervalReportType) {
+  const completedObservations = report.observations.filter(
+    (obs) => obs.isOnTask !== null,
+  );
+  const onTaskCount = completedObservations.filter(
+    (obs) => obs.isOnTask === true,
+  ).length;
+  const offTaskCount = completedObservations.filter(
+    (obs) => obs.isOnTask === false,
+  ).length;
+  const skippedCount = report.observations.filter(
+    (obs) => obs.isOnTask === null,
+  ).length;
+
+  const onTaskPercentage =
+    completedObservations.length > 0
+      ? ((onTaskCount / completedObservations.length) * 100).toFixed(1)
+      : "0";
+
+  const offTaskPercentage =
+    completedObservations.length > 0
+      ? ((offTaskCount / completedObservations.length) * 100).toFixed(1)
+      : "0";
+
+  const durationMinutes = Math.floor(
+    (report.finalInterval * report.intervalSeconds) / 60,
+  );
+
+  const barWidth = 600 / report.finalInterval;
+  const barChart = report.observations
+    .map((obs, i) => {
+      const color =
+        obs.isOnTask === null
+          ? "#9E9E9E"
+          : obs.isOnTask
+            ? "#4CAF50"
+            : "#F44336";
+      return `<rect x="${i * barWidth}" y="20" width="${barWidth - 2}" height="80" fill="${color}" rx="2"/>`;
+    })
+    .join("");
+
+  const pieChartPercentage = parseFloat(onTaskPercentage);
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    ${getSharedStyles()}
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>${report.name}</h1>
-    <div class="meta">
-      <strong>Observation Type:</strong> interval Recording<br>
-      <strong>Date:</strong> ${formattedDate}<br>
-      <strong>Duration:</strong> ${durationMinutes} minutes (${report.finalInterval} intervals @ ${report.intervalSeconds}s each)
-    </div>
-  </div>
+  ${createReportHeader(report)}
 
   <div class="stats-grid">
     <div class="stat-card">
@@ -253,19 +298,22 @@ export function createIntervalPDF(report: IntervalReportType) {
     </div>
     
     <div class="stat-card">
-      <div class="stat-label">Completed Intervals</div>
-      <div class="stat-value">${completedObservations.length}</div>
+      <div class="stat-label">Duration</div>
+      <div class="stat-value">${durationMinutes} min</div>
     </div>
     
     <div class="stat-card">
-      <div class="stat-label">Skipped Intervals</div>
-      <div class="stat-value">${skippedCount}</div>
+      <div class="stat-label">Total Intervals</div>
+      <div class="stat-value">${report.finalInterval}</div>
     </div>
   </div>
 
   <div class="section">
     <h2 class="section-title">Behavior Distribution</h2>
-    <div class="pie-chart"></div>
+    <div class="pie-chart" style="background: conic-gradient(
+      #4CAF50 0deg ${pieChartPercentage * 3.6}deg,
+      #F44336 ${pieChartPercentage * 3.6}deg 360deg
+    );"></div>
     <div class="legend" style="justify-content: center;">
       <div class="legend-item">
         <div class="legend-color" style="background: #4CAF50;"></div>
@@ -283,7 +331,7 @@ export function createIntervalPDF(report: IntervalReportType) {
   </div>
 
   <div class="section">
-    <h2 class="section-title">interval Timeline</h2>
+    <h2 class="section-title">Interval Timeline</h2>
     <svg width="100%" height="120" viewBox="0 0 600 120">
       ${barChart}
     </svg>
@@ -308,7 +356,7 @@ export function createIntervalPDF(report: IntervalReportType) {
     <table>
       <thead>
         <tr>
-          <th>interval</th>
+          <th>Interval</th>
           <th>Status</th>
           <th>Notes</th>
           <th>Time</th>
@@ -362,4 +410,142 @@ export function createIntervalPDF(report: IntervalReportType) {
 </body>
 </html>
   `;
+}
+
+// Counter PDF
+function createCounterPDF(report: CounterReportType) {
+  const behaviors = Object.keys(report.counter);
+  const totalOccurrences = Object.values(report.counter).reduce(
+    (sum, timestamps) => sum + timestamps.length,
+    0,
+  );
+
+  // Calculate rate per minute
+  const ratePerMinute =
+    report.totalMins > 0
+      ? (totalOccurrences / report.totalMins).toFixed(2)
+      : "0";
+
+  // Find max count for bar chart scaling
+  const maxCount = Math.max(
+    ...Object.values(report.counter).map((arr) => arr.length),
+    1,
+  );
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    ${getSharedStyles()}
+  </style>
+</head>
+<body>
+  ${createReportHeader(report)}
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Total Occurrences</div>
+      <div class="stat-value" style="color: #2196F3;">${totalOccurrences}</div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-label">Behaviors Tracked</div>
+      <div class="stat-value">${behaviors.length}</div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-label">Duration</div>
+      <div class="stat-value">${report.totalMins} min</div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-label">Rate Per Minute</div>
+      <div class="stat-value">${ratePerMinute}</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Behavior Frequency</h2>
+    <div class="bar-container">
+      ${behaviors
+        .map((behavior) => {
+          const count = report.counter[behavior].length;
+          const percentage = (count / maxCount) * 100;
+
+          return `
+          <div class="behavior-bar">
+            <div class="behavior-label">
+              <span>${behavior}</span>
+              <span>${count} occurrences</span>
+            </div>
+            <div class="bar-bg">
+              <div class="bar-fill" style="width: ${percentage}%;">
+                ${count}
+              </div>
+            </div>
+          </div>
+        `;
+        })
+        .join("")}
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Detailed Timestamps</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Behavior</th>
+          <th>Occurrence #</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${behaviors
+          .flatMap((behavior) =>
+            report.counter[behavior].map(
+              (timestamp, index) => `
+            <tr>
+              <td><strong>${behavior}</strong></td>
+              <td>#${index + 1}</td>
+              <td>${new Date(timestamp).toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "2-digit",
+                second: "2-digit",
+              })}</td>
+            </tr>
+          `,
+            ),
+          )
+          .join("")}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    Generated on ${new Date().toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    })}
+  </div>
+</body>
+</html>
+  `;
+}
+
+// Main function to route to correct PDF generator
+export function createPDF(type: string, report: ReportType): string {
+  switch (type) {
+    case "interval":
+      return createIntervalPDF(report as IntervalReportType);
+    case "counter":
+      return createCounterPDF(report as CounterReportType);
+    default:
+      throw new Error(`Unknown report type: ${type}`);
+  }
 }

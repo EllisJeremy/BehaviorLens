@@ -21,7 +21,7 @@ import * as Crypto from "expo-crypto";
 import { IntervalReportType } from "@/src/types/reportsTypes";
 import { useReportsStore } from "@/src/state/reports/useReportsStore";
 import { savePDF } from "@/src/utils/pdf/storePDF";
-import { createIntervalPDF } from "@/src/utils/pdf/createPDF";
+import { createPDF } from "@/src/utils/pdf/createPDF";
 
 export default function IntervalObservationModal({
   preset,
@@ -131,7 +131,7 @@ export default function IntervalObservationModal({
             };
             addReport(report);
 
-            const intervalPDF = createIntervalPDF(report);
+            const intervalPDF = createPDF(preset.type, report);
 
             await savePDF(intervalPDF, filename);
           } else {

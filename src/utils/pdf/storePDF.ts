@@ -14,6 +14,11 @@ export async function savePDF(content: string, filename: string) {
 
 export function deletePDF(filename: string) {
   const pdf = new File(Paths.document, filename);
+
+  if (!pdf.exists) {
+    throw new Error(`PDF not found: ${filename}`);
+  }
+
   pdf.delete();
 }
 

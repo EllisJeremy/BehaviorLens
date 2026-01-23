@@ -4,7 +4,13 @@ import { useCounterObservationStore } from "@/src/state/observations/useCounterO
 import Octicons from "@expo/vector-icons/Octicons";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 
-export default function CounterTile({ behavior }: { behavior: string }) {
+export default function CounterTile({
+  behavior,
+  status,
+}: {
+  behavior: string;
+  status: string;
+}) {
   const { counter, pushCount, popCount } = useCounterObservationStore();
   const { settings } = useSettingsStore();
   return (
@@ -19,14 +25,14 @@ export default function CounterTile({ behavior }: { behavior: string }) {
         <View style={styles.controls}>
           <Pressable
             onPress={() => {
-              popCount(behavior);
+              if (status === "RUNNING") popCount(behavior);
             }}
           >
             <Octicons name="dash" size={40} color={colors.darkGray} />
           </Pressable>
           <Pressable
             onPress={() => {
-              pushCount(behavior);
+              if (status === "RUNNING") pushCount(behavior);
             }}
           >
             <Octicons name="plus" size={40} color={settings.themeColor} />

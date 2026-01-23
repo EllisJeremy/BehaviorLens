@@ -23,7 +23,7 @@ import {
 } from "@/src/types/reportsTypes";
 import { useReportsStore } from "@/src/state/reports/useReportsStore";
 import { savePDF } from "@/src/utils/pdf/storePDF";
-import { createIntervalPDF } from "@/src/utils/pdf/createPDF";
+import { createPDF } from "@/src/utils/pdf/createPDF";
 import { CounterObservationPreset } from "@/src/types/observations/observationTypes";
 import { useCounterObservationStore } from "@/src/state/observations/useCounterObservationStore";
 import CounterTile from "./CounterTile";
@@ -112,9 +112,9 @@ export default function CounterObservationModal({
             };
             addReport(report);
 
-            //const intervalPDF = createIntervalPDF(report);
+            const counterPDF = createPDF(preset.type, report);
 
-            //await savePDF(intervalPDF, filename);
+            await savePDF(counterPDF, filename);
           } else {
             console.error("missing timestamp");
           }
@@ -179,7 +179,7 @@ const CounterObservation = memo(function IntervalObservationType({
     <View style={styles.container}>
       <View style={styles.flatList}>
         {Object.keys(counter).map((behavior) => (
-          <CounterTile key={behavior} behavior={behavior} />
+          <CounterTile key={behavior} behavior={behavior} status={status} />
         ))}
       </View>
       <Controller
