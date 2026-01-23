@@ -45,7 +45,15 @@ export default function IntervalObservationModal({
   } = useStartObservationModalStore();
 
   const { addReport } = useReportsStore();
-  const { intervalSeconds, totalIntervals, onTaskList, offTaskList } = preset;
+  const {
+    intervalSeconds,
+    totalIntervals,
+    onTaskList,
+    offTaskList,
+    subject,
+    educationalSetting,
+    instructionalSetting,
+  } = preset;
   const totalSeconds = intervalSeconds * totalIntervals;
 
   const { time, start, pause, status } = useTimer({
@@ -112,7 +120,10 @@ export default function IntervalObservationModal({
               name,
               studentUuid,
               startedAt,
-              type: "Interval",
+              type: "interval",
+              subject,
+              educationalSetting,
+              instructionalSetting,
               totalIntervals,
               finalInterval: currentInterval,
               intervalSeconds,
@@ -178,7 +189,7 @@ export default function IntervalObservationModal({
     <SlideUpModal
       saveText="Done"
       modalOpen={open}
-      title="Interval Observation"
+      title="interval Observation"
       clearForm={exit}
       submitForm={done}
       scrollable={false}

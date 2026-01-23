@@ -10,9 +10,12 @@ export const presetBuilder: Record<
   (state: BuilderContext) => ObservationPreset
 > = {
   interval: (state) => ({
-    type: "Interval",
+    type: "interval",
     uuid: state.uuid,
     name: state.name,
+    subject: state.subject,
+    educationalSetting: state.educationalSetting,
+    instructionalSetting: state.instructionalSetting,
     totalIntervals: state.totalIntervals,
     intervalSeconds: state.intervalSeconds,
     onTaskList: state.onTaskList,
@@ -20,9 +23,12 @@ export const presetBuilder: Record<
   }),
 
   counter: (state) => ({
-    type: "Counter",
+    type: "counter",
     name: state.name,
     uuid: state.uuid,
+    subject: state.subject,
+    educationalSetting: state.educationalSetting,
+    instructionalSetting: state.instructionalSetting,
     totalMins: state.totalMins,
     behaviorsList: state.behaviorsList,
   }),

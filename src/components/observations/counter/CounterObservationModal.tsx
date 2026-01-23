@@ -121,7 +121,7 @@ export default function CounterObservationModal({
     <SlideUpModal
       saveText="Done"
       modalOpen={open}
-      title="Interval Observation"
+      title="interval Observation"
       clearForm={exit}
       submitForm={done}
       scrollable={false}

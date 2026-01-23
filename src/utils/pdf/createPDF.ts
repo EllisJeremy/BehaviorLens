@@ -235,7 +235,7 @@ export function createIntervalPDF(report: IntervalReportType) {
   <div class="header">
     <h1>${report.name}</h1>
     <div class="meta">
-      <strong>Observation Type:</strong> Interval Recording<br>
+      <strong>Observation Type:</strong> interval Recording<br>
       <strong>Date:</strong> ${formattedDate}<br>
       <strong>Duration:</strong> ${durationMinutes} minutes (${report.finalInterval} intervals @ ${report.intervalSeconds}s each)
     </div>
@@ -283,7 +283,7 @@ export function createIntervalPDF(report: IntervalReportType) {
   </div>
 
   <div class="section">
-    <h2 class="section-title">Interval Timeline</h2>
+    <h2 class="section-title">interval Timeline</h2>
     <svg width="100%" height="120" viewBox="0 0 600 120">
       ${barChart}
     </svg>
@@ -308,7 +308,7 @@ export function createIntervalPDF(report: IntervalReportType) {
     <table>
       <thead>
         <tr>
-          <th>Interval</th>
+          <th>interval</th>
           <th>Status</th>
           <th>Notes</th>
           <th>Time</th>

@@ -25,8 +25,8 @@ const intervalOptions: Option<number>[] = [
 ];
 
 const observationOptions: Option<ObservationPresetEnum>[] = [
-  { label: "Interval", value: "Interval" },
-  { label: "Counter", value: "Counter" },
+  { label: "Interval", value: "interval" },
+  { label: "Counter", value: "counter" },
 ];
 
 const educationalSettingOptions: Option<EducationalSettingEnum>[] = [
@@ -122,11 +122,11 @@ export default function ObservationPresetForm() {
 
   const intervalFields: FieldRenderer<IntervalObservationPreset>[] = [
     {
-      key: "Interval",
+      key: "interval",
       render: (
         <FormContainer title={"interval settings"}>
           <DropDownMenu
-            title="Observation Interval"
+            title="Observation interval"
             options={intervalOptions}
             value={intervalSeconds}
             setValue={setIntervalSeconds}
@@ -200,8 +200,8 @@ export default function ObservationPresetForm() {
   ];
 
   const presetFieldMap = {
-    Interval: [...baseFields, ...intervalFields],
-    Counter: [...baseFields, ...counterFields],
+    interval: [...baseFields, ...intervalFields],
+    counter: [...baseFields, ...counterFields],
   };
 
   const fields = presetFieldMap[type];

@@ -1,5 +1,8 @@
 import { IntervalObservationType } from "./observations/intervalTypes";
-import { ObservationPresetEnum } from "./observations/observationTypes";
+import {
+  ObservationPresetEnum,
+  EducationalSettingEnum,
+} from "./observations/observationTypes";
 
 export type BaseReportType = {
   uuid: string;
@@ -8,10 +11,13 @@ export type BaseReportType = {
   studentUuid: string;
   startedAt: number;
   type: ObservationPresetEnum;
+  subject: string;
+  educationalSetting: EducationalSettingEnum;
+  instructionalSetting: string;
 };
 
 export type IntervalReportType = BaseReportType & {
-  type: "Interval";
+  type: "interval";
   totalIntervals: number;
   finalInterval: number;
   intervalSeconds: number;

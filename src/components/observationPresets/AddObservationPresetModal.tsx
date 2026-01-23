@@ -7,8 +7,7 @@ import ObservationPresetForm from "./ObservationPresetForm";
 
 export default function AddObservationPresetModal() {
   const { addObservationPreset } = useObservationPresetsStore();
-  const { open, setOpen, name, clearForm, uuid } =
-    useObservationPresetsModalStore();
+  const { open, name, clearForm, uuid } = useObservationPresetsModalStore();
 
   function submitForm() {
     if (!name) return;

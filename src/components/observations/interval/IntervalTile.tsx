@@ -26,7 +26,7 @@ export default function IntervalTile({
   const { setObservation } = useIntervalObservationStore();
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Interval {index + 1}</Text>
+      <Text style={styles.title}>interval {index + 1}</Text>
 
       {index === currentInterval ? (
         <Animated.View

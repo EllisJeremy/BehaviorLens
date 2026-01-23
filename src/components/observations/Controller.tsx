@@ -25,7 +25,7 @@ export default function Controller({
     <View style={styles.controller}>
       <View>
         <Text style={styles.time}>{timeFormatter(time)}</Text>
-        <Text style={styles.interval}>{`Interval ${Math.min(
+        <Text style={styles.interval}>{`interval ${Math.min(
           currentInterval + 1,
           totalIntervals,
         )} / ${totalIntervals}`}</Text>
