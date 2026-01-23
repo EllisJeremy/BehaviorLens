@@ -23,6 +23,7 @@ import { savePDF } from "@/src/utils/pdf/storePDF";
 import { createIntervalPDF } from "@/src/utils/pdf/createPDF";
 import { CounterObservationPreset } from "@/src/types/observations/observationTypes";
 import { useCounterObservationStore } from "@/src/state/observations/useCounterObservationStore";
+import CounterTile from "./CounterTile";
 
 export default function CounterObservationModal({
   preset,
@@ -105,9 +106,6 @@ export default function CounterObservationModal({
     );
   }
 
-  const progress = useRef(new Animated.Value(0)).current;
-  const progressRef = useRef(0);
-
   function togglePause() {
     if (time === totalSeconds) return;
     if (status === "RUNNING") {
@@ -141,7 +139,7 @@ export default function CounterObservationModal({
 }
 
 type BodyProps = {
-  counter: any;
+  counter: Record<string, number[]>;
   time: number;
   borderAnim: Animated.Value;
   themeColor: string;
@@ -160,6 +158,11 @@ const CounterObservation = memo(function IntervalObservationType({
   console.log(counter);
   return (
     <View style={styles.container}>
+      <View style={styles.flatList}>
+        {Object.keys(counter).map((behavior) => (
+          <CounterTile key={behavior} behavior={behavior} />
+        ))}
+      </View>
       <Controller
         time={time}
         currentInterval={1}
@@ -176,6 +179,7 @@ const CounterObservation = memo(function IntervalObservationType({
 const styles = StyleSheet.create({
   container: { flex: 1 },
   flatList: {
+    flex: 1,
     paddingLeft: 20,
     paddingRight: 20,
   },

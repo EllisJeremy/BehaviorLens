@@ -4,10 +4,12 @@ type CounterObservationState = {
   open: boolean;
   setOpen: (v: boolean) => void;
 
-  counter: Record<string, string[]>;
+  counter: Record<string, number[]>;
   startedAt: number | null;
 
   start: (observationsList: string[]) => void;
+  pushCount: (observation: string) => void;
+  popCount: (observation: string) => void;
   clearForm: () => void;
 };
 
@@ -27,6 +29,24 @@ export const useCounterObservationStore = create<CounterObservationState>(
         ),
         startedAt: Date.now(),
       }),
+
+    pushCount: (observation) => {
+      set((state) => ({
+        counter: {
+          ...state.counter,
+          [observation]: [...state.counter[observation], Date.now()],
+        },
+      }));
+    },
+
+    popCount: (observation) => {
+      set((state) => ({
+        counter: {
+          ...state.counter,
+          [observation]: state.counter[observation].slice(0, -1),
+        },
+      }));
+    },
 
     clearForm: () =>
       set({

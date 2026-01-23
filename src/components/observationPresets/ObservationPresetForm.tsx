@@ -98,7 +98,7 @@ export default function ObservationPresetForm() {
             setValue={setType}
           />
           <DropDownMenu
-            title="subject"
+            title="Subject"
             options={subjectOptions}
             value={subject}
             setValue={setSubject}
