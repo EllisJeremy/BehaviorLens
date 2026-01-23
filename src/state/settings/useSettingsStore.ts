@@ -8,14 +8,14 @@ type SettingsStore = {
   loadSettings: () => Promise<void>;
   updateSettings: <K extends keyof SettingsType>(
     key: K,
-    value: SettingsType[K]
+    value: SettingsType[K],
   ) => void;
 };
 
 export const useSettingsStore = create<SettingsStore>((set, get) => ({
   settings: {
     username: "",
-    themeColor: "blue",
+    themeColor: "rgb(45, 164, 255)",
   },
 
   loadSettings: async () => {
