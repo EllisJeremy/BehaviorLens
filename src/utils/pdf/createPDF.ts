@@ -6,8 +6,6 @@ import {
 } from "@/src/types/reportsTypes";
 import { themeColors } from "../objects/styles";
 
-/* ---------------- helpers ---------------- */
-
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
@@ -38,8 +36,6 @@ function createReportHeader(report: BaseReportType) {
     </div>
   `;
 }
-
-/* ---------------- styles ---------------- */
 
 function getSharedStyles() {
   return `
@@ -141,8 +137,6 @@ td{padding:10px;border:1px solid #eee}
 `;
 }
 
-/* ---------------- SVG helpers ---------------- */
-
 function pieSVG(segments: { value: number; color: string }[]) {
   const nonZero = segments.filter((s) => s.value > 0);
   const total = nonZero.reduce((s, x) => s + x.value, 0);
@@ -210,8 +204,6 @@ const behaviorPalette = [
   "rgb(148, 163, 184)",
   "rgb(120, 113, 108)",
 ];
-
-/* ---------------- interval PDF ---------------- */
 
 function createIntervalPDF(report: IntervalReportType) {
   const completed = report.observations.filter((o) => o.isOnTask !== null);
@@ -306,21 +298,17 @@ ${report.observations
 </html>`;
 }
 
-/* ---------------- counter PDF ---------------- */
-
 function createCounterPDF(report: CounterReportType) {
   const behaviors = Object.keys(report.counter);
   const totalTime = report.totalSeconds;
   const bucketSize = totalTime / 5;
 
-  // ---- totals / overview ----
   const totalCounts: Record<string, number> = {};
   behaviors.forEach((b) => {
     totalCounts[b] = report.counter[b].length;
   });
   const totalEvents = Object.values(totalCounts).reduce((a, c) => a + c, 0);
 
-  // ---- buckets for over-time chart ----
   const buckets = Array.from(
     { length: 5 },
     () => ({}) as Record<string, number>,
@@ -338,19 +326,22 @@ function createCounterPDF(report: CounterReportType) {
     1,
   );
 
-  // ---- chart dimensions ----
   const chartHeight = 360;
   const leftPad = 60;
   const topPad = 20;
-  const bottomPad = 40;
+  const bottomPad = 80;
   const rightPad = 20;
-  const barWidth = 120;
-  const chartWidth = leftPad + barWidth * 5 + rightPad;
+
+  const barWidthOverTime = 120;
+  const chartWidthOverTime = leftPad + barWidthOverTime * 5 + rightPad;
+
+  const barWidthTotal = Math.max(80, Math.min(120, 600 / behaviors.length));
+  const chartWidthTotal = leftPad + barWidthTotal * behaviors.length + rightPad;
 
   const axisColor = "#666";
   const labelFont = 13;
 
-  function yTicks(max: number) {
+  function yTicks(max: number, chartWidth: number) {
     const ticks = [];
     const interval = Math.max(1, Math.ceil(max / 5));
     const tickCount = Math.ceil(max / interval);
@@ -388,22 +379,10 @@ function createCounterPDF(report: CounterReportType) {
 <head><style>${getSharedStyles()}</style></head>
 <body>
 
-<!-- PAGE 1 : OVERVIEW -->
 <div class="page">
   ${createReportHeader(report)}
 
   <div class="stats-grid">
-    ${behaviors
-      .map(
-        (b) => `
-      <div class="stat-card">
-        <div class="stat-label">${b}</div>
-        <div class="stat-value">${totalCounts[b]}</div>
-      </div>
-    `,
-      )
-      .join("")}
-
     <div class="stat-card">
       <div class="stat-label">Total Events</div>
       <div class="stat-value">${totalEvents}</div>
@@ -416,11 +395,38 @@ function createCounterPDF(report: CounterReportType) {
   </div>
 </div>
 
-<!-- PAGE 2 : BEHAVIOR OVER TIME -->
+<div class="page page-break">
+<h2 class="section-title">Detailed Events</h2>
+<table>
+<thead>
+<tr><th>Event #</th><th>Time</th><th>Behavior</th></tr>
+</thead>
+<tbody>
+${behaviors
+  .flatMap((b) =>
+    report.counter[b].map((event, idx) => ({
+      behavior: b,
+      time: event.secondsPassed,
+      eventNum: idx,
+    })),
+  )
+  .sort((a, b) => a.time - b.time)
+  .map(
+    (event, i) => `<tr>
+  <td>#${i + 1}</td>
+  <td>${formatTime(event.time)}</td>
+  <td>${event.behavior}</td>
+</tr>`,
+  )
+  .join("")}
+</tbody>
+</table>
+</div>
+
 <div class="page page-break">
   <h2 class="section-title">Behavior Over Time</h2>
-  <svg width="${chartWidth}" height="${chartHeight + topPad + bottomPad + 160}">
-    ${yTicks(maxStack).join("")}
+  <svg width="${chartWidthOverTime}" height="${chartHeight + topPad + bottomPad}">
+    ${yTicks(maxStack, chartWidthOverTime).join("")}
 
     ${buckets
       .map((bucket, i) => {
@@ -430,9 +436,9 @@ function createCounterPDF(report: CounterReportType) {
             const h = ((bucket[b] || 0) / maxStack) * chartHeight;
             y -= h;
             return `<rect
-              x="${leftPad + i * barWidth + 10}"
+              x="${leftPad + i * barWidthOverTime + 10}"
               y="${y}"
-              width="${barWidth - 20}"
+              width="${barWidthOverTime - 20}"
               height="${h}"
               fill="${behaviorPalette[j % behaviorPalette.length]}"
             />`;
@@ -441,12 +447,11 @@ function createCounterPDF(report: CounterReportType) {
       })
       .join("")}
 
-    <!-- X axis labels -->
     ${Array.from({ length: 5 })
       .map(
         (_, i) => `
       <text
-        x="${leftPad + i * barWidth + barWidth / 2}"
+        x="${leftPad + i * barWidthOverTime + barWidthOverTime / 2}"
         y="${topPad + chartHeight + 25}"
         text-anchor="middle"
         font-size="${labelFont}"
@@ -466,11 +471,10 @@ function createCounterPDF(report: CounterReportType) {
   </div>
 </div>
 
-<!-- PAGE 3 : TOTAL COUNT -->
 <div class="page page-break">
   <h2 class="section-title">Total Count</h2>
-  <svg width="${chartWidth}" height="${chartHeight + topPad + bottomPad + 40}">
-    ${yTicks(Math.max(...Object.values(totalCounts), 1)).join("")}
+  <svg width="${chartWidthTotal}" height="${chartHeight + topPad + bottomPad + 160}">
+    ${yTicks(Math.max(...Object.values(totalCounts), 1), chartWidthTotal).join("")}
 
     ${behaviors
       .map((b, i) => {
@@ -478,23 +482,22 @@ function createCounterPDF(report: CounterReportType) {
         const max = Math.max(...Object.values(totalCounts), 1);
         const h = (count / max) * chartHeight;
         return `<rect
-          x="${leftPad + i * barWidth + 10}"
+          x="${leftPad + i * barWidthTotal + 10}"
           y="${topPad + chartHeight - h}"
-          width="${barWidth - 20}"
+          width="${barWidthTotal - 20}"
           height="${h}"
           fill="${behaviorPalette[i % behaviorPalette.length]}"
         />`;
       })
       .join("")}
 
-    <!-- X axis labels (rotated) -->
     ${behaviors
       .map(
         (b, i) => `
       <text
-        x="${leftPad + i * barWidth + barWidth / 2}"
+        x="${leftPad + i * barWidthTotal + barWidthTotal / 2}"
         y="${topPad + chartHeight + 45}"
-        transform="rotate(-45 ${leftPad + i * barWidth + barWidth / 2} ${topPad + chartHeight + 45})"
+        transform="rotate(-45 ${leftPad + i * barWidthTotal + barWidthTotal / 2} ${topPad + chartHeight + 45})"
         text-anchor="end"
         font-size="${labelFont}"
         fill="${axisColor}"
@@ -510,8 +513,6 @@ function createCounterPDF(report: CounterReportType) {
 </body>
 </html>`;
 }
-
-/* ---------------- router ---------------- */
 
 export function createPDF(type: string, report: ReportType): string {
   if (type === "interval")
