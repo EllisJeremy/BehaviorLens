@@ -33,7 +33,7 @@ export default function Settings() {
       <FormContainer title="settings" backgroundColor={colors.white}>
         <InputWithLabel
           defaultValue={username}
-          placeholder="enter username"
+          placeholder="Enter username"
           onChangeText={(v: string) => {
             updateSettings("username", v);
             setUsername(v);
