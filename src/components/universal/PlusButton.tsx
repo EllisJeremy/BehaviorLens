@@ -1,6 +1,6 @@
 import { StyleSheet, Pressable } from "react-native";
 import Octicons from "@expo/vector-icons/Octicons";
-import { colors } from "@/src/utils/styles";
+import { colors } from "@/src/utils/objects/styles";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 
 export default function PlusButton({ onPress }: { onPress: () => void }) {

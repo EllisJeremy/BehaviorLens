@@ -4,7 +4,7 @@ import AddStudentModal from "../components/students/AddStudentModal";
 import { useStudentsModalStore } from "../state/students/useStudentsModalStore";
 import { useStudentsStore } from "../state/students/useStudentsStore";
 import PlusButton from "../components/universal/PlusButton";
-import { colors } from "../utils/styles";
+import { colors } from "../utils/objects/styles";
 
 export default function Students() {
   const { students } = useStudentsStore();

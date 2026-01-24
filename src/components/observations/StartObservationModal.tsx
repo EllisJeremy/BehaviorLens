@@ -6,7 +6,7 @@ import { useStudentsStore } from "@/src/state/students/useStudentsStore";
 import DropDownMenu, { Option } from "../universal/form/DropDownMenu";
 import { View } from "react-native";
 import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
-import { constants } from "@/src/utils/constants";
+import { constants } from "@/src/utils/objects/constants";
 import { useCounterObservationStore } from "@/src/state/observations/useCounterObservationStore";
 
 function StartObservationForm() {

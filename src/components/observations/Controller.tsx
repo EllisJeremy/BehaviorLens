@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Pressable, Animated } from "react-native";
-import { timeFormatter } from "@/src/utils/timeFormatter";
-import { fontSizes, colors } from "@/src/utils/styles";
+import { timeFormatter } from "@/src/utils/format/timeFormatter";
+import { fontSizes, colors } from "@/src/utils/objects/styles";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function Controller({

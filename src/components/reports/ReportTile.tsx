@@ -4,6 +4,7 @@ import { typeToIcon } from "@/src/utils/observationPresets/typeToIcon";
 import Tile from "../universal/Tile";
 import { deletePDF } from "@/src/utils/pdf/storePDF";
 import { useReportModalStore } from "@/src/state/reports/useReportModalStore";
+import { capitalizeFirst } from "@/src/utils/format/capitalizeFirst";
 
 export default function ReportTile({ report }: { report: ReportType }) {
   const { removeReport } = useReportsStore();
@@ -22,7 +23,7 @@ export default function ReportTile({ report }: { report: ReportType }) {
   return (
     <Tile
       title={report.name}
-      subTitle={report.type + " report"}
+      subTitle={capitalizeFirst(report.type) + " Report"}
       onPress={onPress}
       onRemove={onRemove}
       iconSource={typeToIcon[report.type]}

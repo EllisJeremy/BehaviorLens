@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, Animated } from "react-native";
 import DropDownMenu, { Option } from "../../universal/form/DropDownMenu";
-import { fontSizes, colors } from "@/src/utils/styles";
+import { fontSizes, colors } from "@/src/utils/objects/styles";
 import { IntervalObservationType } from "@/src/types/observations/intervalTypes";
 import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
-import { listToOptions } from "@/src/utils/listToOptions";
+import { listToOptions } from "@/src/utils/format/listToOptions";
 import MiniDropDownMenu from "./MiniDropDownMenu";
 
 export default function IntervalTile({

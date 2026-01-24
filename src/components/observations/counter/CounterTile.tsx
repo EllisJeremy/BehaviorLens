@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Animated, Pressable } from "react-native";
-import { fontSizes, colors } from "@/src/utils/styles";
+import { fontSizes, colors } from "@/src/utils/objects/styles";
 import { useCounterObservationStore } from "@/src/state/observations/useCounterObservationStore";
 import Octicons from "@expo/vector-icons/Octicons";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";

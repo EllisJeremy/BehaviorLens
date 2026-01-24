@@ -8,7 +8,7 @@ import {
   Platform,
 } from "react-native";
 import Modal from "react-native-modal";
-import { fontSizes, colors } from "@/src/utils/styles";
+import { fontSizes, colors } from "@/src/utils/objects/styles";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 
 export default function SlideUpModal({

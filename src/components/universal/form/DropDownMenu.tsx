@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
-import { colors, fontSizes, themeColors } from "@/src/utils/styles";
+import { colors, fontSizes } from "@/src/utils/objects/styles";
 import Popover from "react-native-popover-view";
 import { useState } from "react";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";

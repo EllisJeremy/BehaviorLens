@@ -13,7 +13,7 @@ import Controller from "../Controller";
 import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
 import { IntervalObservationPreset } from "@/src/types/observations/observationTypes";
 import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";
-import { constants } from "@/src/utils/constants";
+import { constants } from "@/src/utils/objects/constants";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 import { useTimer } from "use-timer";
 import { IntervalObservationType } from "@/src/types/observations/intervalTypes";

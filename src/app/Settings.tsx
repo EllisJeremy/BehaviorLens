@@ -4,10 +4,11 @@ import FormContainer from "../components/universal/form/FormContainer";
 import InputWithLabel from "../components/universal/form/InputWithLabel";
 import { useSettingsUIStore } from "../state/settings/useSettingsUIStore";
 import { useSettingsStore } from "../state/settings/useSettingsStore";
-import { ThemeColor, themeColors, colors } from "../utils/styles";
+import { ThemeColor, themeColors, colors } from "../utils/objects/styles";
 import DropDownMenu, {
   Option,
 } from "../components/universal/form/DropDownMenu";
+import { capitalizeFirst } from "../utils/format/capitalizeFirst";
 
 export default function Settings() {
   const { username, setUsername, themeColor, setThemeColor } =
@@ -22,7 +23,7 @@ export default function Settings() {
 
   const themeColorOptions: Option<string>[] = Object.entries(themeColors).map(
     ([key, value]) => ({
-      label: key,
+      label: capitalizeFirst(key),
       value: value,
     }),
   );

@@ -1,5 +1,5 @@
 import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
-import { colors, fontSizes } from "@/src/utils/styles";
+import { colors, fontSizes } from "@/src/utils/objects/styles";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 import { useState } from "react";
 import Feather from "@expo/vector-icons/Feather";

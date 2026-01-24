@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, View, Text } from "react-native";
-import { colors } from "../utils/styles";
+import { colors } from "../utils/objects/styles";
 import { useReportsStore } from "../state/reports/useReportsStore";
 import ReportTile from "../components/reports/ReportTile";
 import ReportModal from "../components/reports/ReportModal";
