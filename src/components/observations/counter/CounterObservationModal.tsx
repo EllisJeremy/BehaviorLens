@@ -1,31 +1,19 @@
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  Animated,
-  ActionSheetIOS,
-  Easing,
-} from "react-native";
+import { StyleSheet, View, Animated, ActionSheetIOS } from "react-native";
 import { useEffect, useRef, memo } from "react";
 import SlideUpModal from "../../universal/SlideUpModal";
 import Controller from "../Controller";
-import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
-import { IntervalObservationPreset } from "@/src/types/observations/observationTypes";
 import { useStartObservationModalStore } from "@/src/state/observations/useStartObservationModalStore";
 import { constants } from "@/src/utils/objects/constants";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 import { useTimer } from "use-timer";
-import { IntervalObservationType } from "@/src/types/observations/intervalTypes";
 import * as Crypto from "expo-crypto";
-import {
-  CounterReportType,
-  IntervalReportType,
-} from "@/src/types/reportsTypes";
+import { CounterReportType } from "@/src/types/reportsTypes";
 import { useReportsStore } from "@/src/state/reports/useReportsStore";
 import { savePDF } from "@/src/utils/pdf/storePDF";
 import { createPDF } from "@/src/utils/pdf/createPDF";
 import { CounterObservationPreset } from "@/src/types/observations/observationTypes";
 import { useCounterObservationStore } from "@/src/state/observations/useCounterObservationStore";
+import { CounterType } from "@/src/state/observations/useCounterObservationStore";
 import CounterTile from "./CounterTile";
 
 export default function CounterObservationModal({
@@ -85,7 +73,7 @@ export default function CounterObservationModal({
     );
   }
 
-  function done() {
+  function done(time: number) {
     ActionSheetIOS.showActionSheetWithOptions(
       {
         title: "Finish Observation",
@@ -107,7 +95,7 @@ export default function CounterObservationModal({
               subject,
               educationalSetting,
               instructionalSetting,
-              totalMins,
+              totalSeconds: time,
               counter,
             };
             addReport(report);
@@ -141,7 +129,9 @@ export default function CounterObservationModal({
       modalOpen={open}
       title="Counter Observation"
       clearForm={exit}
-      submitForm={done}
+      submitForm={() => {
+        done(time);
+      }}
       scrollable={false}
       padding={0}
       form={
@@ -159,7 +149,7 @@ export default function CounterObservationModal({
 }
 
 type BodyProps = {
-  counter: Record<string, number[]>;
+  counter: CounterType;
   time: number;
   borderAnim: Animated.Value;
   themeColor: string;
@@ -179,7 +169,12 @@ const CounterObservation = memo(function IntervalObservationType({
     <View style={styles.container}>
       <View style={styles.flatList}>
         {Object.keys(counter).map((behavior) => (
-          <CounterTile key={behavior} behavior={behavior} status={status} />
+          <CounterTile
+            key={behavior}
+            behavior={behavior}
+            status={status}
+            secondsPassed={time}
+          />
         ))}
       </View>
       <Controller

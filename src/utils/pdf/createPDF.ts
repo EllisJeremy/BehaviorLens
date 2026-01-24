@@ -5,6 +5,13 @@ import {
   ReportType,
 } from "@/src/types/reportsTypes";
 
+// Helper to format seconds to MM:SS
+function formatTime(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
+}
+
 // Shared header component
 function createReportHeader(report: BaseReportType) {
   const date = new Date(report.startedAt);
@@ -16,12 +23,15 @@ function createReportHeader(report: BaseReportType) {
     minute: "2-digit",
   });
 
+  const duration = formatTime(report.totalSeconds);
+
   return `
     <div class="header">
       <h1>${report.name}</h1>
       <div class="meta">
         <strong>Observation Type:</strong> ${report.type === "interval" ? "Interval Recording" : "Frequency Counter"}<br>
         <strong>Date:</strong> ${formattedDate}<br>
+        <strong>Duration:</strong> ${duration}<br>
         <strong>Subject:</strong> ${report.subject}<br>
         <strong>Educational Setting:</strong> ${report.educationalSetting}<br>
         <strong>Instructional Setting:</strong> ${report.instructionalSetting}
@@ -104,23 +114,48 @@ function getSharedStyles() {
       border-bottom: 2px solid #e0e0e0;
     }
     
+    .charts-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+      margin: 30px 0;
+    }
+    
+    .chart-box {
+      text-align: center;
+    }
+    
+    .chart-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #555;
+    }
+    
+    .pie-chart {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 20px;
+    }
+    
     .legend {
       display: flex;
-      gap: 20px;
-      margin-top: 15px;
-      font-size: 14px;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 16px;
     }
     
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
     }
     
     .legend-color {
-      width: 16px;
-      height: 16px;
-      border-radius: 3px;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      flex-shrink: 0;
     }
     
     table {
@@ -171,52 +206,11 @@ function getSharedStyles() {
       color: #757575;
     }
     
-    .pie-chart {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      margin: 20px auto;
-    }
-    
-    .bar-container {
+    .timeline-chart {
       background: #f5f5f5;
       padding: 20px;
       border-radius: 8px;
       margin: 20px 0;
-    }
-    
-    .behavior-bar {
-      margin: 15px 0;
-    }
-    
-    .behavior-label {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-    }
-    
-    .bar-bg {
-      background: #e0e0e0;
-      height: 30px;
-      border-radius: 15px;
-      overflow: hidden;
-      position: relative;
-    }
-    
-    .bar-fill {
-      background: linear-gradient(90deg, #2196F3, #1976D2);
-      height: 100%;
-      border-radius: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding-right: 12px;
-      color: white;
-      font-weight: bold;
-      font-size: 12px;
-      transition: width 0.3s ease;
     }
     
     .footer {
@@ -245,34 +239,140 @@ function createIntervalPDF(report: IntervalReportType) {
     (obs) => obs.isOnTask === null,
   ).length;
 
-  const onTaskPercentage =
-    completedObservations.length > 0
-      ? ((onTaskCount / completedObservations.length) * 100).toFixed(1)
-      : "0";
+  // Helper to create SVG pie chart
+  function createPieChartSVG(
+    segments: Array<{ label: string; value: number; color: string }>,
+  ) {
+    const total = segments.reduce((sum, s) => sum + s.value, 0);
+    if (total === 0)
+      return '<circle cx="100" cy="100" r="100" fill="#e0e0e0"/>';
 
-  const offTaskPercentage =
-    completedObservations.length > 0
-      ? ((offTaskCount / completedObservations.length) * 100).toFixed(1)
-      : "0";
+    let currentAngle = -90; // Start at top
+    const paths: string[] = [];
+    const labels: string[] = [];
 
-  const durationMinutes = Math.floor(
-    (report.finalInterval * report.intervalSeconds) / 60,
+    segments.forEach((seg) => {
+      const percentage = seg.value / total;
+      const angle = percentage * 360;
+      const startAngle = currentAngle;
+      const endAngle = currentAngle + angle;
+
+      const startRad = (startAngle * Math.PI) / 180;
+      const endRad = (endAngle * Math.PI) / 180;
+
+      const x1 = 100 + 100 * Math.cos(startRad);
+      const y1 = 100 + 100 * Math.sin(startRad);
+      const x2 = 100 + 100 * Math.cos(endRad);
+      const y2 = 100 + 100 * Math.sin(endRad);
+
+      const largeArc = angle > 180 ? 1 : 0;
+
+      paths.push(
+        `<path d="M 100 100 L ${x1} ${y1} A 100 100 0 ${largeArc} 1 ${x2} ${y2} Z" fill="${seg.color}"/>`,
+      );
+
+      // Add label at midpoint of slice (only if slice is large enough)
+      if (percentage > 0.08) {
+        // Only show label if > 8%
+        const midAngle = (startAngle + endAngle) / 2;
+        const midRad = (midAngle * Math.PI) / 180;
+        const labelRadius = 65; // Position label 65% from center
+        const labelX = 100 + labelRadius * Math.cos(midRad);
+        const labelY = 100 + labelRadius * Math.sin(midRad);
+
+        labels.push(`
+          <text x="${labelX}" y="${labelY}" 
+                text-anchor="middle" 
+                dominant-baseline="middle" 
+                font-size="12" 
+                font-weight="bold" 
+                fill="white"
+                stroke="rgba(0,0,0,0.3)"
+                stroke-width="0.5">
+            ${seg.value}
+          </text>
+        `);
+      }
+
+      currentAngle = endAngle;
+    });
+
+    return paths.join("") + labels.join("");
+  }
+
+  // Helper to create SVG pie chart without external labels
+  function createPieChartSVG(
+    segments: Array<{ label: string; value: number; color: string }>,
+  ) {
+    const total = segments.reduce((sum, s) => sum + s.value, 0);
+    if (total === 0)
+      return '<circle cx="200" cy="200" r="150" fill="#e0e0e0"/>';
+
+    let currentAngle = -90;
+    const paths: string[] = [];
+
+    segments.forEach((seg) => {
+      const percentage = (seg.value / total) * 100;
+      const angle = (percentage / 100) * 360;
+      const startAngle = currentAngle;
+      const endAngle = currentAngle + angle;
+
+      const startRad = (startAngle * Math.PI) / 180;
+      const endRad = (endAngle * Math.PI) / 180;
+
+      const x1 = 200 + 150 * Math.cos(startRad);
+      const y1 = 200 + 150 * Math.sin(startRad);
+      const x2 = 200 + 150 * Math.cos(endRad);
+      const y2 = 200 + 150 * Math.sin(endRad);
+
+      const largeArc = angle > 180 ? 1 : 0;
+
+      // Draw slice with white border
+      paths.push(
+        `<path d="M 200 200 L ${x1} ${y1} A 150 150 0 ${largeArc} 1 ${x2} ${y2} Z" fill="${seg.color}" stroke="white" stroke-width="4"/>`,
+      );
+
+      currentAngle = endAngle;
+    });
+
+    return paths.join("");
+  }
+
+  const total = onTaskCount + offTaskCount;
+
+  // Count behaviors (excluding null/skipped)
+  const behaviorCounts: Record<string, number> = {};
+  completedObservations.forEach((obs) => {
+    const behavior = obs.value || "No Notes";
+    behaviorCounts[behavior] = (behaviorCounts[behavior] || 0) + 1;
+  });
+
+  // Generate behavior pie chart with multiple colors
+  const colors = [
+    "#FF6B6B",
+    "#4ECDC4",
+    "#45B7D1",
+    "#FFA07A",
+    "#98D8C8",
+    "#F7DC6F",
+    "#BB8FCE",
+    "#85C1E2",
+  ];
+  const behaviorSegments = Object.entries(behaviorCounts).map(
+    ([behavior, count], index) => ({
+      label: behavior,
+      value: count,
+      color: colors[index % colors.length],
+    }),
   );
 
-  const barWidth = 600 / report.finalInterval;
-  const barChart = report.observations
-    .map((obs, i) => {
-      const color =
-        obs.isOnTask === null
-          ? "#9E9E9E"
-          : obs.isOnTask
-            ? "#4CAF50"
-            : "#F44336";
-      return `<rect x="${i * barWidth}" y="20" width="${barWidth - 2}" height="80" fill="${color}" rx="2"/>`;
-    })
-    .join("");
+  const onTaskOffTaskSegments = [
+    { label: "On-Task", value: onTaskCount, color: "#4CAF50" },
+    { label: "Off-Task", value: offTaskCount, color: "#F44336" },
+  ];
 
-  const pieChartPercentage = parseFloat(onTaskPercentage);
+  const pie1SVG = createPieChartSVG(onTaskOffTaskSegments);
+  const pie2SVG = createPieChartSVG(behaviorSegments);
 
   return `
 <!DOCTYPE html>
@@ -281,6 +381,12 @@ function createIntervalPDF(report: IntervalReportType) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     ${getSharedStyles()}
+    .chart-container-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 350px;
+      margin: 0 auto;
+    }
   </style>
 </head>
 <body>
@@ -288,18 +394,18 @@ function createIntervalPDF(report: IntervalReportType) {
 
   <div class="stats-grid">
     <div class="stat-card">
-      <div class="stat-label">On-Task Percentage</div>
-      <div class="stat-value" style="color: #4CAF50;">${onTaskPercentage}%</div>
+      <div class="stat-label">On-Task</div>
+      <div class="stat-value" style="color: #4CAF50;">${onTaskCount}</div>
     </div>
     
     <div class="stat-card">
-      <div class="stat-label">Off-Task Percentage</div>
-      <div class="stat-value" style="color: #F44336;">${offTaskPercentage}%</div>
+      <div class="stat-label">Off-Task</div>
+      <div class="stat-value" style="color: #F44336;">${offTaskCount}</div>
     </div>
     
     <div class="stat-card">
-      <div class="stat-label">Duration</div>
-      <div class="stat-value">${durationMinutes} min</div>
+      <div class="stat-label">Skipped</div>
+      <div class="stat-value" style="color: #9E9E9E;">${skippedCount}</div>
     </div>
     
     <div class="stat-card">
@@ -309,44 +415,47 @@ function createIntervalPDF(report: IntervalReportType) {
   </div>
 
   <div class="section">
-    <h2 class="section-title">Behavior Distribution</h2>
-    <div class="pie-chart" style="background: conic-gradient(
-      #4CAF50 0deg ${pieChartPercentage * 3.6}deg,
-      #F44336 ${pieChartPercentage * 3.6}deg 360deg
-    );"></div>
-    <div class="legend" style="justify-content: center;">
-      <div class="legend-item">
-        <div class="legend-color" style="background: #4CAF50;"></div>
-        <span>On-Task (${onTaskCount})</span>
+    <h2 class="section-title">On-Task vs Off-Task</h2>
+    <div class="chart-page">
+      <div class="chart-box">
+        <svg viewBox="0 0 400 400" style="width: 100%; max-width: 400px;">
+          ${pie1SVG}
+        </svg>
       </div>
-      <div class="legend-item">
-        <div class="legend-color" style="background: #F44336;"></div>
-        <span>Off-Task (${offTaskCount})</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-color" style="background: #9E9E9E;"></div>
-        <span>Skipped (${skippedCount})</span>
+      <div class="legend-box">
+        ${onTaskOffTaskSegments
+          .map(
+            (seg) => `
+          <div class="legend-item">
+            <div class="legend-color" style="background: ${seg.color};"></div>
+            <span>${seg.label}: ${seg.value}</span>
+          </div>
+        `,
+          )
+          .join("")}
       </div>
     </div>
   </div>
 
   <div class="section">
-    <h2 class="section-title">Interval Timeline</h2>
-    <svg width="100%" height="120" viewBox="0 0 600 120">
-      ${barChart}
-    </svg>
-    <div class="legend">
-      <div class="legend-item">
-        <div class="legend-color" style="background: #4CAF50;"></div>
-        <span>On-Task</span>
+    <h2 class="section-title">Behavior Breakdown</h2>
+    <div class="chart-page">
+      <div class="chart-box">
+        <svg viewBox="0 0 400 400" style="width: 100%; max-width: 400px;">
+          ${pie2SVG}
+        </svg>
       </div>
-      <div class="legend-item">
-        <div class="legend-color" style="background: #F44336;"></div>
-        <span>Off-Task</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-color" style="background: #9E9E9E;"></div>
-        <span>Skipped</span>
+      <div class="legend-box">
+        ${behaviorSegments
+          .map(
+            (seg) => `
+          <div class="legend-item">
+            <div class="legend-color" style="background: ${seg.color};"></div>
+            <span>${seg.label}: ${seg.value}</span>
+          </div>
+        `,
+          )
+          .join("")}
       </div>
     </div>
   </div>
@@ -358,8 +467,7 @@ function createIntervalPDF(report: IntervalReportType) {
         <tr>
           <th>Interval</th>
           <th>Status</th>
-          <th>Notes</th>
-          <th>Time</th>
+          <th>Behavior/Notes</th>
         </tr>
       </thead>
       <tbody>
@@ -377,19 +485,12 @@ function createIntervalPDF(report: IntervalReportType) {
                 : obs.isOnTask
                   ? "On-Task"
                   : "Off-Task";
-            const time = obs.timestamp
-              ? new Date(obs.timestamp).toLocaleTimeString("en-US", {
-                  hour: "numeric",
-                  minute: "2-digit",
-                })
-              : "-";
 
             return `
             <tr>
               <td><strong>#${index + 1}</strong></td>
               <td><span class="status-badge ${status}">${statusText}</span></td>
               <td>${obs.value || "-"}</td>
-              <td>${time}</td>
             </tr>
           `;
           })
@@ -416,21 +517,54 @@ function createIntervalPDF(report: IntervalReportType) {
 function createCounterPDF(report: CounterReportType) {
   const behaviors = Object.keys(report.counter);
   const totalOccurrences = Object.values(report.counter).reduce(
-    (sum, timestamps) => sum + timestamps.length,
+    (sum, observations) => sum + observations.length,
     0,
   );
 
-  // Calculate rate per minute
   const ratePerMinute =
-    report.totalMins > 0
-      ? (totalOccurrences / report.totalMins).toFixed(2)
+    report.totalSeconds > 0
+      ? (totalOccurrences / (report.totalSeconds / 60)).toFixed(2)
       : "0";
 
-  // Find max count for bar chart scaling
-  const maxCount = Math.max(
-    ...Object.values(report.counter).map((arr) => arr.length),
-    1,
-  );
+  // Create timeline data - group by 30 second intervals
+  const intervalSize = 30; // seconds
+  const numIntervals = Math.ceil(report.totalSeconds / intervalSize);
+  const timelineData: Record<string, number[]> = {};
+
+  behaviors.forEach((behavior) => {
+    timelineData[behavior] = new Array(numIntervals).fill(0);
+    report.counter[behavior].forEach((obs) => {
+      const intervalIndex = Math.floor(obs.secondsPassed / intervalSize);
+      if (intervalIndex < numIntervals) {
+        timelineData[behavior][intervalIndex]++;
+      }
+    });
+  });
+
+  // Generate line chart SVG
+  const chartWidth = 600;
+  const chartHeight = 200;
+  const colors = [
+    "#2196F3",
+    "#4CAF50",
+    "#F44336",
+    "#FF9800",
+    "#9C27B0",
+    "#00BCD4",
+  ];
+
+  const maxCount = Math.max(...behaviors.flatMap((b) => timelineData[b]), 1);
+  const xStep = chartWidth / numIntervals;
+  const yScale = (chartHeight - 40) / maxCount;
+
+  const lines = behaviors
+    .map((behavior, bIndex) => {
+      const points = timelineData[behavior]
+        .map((count, i) => `${i * xStep},${chartHeight - 20 - count * yScale}`)
+        .join(" ");
+      return `<polyline points="${points}" fill="none" stroke="${colors[bIndex % colors.length]}" stroke-width="2"/>`;
+    })
+    .join("");
 
   return `
 <!DOCTYPE html>
@@ -456,39 +590,66 @@ function createCounterPDF(report: CounterReportType) {
     </div>
     
     <div class="stat-card">
-      <div class="stat-label">Duration</div>
-      <div class="stat-value">${report.totalMins} min</div>
+      <div class="stat-label">Rate Per Minute</div>
+      <div class="stat-value">${ratePerMinute}</div>
     </div>
     
     <div class="stat-card">
-      <div class="stat-label">Rate Per Minute</div>
-      <div class="stat-value">${ratePerMinute}</div>
+      <div class="stat-label">Total Duration</div>
+      <div class="stat-value">${formatTime(report.totalSeconds)}</div>
     </div>
   </div>
 
   <div class="section">
     <h2 class="section-title">Behavior Frequency</h2>
-    <div class="bar-container">
-      ${behaviors
-        .map((behavior) => {
-          const count = report.counter[behavior].length;
-          const percentage = (count / maxCount) * 100;
-
-          return `
-          <div class="behavior-bar">
-            <div class="behavior-label">
-              <span>${behavior}</span>
-              <span>${count} occurrences</span>
-            </div>
-            <div class="bar-bg">
-              <div class="bar-fill" style="width: ${percentage}%;">
-                ${count}
-              </div>
-            </div>
+    ${behaviors
+      .map((behavior, index) => {
+        const count = report.counter[behavior].length;
+        return `
+        <div style="margin: 20px 0;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <strong style="color: ${colors[index % colors.length]};">${behavior}</strong>
+            <span>${count} occurrences</span>
           </div>
-        `;
-        })
-        .join("")}
+          <div style="background: #e0e0e0; height: 8px; border-radius: 4px;">
+            <div style="background: ${colors[index % colors.length]}; width: ${(count / totalOccurrences) * 100}%; height: 100%; border-radius: 4px;"></div>
+          </div>
+        </div>
+      `;
+      })
+      .join("")}
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Behavior Timeline (30-second intervals)</h2>
+    <div class="timeline-chart">
+      <svg width="100%" height="${chartHeight}" viewBox="0 0 ${chartWidth} ${chartHeight}">
+        <!-- Grid lines -->
+        ${Array.from({ length: 5 })
+          .map((_, i) => {
+            const y = (chartHeight - 20) * (i / 4);
+            return `<line x1="0" y1="${y}" x2="${chartWidth}" y2="${y}" stroke="#ddd" stroke-width="1"/>`;
+          })
+          .join("")}
+        
+        <!-- Lines -->
+        ${lines}
+        
+        <!-- X-axis -->
+        <line x1="0" y1="${chartHeight - 20}" x2="${chartWidth}" y2="${chartHeight - 20}" stroke="#333" stroke-width="2"/>
+      </svg>
+      <div class="legend" style="flex-direction: row; justify-content: center; margin-top: 15px;">
+        ${behaviors
+          .map(
+            (behavior, index) => `
+          <div class="legend-item">
+            <div class="legend-color" style="background: ${colors[index % colors.length]};"></div>
+            <span>${behavior}</span>
+          </div>
+        `,
+          )
+          .join("")}
+      </div>
     </div>
   </div>
 
@@ -499,22 +660,18 @@ function createCounterPDF(report: CounterReportType) {
         <tr>
           <th>Behavior</th>
           <th>Occurrence #</th>
-          <th>Time</th>
+          <th>Time Since Start</th>
         </tr>
       </thead>
       <tbody>
         ${behaviors
           .flatMap((behavior) =>
             report.counter[behavior].map(
-              (timestamp, index) => `
+              (obs, index) => `
             <tr>
               <td><strong>${behavior}</strong></td>
               <td>#${index + 1}</td>
-              <td>${new Date(timestamp).toLocaleTimeString("en-US", {
-                hour: "numeric",
-                minute: "2-digit",
-                second: "2-digit",
-              })}</td>
+              <td>${formatTime(obs.secondsPassed)}</td>
             </tr>
           `,
             ),

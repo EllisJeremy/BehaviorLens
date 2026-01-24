@@ -102,7 +102,7 @@ export default function IntervalObservationModal({
     );
   }
 
-  function done() {
+  function done(time: number) {
     ActionSheetIOS.showActionSheetWithOptions(
       {
         title: "Finish Observation",
@@ -121,6 +121,7 @@ export default function IntervalObservationModal({
               studentUuid,
               startedAt,
               type: "interval",
+              totalSeconds: time,
               subject,
               educationalSetting,
               instructionalSetting,
@@ -191,7 +192,9 @@ export default function IntervalObservationModal({
       modalOpen={open}
       title="Interval Observation"
       clearForm={exit}
-      submitForm={done}
+      submitForm={() => {
+        done(time);
+      }}
       scrollable={false}
       padding={0}
       form={

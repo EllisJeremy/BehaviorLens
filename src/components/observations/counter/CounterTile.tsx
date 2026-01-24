@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Animated, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { fontSizes, colors } from "@/src/utils/objects/styles";
 import { useCounterObservationStore } from "@/src/state/observations/useCounterObservationStore";
 import Octicons from "@expo/vector-icons/Octicons";
@@ -7,9 +7,11 @@ import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 export default function CounterTile({
   behavior,
   status,
+  secondsPassed,
 }: {
   behavior: string;
   status: string;
+  secondsPassed: number;
 }) {
   const { counter, pushCount, popCount } = useCounterObservationStore();
   const { settings } = useSettingsStore();
@@ -32,7 +34,7 @@ export default function CounterTile({
           </Pressable>
           <Pressable
             onPress={() => {
-              if (status === "RUNNING") pushCount(behavior);
+              if (status === "RUNNING") pushCount(behavior, secondsPassed);
             }}
           >
             <Octicons name="plus" size={40} color={settings.themeColor} />

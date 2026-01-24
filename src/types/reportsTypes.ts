@@ -3,6 +3,7 @@ import {
   ObservationPresetEnum,
   EducationalSettingEnum,
 } from "./observations/observationTypes";
+import { CounterType } from "../state/observations/useCounterObservationStore";
 
 export type BaseReportType = {
   uuid: string;
@@ -14,6 +15,7 @@ export type BaseReportType = {
   subject: string;
   educationalSetting: EducationalSettingEnum;
   instructionalSetting: string;
+  totalSeconds: number;
 };
 
 export type IntervalReportType = BaseReportType & {
@@ -26,8 +28,7 @@ export type IntervalReportType = BaseReportType & {
 
 export type CounterReportType = BaseReportType & {
   type: "counter";
-  totalMins: number;
-  counter: Record<string, number[]>;
+  counter: CounterType;
 };
 
 export type ReportType = IntervalReportType | CounterReportType;
