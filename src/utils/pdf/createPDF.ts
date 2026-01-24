@@ -71,10 +71,9 @@ h1{color:${themeColors.blue};font-size:28px;margin-bottom:10px}
 }
 
 .stat-card{
-  background:#f5f5f5;
+  border:1px solid #ddd;
   padding:20px;
   border-radius:8px;
-  border-left:4px solid ${themeColors.blue};
 }
 
 .stat-label{font-size:12px;color:#666;text-transform:uppercase}
@@ -114,8 +113,8 @@ table{
   font-size:13px;
 }
 
-th{background:#f5f5f5;padding:12px;text-align:left}
-td{padding:10px;border-bottom:1px solid #eee}
+th{border:1px solid #ddd;padding:12px;text-align:left}
+td{padding:10px;border:1px solid #eee}
 
 .status-badge{
   padding:4px 10px;
@@ -125,7 +124,7 @@ td{padding:10px;border-bottom:1px solid #eee}
   text-transform:uppercase;
 }
 
-.on-task{border:1px solid ${themeColors.green};color:${themeColors.green}}
+.on-task{border:1px solid ${themeColors.blue};color:${themeColors.blue}}
 .off-task{border:1px solid ${themeColors.red};color:${themeColors.red}}
 .skipped{border:1px solid ${themeColors.slate};color:${themeColors.slate}}
 
@@ -152,7 +151,6 @@ function pieSVG(segments: { value: number; color: string }[]) {
     return `<circle cx="200" cy="200" r="150" fill="#e0e0e0"/>`;
   }
 
-  // SINGLE SEGMENT FIX
   if (nonZero.length === 1) {
     return `<circle cx="200" cy="200" r="150" fill="${nonZero[0].color}"/>`;
   }
@@ -188,6 +186,31 @@ function legendItem(label: string, color: string) {
   `;
 }
 
+const behaviorPalette = [
+  themeColors.blue,
+  themeColors.red,
+  themeColors.orange,
+  themeColors.teal,
+  themeColors.cyan,
+  themeColors.indigo,
+  themeColors.purple,
+  "rgb(59, 130, 246)",
+  "rgb(239, 68, 68)",
+  "rgb(34, 197, 94)",
+  "rgb(168, 85, 247)",
+  "rgb(234, 179, 8)",
+  "rgb(14, 165, 233)",
+  "rgb(245, 158, 11)",
+  "rgb(236, 72, 153)",
+  "rgb(16, 185, 129)",
+  "rgb(217, 70, 239)",
+  "rgb(132, 204, 22)",
+  "rgb(251, 191, 36)",
+  "rgb(100, 116, 139)",
+  "rgb(148, 163, 184)",
+  "rgb(120, 113, 108)",
+];
+
 /* ---------------- interval PDF ---------------- */
 
 function createIntervalPDF(report: IntervalReportType) {
@@ -207,15 +230,6 @@ function createIntervalPDF(report: IntervalReportType) {
   const statusSeg = [
     { label: "Engaged in Lesson", value: onTask, color: themeColors.green },
     { label: "Off Task", value: offTask, color: themeColors.red },
-  ];
-
-  const behaviorPalette = [
-    themeColors.blue,
-    themeColors.indigo,
-    themeColors.purple,
-    themeColors.orange,
-    themeColors.teal,
-    themeColors.cyan,
   ];
 
   const behaviorSeg = Object.entries(behaviorCounts).map(
@@ -241,7 +255,9 @@ ${createReportHeader(report)}
   <div class="stat-card"><div class="stat-label">Skipped</div><div class="stat-value">${skipped}</div></div>
   <div class="stat-card"><div class="stat-label">Total Intervals</div><div class="stat-value">${report.finalInterval}</div></div>
 </div>
+</div>
 
+<div class="page page-break">
 <h2 class="section-title">Detailed Observations</h2>
 <table>
 <thead>
@@ -274,7 +290,9 @@ ${report.observations
   </svg>
   <div class="legend">${statusSeg.map((s) => legendItem(s.label, s.color)).join("")}</div>
 </div>
+</div>
 
+<div class="page page-break">
 <h2 class="section-title">Behavior Breakdown</h2>
 <div class="chart-row">
   <svg viewBox="0 0 400 400" width="400" height="400">
@@ -282,56 +300,213 @@ ${report.observations
   </svg>
   <div class="legend">${behaviorSeg.map((s) => legendItem(s.label, s.color)).join("")}</div>
 </div>
-
-<div class="footer">
-Generated on ${new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}
-</div>
 </div>
 
 </body>
 </html>`;
 }
 
-/* ---------------- counter PDF (unchanged structure, same SVG rules) ---------------- */
+/* ---------------- counter PDF ---------------- */
 
 function createCounterPDF(report: CounterReportType) {
   const behaviors = Object.keys(report.counter);
-  const palette = [
-    themeColors.blue,
-    themeColors.indigo,
-    themeColors.purple,
-    themeColors.orange,
-    themeColors.teal,
-    themeColors.cyan,
-  ];
+  const totalTime = report.totalSeconds;
+  const bucketSize = totalTime / 5;
 
-  const segments = behaviors.map((b, i) => ({
-    value: report.counter[b].length,
-    color: palette[i % palette.length],
-  }));
+  // ---- totals / overview ----
+  const totalCounts: Record<string, number> = {};
+  behaviors.forEach((b) => {
+    totalCounts[b] = report.counter[b].length;
+  });
+  const totalEvents = Object.values(totalCounts).reduce((a, c) => a + c, 0);
+
+  // ---- buckets for over-time chart ----
+  const buckets = Array.from(
+    { length: 5 },
+    () => ({}) as Record<string, number>,
+  );
+
+  behaviors.forEach((b) => {
+    report.counter[b].forEach((o) => {
+      const i = Math.min(4, Math.floor(o.secondsPassed / bucketSize));
+      buckets[i][b] = (buckets[i][b] || 0) + 1;
+    });
+  });
+
+  const maxStack = Math.max(
+    ...buckets.map((b) => Object.values(b).reduce((a, c) => a + c, 0)),
+    1,
+  );
+
+  // ---- chart dimensions ----
+  const chartHeight = 360;
+  const leftPad = 60;
+  const topPad = 20;
+  const bottomPad = 40;
+  const rightPad = 20;
+  const barWidth = 120;
+  const chartWidth = leftPad + barWidth * 5 + rightPad;
+
+  const axisColor = "#666";
+  const labelFont = 13;
+
+  function yTicks(max: number) {
+    const ticks = [];
+    const interval = Math.max(1, Math.ceil(max / 5));
+    const tickCount = Math.ceil(max / interval);
+
+    for (let i = 0; i <= tickCount; i++) {
+      const value = i * interval;
+      const y = topPad + chartHeight - (value / max) * chartHeight;
+      ticks.push(`
+        <text
+          x="${leftPad - 10}"
+          y="${y + 5}"
+          text-anchor="end"
+          font-size="${labelFont}"
+          fill="${axisColor}"
+        >
+          ${value}
+        </text>
+        <line
+          x1="${leftPad}"
+          y1="${y}"
+          x2="${chartWidth - rightPad}"
+          y2="${y}"
+          stroke="#eee"
+          stroke-width="1"
+        />
+      `);
+    }
+
+    return ticks;
+  }
 
   return `
 <!DOCTYPE html>
 <html>
 <head><style>${getSharedStyles()}</style></head>
 <body>
-<div class="page">
-${createReportHeader(report)}
 
-<h2 class="section-title">Behavior Frequency</h2>
-<div class="chart-row">
-  <svg viewBox="0 0 400 400" width="400" height="400">
-    ${pieSVG(segments)}
-  </svg>
-  <div class="legend">
-    ${behaviors.map((b, i) => legendItem(b, palette[i % palette.length])).join("")}
+<!-- PAGE 1 : OVERVIEW -->
+<div class="page">
+  ${createReportHeader(report)}
+
+  <div class="stats-grid">
+    ${behaviors
+      .map(
+        (b) => `
+      <div class="stat-card">
+        <div class="stat-label">${b}</div>
+        <div class="stat-value">${totalCounts[b]}</div>
+      </div>
+    `,
+      )
+      .join("")}
+
+    <div class="stat-card">
+      <div class="stat-label">Total Events</div>
+      <div class="stat-value">${totalEvents}</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Session Length</div>
+      <div class="stat-value">${formatTime(report.totalSeconds)}</div>
+    </div>
   </div>
 </div>
 
-<div class="footer">
-Generated on ${new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}
+<!-- PAGE 2 : BEHAVIOR OVER TIME -->
+<div class="page page-break">
+  <h2 class="section-title">Behavior Over Time</h2>
+  <svg width="${chartWidth}" height="${chartHeight + topPad + bottomPad + 160}">
+    ${yTicks(maxStack).join("")}
+
+    ${buckets
+      .map((bucket, i) => {
+        let y = topPad + chartHeight;
+        return behaviors
+          .map((b, j) => {
+            const h = ((bucket[b] || 0) / maxStack) * chartHeight;
+            y -= h;
+            return `<rect
+              x="${leftPad + i * barWidth + 10}"
+              y="${y}"
+              width="${barWidth - 20}"
+              height="${h}"
+              fill="${behaviorPalette[j % behaviorPalette.length]}"
+            />`;
+          })
+          .join("");
+      })
+      .join("")}
+
+    <!-- X axis labels -->
+    ${Array.from({ length: 5 })
+      .map(
+        (_, i) => `
+      <text
+        x="${leftPad + i * barWidth + barWidth / 2}"
+        y="${topPad + chartHeight + 25}"
+        text-anchor="middle"
+        font-size="${labelFont}"
+        fill="${axisColor}"
+      >
+        ${Math.round(i * bucketSize)}–${Math.round((i + 1) * bucketSize)}s
+      </text>
+    `,
+      )
+      .join("")}
+  </svg>
+
+  <div class="legend">
+    ${behaviors
+      .map((b, i) => legendItem(b, behaviorPalette[i % behaviorPalette.length]))
+      .join("")}
+  </div>
 </div>
+
+<!-- PAGE 3 : TOTAL COUNT -->
+<div class="page page-break">
+  <h2 class="section-title">Total Count</h2>
+  <svg width="${chartWidth}" height="${chartHeight + topPad + bottomPad + 40}">
+    ${yTicks(Math.max(...Object.values(totalCounts), 1)).join("")}
+
+    ${behaviors
+      .map((b, i) => {
+        const count = report.counter[b].length;
+        const max = Math.max(...Object.values(totalCounts), 1);
+        const h = (count / max) * chartHeight;
+        return `<rect
+          x="${leftPad + i * barWidth + 10}"
+          y="${topPad + chartHeight - h}"
+          width="${barWidth - 20}"
+          height="${h}"
+          fill="${behaviorPalette[i % behaviorPalette.length]}"
+        />`;
+      })
+      .join("")}
+
+    <!-- X axis labels (rotated) -->
+    ${behaviors
+      .map(
+        (b, i) => `
+      <text
+        x="${leftPad + i * barWidth + barWidth / 2}"
+        y="${topPad + chartHeight + 45}"
+        transform="rotate(-45 ${leftPad + i * barWidth + barWidth / 2} ${topPad + chartHeight + 45})"
+        text-anchor="end"
+        font-size="${labelFont}"
+        fill="${axisColor}"
+      >
+        ${b}
+      </text>
+    `,
+      )
+      .join("")}
+  </svg>
 </div>
+
 </body>
 </html>`;
 }
