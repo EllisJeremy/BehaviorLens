@@ -9,6 +9,7 @@ import {
 import Modal from "react-native-modal";
 import { fontSizes, colors } from "@/src/utils/objects/styles";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
+import { useDeviceClass } from "@/src/hooks/useDeviceClass";
 
 export default function SlideUpModal({
   modalOpen,
@@ -21,6 +22,7 @@ export default function SlideUpModal({
   cancelText = "Cancel",
   scrollable = true,
   padding = 20,
+  forceFullScreen = true,
 }: {
   modalOpen: boolean;
   title: string;
@@ -32,6 +34,7 @@ export default function SlideUpModal({
   cancelText?: string;
   scrollable?: boolean;
   padding?: number;
+  forceFullScreen: boolean;
 }) {
   const { settings } = useSettingsStore();
 

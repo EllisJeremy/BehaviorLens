@@ -48,6 +48,7 @@ export default function ReportModal() {
       saveText="Export"
       cancelText="Close"
       scrollable={false}
+      forceFullScreen={true}
     />
   );
 }

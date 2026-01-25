@@ -141,6 +141,7 @@ export default function CounterObservationModal({
       canSubmit={true}
       scrollable={false}
       padding={0}
+      forceFullScreen={true}
       form={
         <CounterObservation
           counter={counter}

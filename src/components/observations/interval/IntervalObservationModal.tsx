@@ -197,6 +197,7 @@ export default function IntervalObservationModal({
       }}
       canSubmit={true}
       scrollable={false}
+      forceFullScreen={true}
       padding={0}
       form={
         <IntervalObservation
