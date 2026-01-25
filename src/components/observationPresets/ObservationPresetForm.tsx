@@ -19,7 +19,6 @@ type FieldRenderer<T> = {
 };
 
 const intervalOptions: Option<number>[] = [
-  { label: "1 seconds", value: 1 },
   { label: "15 seconds", value: 15 },
   { label: "30 seconds", value: 30 },
   { label: "60 seconds", value: 60 },

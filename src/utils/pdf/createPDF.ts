@@ -220,7 +220,7 @@ function createIntervalPDF(report: IntervalReportType) {
   const intervalSeconds = report.totalSeconds / report.finalInterval;
 
   const statusSeg = [
-    { label: "Engaged in Lesson", value: onTask, color: themeColors.green },
+    { label: "Engaged in Lesson", value: onTask, color: themeColors.blue },
     { label: "Off Task", value: offTask, color: themeColors.red },
   ];
 
