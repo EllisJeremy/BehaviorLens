@@ -22,7 +22,7 @@ export default function SlideUpModal({
   cancelText = "Cancel",
   scrollable = true,
   padding = 20,
-  forceFullScreen = true,
+  forceFullScreen = false,
 }: {
   modalOpen: boolean;
   title: string;
@@ -34,7 +34,7 @@ export default function SlideUpModal({
   cancelText?: string;
   scrollable?: boolean;
   padding?: number;
-  forceFullScreen: boolean;
+  forceFullScreen?: boolean;
 }) {
   const { settings } = useSettingsStore();
 
