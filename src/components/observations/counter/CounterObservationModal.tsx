@@ -1,4 +1,10 @@
-import { StyleSheet, View, Animated, ActionSheetIOS } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Animated,
+  ActionSheetIOS,
+  FlatList,
+} from "react-native";
 import { useEffect, useRef, memo } from "react";
 import SlideUpModal from "../../universal/SlideUpModal";
 import Controller from "../Controller";
@@ -167,16 +173,23 @@ const CounterObservation = memo(function IntervalObservationType({
 }: BodyProps) {
   return (
     <View style={styles.container}>
-      <View style={styles.flatList}>
-        {Object.keys(counter).map((behavior) => (
+      <FlatList
+        data={Object.keys(counter)}
+        keyExtractor={(item) => item}
+        style={styles.flatList}
+        maintainVisibleContentPosition={{
+          minIndexForVisible: 0,
+        }}
+        renderItem={({ item }) => (
           <CounterTile
-            key={behavior}
-            behavior={behavior}
+            key={item}
+            behavior={item}
             status={status}
             secondsPassed={time}
           />
-        ))}
-      </View>
+        )}
+      />
+
       <Controller
         time={time}
         borderAnim={borderAnim}
