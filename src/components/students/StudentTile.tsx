@@ -22,7 +22,7 @@ export default function StudentTile({ student }: { student: StudentType }) {
   return (
     <Tile
       title={student.firstName + " " + student.lastName}
-      subTitle={student.grade !== "" ? "grade" + student.grade : ""}
+      subTitle={student.grade}
       onEdit={onEdit}
       onRemove={onRemove}
     />

@@ -35,11 +35,14 @@ export default function SlideUpModal({
   const { settings } = useSettingsStore();
 
   return (
-    <Modal isVisible={modalOpen} style={styles.modal} avoidKeyboard={false}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        style={styles.container}
-      >
+    <Modal
+      isVisible={modalOpen}
+      style={styles.modal}
+      avoidKeyboard={false}
+      backdropOpacity={0.5}
+      backdropTransitionOutTiming={0}
+    >
+      <KeyboardAvoidingView style={styles.container}>
         <View style={styles.header}>
           <Pressable onPress={clearForm}>
             <Text style={[styles.button, { color: settings.themeColor }]}>
