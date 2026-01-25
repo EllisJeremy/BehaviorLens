@@ -54,6 +54,7 @@ export default function EditableStringList({
             { backgroundColor, color: settings.themeColor },
           ]}
           returnKeyType="done"
+          placeholderTextColor={colors.gray}
         />
       </View>
     </View>

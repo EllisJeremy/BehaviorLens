@@ -13,7 +13,7 @@ import CounterObservationModal from "../components/observations/counter/CounterO
 
 export default function Observations() {
   const { observationPresets } = useObservationPresetsStore();
-  const { setOpen } = useObservationPresetsModalStore();
+  const { openForm } = useObservationPresetsModalStore();
   const { preset } = useStartObservationModalStore();
 
   return (
@@ -34,7 +34,7 @@ export default function Observations() {
           <Text>Press + to add an Observation Preset</Text>
         </View>
       )}
-      <PlusButton onPress={() => setOpen(true)} />
+      <PlusButton onPress={openForm} />
       <AddObservationPresetModal />
       <StartObservationModal />
       {preset && <IntervalObservationModal preset={preset as any} />}

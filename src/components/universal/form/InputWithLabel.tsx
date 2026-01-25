@@ -35,6 +35,7 @@ export default function InputWithLabel({
         ]}
         defaultValue={defaultValue}
         placeholder={placeholder}
+        placeholderTextColor={colors.gray}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
       />
@@ -58,5 +59,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     fontSize: fontSizes.text,
     paddingRight: 15,
+    color: colors.black,
   },
 });

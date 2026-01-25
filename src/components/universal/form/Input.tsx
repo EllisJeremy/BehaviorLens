@@ -19,6 +19,7 @@ export default function Input({
       placeholder={placeholder}
       onChangeText={onChangeText}
       keyboardType={keyboardType ? keyboardType : "default"}
+      placeholderTextColor={colors.gray}
     />
   );
 }
