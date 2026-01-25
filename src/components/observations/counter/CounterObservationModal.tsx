@@ -138,6 +138,7 @@ export default function CounterObservationModal({
       submitForm={() => {
         done(time);
       }}
+      canSubmit={true}
       scrollable={false}
       padding={0}
       form={

@@ -44,6 +44,7 @@ export default function ReportModal() {
             }
           : undefined
       }
+      canSubmit={true}
       saveText="Export"
       cancelText="Close"
       scrollable={false}

@@ -4,13 +4,52 @@ import { useObservationPresetsStore } from "@/src/state/observationPresets/useOb
 import { useObservationPresetsModalStore } from "@/src/state/observationPresets/useObservationPresetsModalStore";
 import { presetBuilder } from "@/src/utils/observationPresets/presetBuilder";
 import ObservationPresetForm from "./ObservationPresetForm";
+import { useMemo } from "react";
 
 export default function AddObservationPresetModal() {
   const { addObservationPreset } = useObservationPresetsStore();
-  const { open, name, closeForm, uuid } = useObservationPresetsModalStore();
+  const {
+    open,
+    name,
+    type,
+    subject,
+    educationalSetting,
+    instructionalSetting,
+    intervalSeconds,
+    totalIntervals,
+    onTaskList,
+    offTaskList,
+    closeForm,
+    uuid,
+  } = useObservationPresetsModalStore();
+
+  const canSubmit: boolean = useMemo(
+    () =>
+      Boolean(
+        name &&
+        type &&
+        subject &&
+        educationalSetting &&
+        instructionalSetting &&
+        intervalSeconds &&
+        totalIntervals &&
+        offTaskList.length &&
+        onTaskList.length,
+      ),
+    [
+      name,
+      type,
+      subject,
+      educationalSetting,
+      instructionalSetting,
+      intervalSeconds,
+      totalIntervals,
+      onTaskList,
+      offTaskList,
+    ],
+  );
 
   function submitForm() {
-    if (!name) return;
     const submitUuid = uuid === "" ? Crypto.randomUUID() : uuid;
     const state = useObservationPresetsModalStore.getState();
     const preset = presetBuilder[state.type]({ ...state, uuid: submitUuid });
@@ -25,6 +64,7 @@ export default function AddObservationPresetModal() {
       form={<ObservationPresetForm />}
       submitForm={submitForm}
       clearForm={closeForm}
+      canSubmit={canSubmit}
     />
   );
 }

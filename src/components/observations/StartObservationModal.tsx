@@ -8,6 +8,7 @@ import { View } from "react-native";
 import { useIntervalObservationStore } from "@/src/state/observations/useIntervalObservationStore";
 import { constants } from "@/src/utils/objects/constants";
 import { useCounterObservationStore } from "@/src/state/observations/useCounterObservationStore";
+import { useMemo } from "react";
 
 function StartObservationForm() {
   const { name, setName, studentUuid, setStudentUuid } =
@@ -44,8 +45,13 @@ export default function StartObservationModal() {
   const { start: startInterval } = useIntervalObservationStore();
   const { start: startCounter } = useCounterObservationStore();
 
+  const canSubmit = useMemo(
+    () => Boolean(name && studentUuid && preset),
+    [name, studentUuid, preset],
+  );
+
   function submitForm() {
-    if (!name || !studentUuid || !preset) {
+    if (!preset) {
       return;
     }
 
@@ -64,6 +70,7 @@ export default function StartObservationModal() {
       title="Start Observation"
       form={<StartObservationForm />}
       submitForm={submitForm}
+      canSubmit={canSubmit}
       clearForm={clearForm}
     />
   );

@@ -10,10 +10,11 @@ const defaultOnTaskList = [
   "Taking Notes",
   "Positive Peer Interaction",
   "Positive Teacher Interaction",
+  "Asking or Answering a Question",
 ];
 
 const defaultOffTaskList = [
-  "Self Harm",
+  "Talking",
   "Sleeping",
   "Walking Around",
   "Leaving Room",

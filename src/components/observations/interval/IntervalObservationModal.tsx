@@ -195,6 +195,7 @@ export default function IntervalObservationModal({
       submitForm={() => {
         done(time);
       }}
+      canSubmit={true}
       scrollable={false}
       padding={0}
       form={

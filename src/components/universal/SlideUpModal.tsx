@@ -5,7 +5,6 @@ import {
   StyleSheet,
   ScrollView,
   KeyboardAvoidingView,
-  Platform,
 } from "react-native";
 import Modal from "react-native-modal";
 import { fontSizes, colors } from "@/src/utils/objects/styles";
@@ -16,6 +15,7 @@ export default function SlideUpModal({
   title,
   form,
   submitForm,
+  canSubmit,
   clearForm,
   saveText = "Save",
   cancelText = "Cancel",
@@ -26,6 +26,7 @@ export default function SlideUpModal({
   title: string;
   form: React.ReactNode;
   submitForm?: () => void;
+  canSubmit: boolean;
   clearForm: () => void;
   saveText?: string;
   cancelText?: string;
@@ -52,8 +53,13 @@ export default function SlideUpModal({
 
           <Text style={styles.title}>{title}</Text>
           {submitForm && (
-            <Pressable onPress={submitForm}>
-              <Text style={[styles.button, { color: settings.themeColor }]}>
+            <Pressable onPress={submitForm} disabled={!canSubmit}>
+              <Text
+                style={[
+                  styles.button,
+                  { color: canSubmit ? settings.themeColor : colors.gray },
+                ]}
+              >
                 {saveText}
               </Text>
             </Pressable>

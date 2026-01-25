@@ -3,10 +3,11 @@ import { useStudentsModalStore } from "@/src/state/students/useStudentsModalStor
 import SlideUpModal from "../universal/SlideUpModal";
 import * as Crypto from "expo-crypto";
 import StudentForm from "./StudentForm";
+import { useMemo } from "react";
 
 export default function AddStudentModal() {
   const { addStudent } = useStudentsStore();
-  const { open, setOpen, firstName, lastName, grade, uuid, clearForm } =
+  const { open, firstName, lastName, grade, uuid, clearForm } =
     useStudentsModalStore();
 
   function submitForm() {
@@ -16,12 +17,18 @@ export default function AddStudentModal() {
     clearForm();
   }
 
+  const canSubmit = useMemo(
+    () => Boolean(firstName !== "" && lastName !== "" && grade !== ""),
+    [firstName, lastName, grade],
+  );
+
   return (
     <SlideUpModal
       modalOpen={open}
       title={uuid === "" ? "Add Student" : "Edit Student"}
       form={<StudentForm />}
       submitForm={submitForm}
+      canSubmit={canSubmit}
       clearForm={clearForm}
     />
   );
