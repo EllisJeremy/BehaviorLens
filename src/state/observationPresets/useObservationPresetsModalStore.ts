@@ -1,6 +1,9 @@
 import { create } from "zustand";
-import { ObservationPresetEnum } from "@/src/types/observations/observationTypes";
-import { EducationalSettingEnum } from "@/src/types/observations/observationTypes";
+import {
+  ObservationPresetEnum,
+  EducationalSettingEnum,
+  ObservationPreset,
+} from "@/src/types/observations/observationTypes";
 
 const defaultOnTaskList = [
   "Engaged in Lesson",
@@ -65,7 +68,9 @@ export type ObservationPresetState = {
   addBehavior: (v: string) => void;
   removeBehavior: (v: string) => void;
 
-  clearForm: () => void;
+  openForm: () => void;
+  editForm: (preset: ObservationPreset) => void;
+  closeForm: () => void;
 };
 
 export const useObservationPresetsModalStore = create<ObservationPresetState>(
@@ -169,9 +174,9 @@ export const useObservationPresetsModalStore = create<ObservationPresetState>(
         behaviorsList: state.behaviorsList.filter((b) => b !== v),
       })),
 
-    clearForm: () =>
+    openForm: () =>
       set({
-        open: false,
+        open: true,
         uuid: "",
         name: "",
         type: "interval",
@@ -186,5 +191,43 @@ export const useObservationPresetsModalStore = create<ObservationPresetState>(
         totalMins: 20,
         behaviorsList: defaultCounterObservationsList,
       }),
+
+    editForm: (preset) =>
+      set(() => {
+        if (preset.type === "interval") {
+          return {
+            open: true,
+            uuid: preset.uuid,
+            name: preset.name,
+            type: "interval",
+            subject: preset.subject,
+            educationalSetting: preset.educationalSetting,
+            instructionalSetting: preset.instructionalSetting,
+
+            onTaskList: preset.onTaskList,
+            offTaskList: preset.offTaskList,
+            totalIntervals: preset.totalIntervals,
+            intervalSeconds: preset.intervalSeconds,
+          };
+        } else if (preset.type === "counter") {
+          return {
+            open: true,
+            uuid: preset.uuid,
+            name: preset.name,
+            type: "counter",
+            subject: preset.subject,
+            educationalSetting: preset.educationalSetting,
+            instructionalSetting: preset.instructionalSetting,
+
+            totalMins: preset.totalMins,
+            behaviorsList: preset.behaviorsList,
+          };
+        } else {
+          console.error("type not valid:");
+          return {};
+        }
+      }),
+
+    closeForm: () => set({ open: false }),
   }),
 );

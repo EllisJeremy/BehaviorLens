@@ -63,7 +63,7 @@ export default function Tile({
         )}
 
         <Pressable
-          style={[styles.iconButton, styles.deleteButton]}
+          style={styles.iconButton}
           onPress={() => {
             ActionSheetIOS.showActionSheetWithOptions(
               {
@@ -122,14 +122,11 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   iconButton: {
-    backgroundColor: colors.blue,
     width: 40,
     height: 40,
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
-  },
-  deleteButton: {
     backgroundColor: colors.black,
   },
 });

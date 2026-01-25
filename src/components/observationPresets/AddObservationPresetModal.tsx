@@ -7,7 +7,7 @@ import ObservationPresetForm from "./ObservationPresetForm";
 
 export default function AddObservationPresetModal() {
   const { addObservationPreset } = useObservationPresetsStore();
-  const { open, name, clearForm, uuid } = useObservationPresetsModalStore();
+  const { open, name, closeForm, uuid } = useObservationPresetsModalStore();
 
   function submitForm() {
     if (!name) return;
@@ -15,7 +15,7 @@ export default function AddObservationPresetModal() {
     const state = useObservationPresetsModalStore.getState();
     const preset = presetBuilder[state.type]({ ...state, uuid: submitUuid });
     addObservationPreset(preset);
-    clearForm();
+    closeForm();
   }
 
   return (
@@ -24,7 +24,7 @@ export default function AddObservationPresetModal() {
       title={uuid === "" ? "Add Preset" : "Edit Preset"}
       form={<ObservationPresetForm />}
       submitForm={submitForm}
-      clearForm={clearForm}
+      clearForm={closeForm}
     />
   );
 }

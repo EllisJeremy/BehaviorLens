@@ -16,16 +16,7 @@ export default function ObservationTile({
   observationPreset: ObservationPreset;
 }) {
   const { removeObservationPreset } = useObservationPresetsStore();
-  const {
-    setName,
-    setType,
-    setTotalIntervals,
-    setIntervalSeconds,
-    setOpen,
-    setUuid,
-    setOffTask,
-    setOnTask,
-  } = useObservationPresetsModalStore();
+  const { editForm } = useObservationPresetsModalStore();
   const { openWithPreset } = useStartObservationModalStore();
   const { students } = useStudentsStore();
   const { setOpen: setStudentOpen } = useStudentsModalStore();
@@ -71,17 +62,7 @@ export default function ObservationTile({
   }
 
   function onEdit() {
-    setUuid(observationPreset.uuid);
-    setName(observationPreset.name);
-    setType(observationPreset.type);
-
-    if (observationPreset.type === "interval") {
-      setTotalIntervals(observationPreset.totalIntervals);
-      setIntervalSeconds(observationPreset.intervalSeconds);
-      setOnTask(observationPreset.onTaskList);
-      setOffTask(observationPreset.offTaskList);
-    }
-    setOpen(true);
+    editForm(observationPreset);
   }
 
   function onRemove() {
