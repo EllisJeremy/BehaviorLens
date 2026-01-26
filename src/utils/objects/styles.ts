@@ -34,3 +34,7 @@ export const fontSizes = {
   large: 20,
   extraLarge: 30,
 };
+
+export const styleConsts = {
+  opacity: 0.7,
+};

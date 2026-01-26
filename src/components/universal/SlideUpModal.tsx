@@ -9,7 +9,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import Modal from "react-native-modal";
-import { fontSizes, colors } from "@/src/utils/objects/styles";
+import { fontSizes, colors, styleConsts } from "@/src/utils/objects/styles";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 import { useDeviceClass } from "@/src/hooks/useDeviceClass";
 
@@ -82,6 +82,9 @@ export default function SlideUpModal({
               clearForm();
               Keyboard.dismiss();
             }}
+            style={({ pressed }) => [
+              { opacity: pressed ? styleConsts.opacity : 1 },
+            ]}
           >
             <Text style={[styles.button, { color: settings.themeColor }]}>
               {cancelText}
@@ -95,6 +98,9 @@ export default function SlideUpModal({
                 submitForm();
                 Keyboard.dismiss();
               }}
+              style={({ pressed }) => [
+                { opacity: pressed && canSubmit ? styleConsts.opacity : 1 },
+              ]}
               disabled={!canSubmit}
             >
               <Text

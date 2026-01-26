@@ -9,8 +9,7 @@ import {
   ImageSourcePropType,
 } from "react-native";
 import Octicons from "@expo/vector-icons/Octicons";
-import { useObservationPresetsModalStore } from "@/src/state/observationPresets/useObservationPresetsModalStore";
-import { colors, fontSizes } from "@/src/utils/objects/styles";
+import { colors, fontSizes, styleConsts } from "@/src/utils/objects/styles";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
 
 export default function Tile({
@@ -31,7 +30,10 @@ export default function Tile({
   const { settings } = useSettingsStore();
   return (
     <Pressable
-      style={styles.tile}
+      style={({ pressed }) => [
+        styles.tile,
+        onPress && pressed && styles.tilePressed,
+      ]}
       onPress={() => {
         if (onPress) {
           onPress();
@@ -52,9 +54,10 @@ export default function Tile({
       <View style={styles.controls}>
         {onEdit && (
           <Pressable
-            style={[
+            style={({ pressed }) => [
               styles.iconButton,
               { backgroundColor: settings.themeColor },
+              { opacity: pressed ? styleConsts.opacity : 1 },
             ]}
             onPress={onEdit}
           >
@@ -63,10 +66,14 @@ export default function Tile({
         )}
 
         <Pressable
-          style={styles.iconButton}
+          style={({ pressed }) => [
+            styles.iconButton,
+            { opacity: pressed ? styleConsts.opacity : 1 },
+          ]}
           onPress={() => {
             ActionSheetIOS.showActionSheetWithOptions(
               {
+                message: `Are you sure you want to delete ${title}?`,
                 options: ["Cancel", "Delete"],
                 destructiveButtonIndex: 1,
                 cancelButtonIndex: 0,
@@ -86,14 +93,17 @@ export default function Tile({
 
 const styles = StyleSheet.create({
   tile: {
-    borderColor: "#d6d6d6ff",
+    borderColor: colors.gray,
     width: "100%",
-    backgroundColor: "#ffffffff",
+    backgroundColor: colors.white,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     padding: 20,
     gap: 10,
+  },
+  tilePressed: {
+    backgroundColor: colors.offWhite,
   },
   iconAndInfo: {
     flexDirection: "row",

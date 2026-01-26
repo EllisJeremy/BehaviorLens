@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { fontSizes, colors } from "@/src/utils/objects/styles";
+import { fontSizes, colors, styleConsts } from "@/src/utils/objects/styles";
 import { useCounterObservationStore } from "@/src/state/observations/useCounterObservationStore";
 import Octicons from "@expo/vector-icons/Octicons";
 import { useSettingsStore } from "@/src/state/settings/useSettingsStore";
@@ -29,6 +29,9 @@ export default function CounterTile({
             onPress={() => {
               if (status === "RUNNING") popCount(behavior);
             }}
+            style={({ pressed }) => [
+              { opacity: pressed ? styleConsts.opacity : 1 },
+            ]}
           >
             <Octicons name="dash" size={40} color={colors.darkGray} />
           </Pressable>
@@ -36,6 +39,9 @@ export default function CounterTile({
             onPress={() => {
               if (status === "RUNNING") pushCount(behavior, secondsPassed);
             }}
+            style={({ pressed }) => [
+              { opacity: pressed ? styleConsts.opacity : 1 },
+            ]}
           >
             <Octicons name="plus" size={40} color={settings.themeColor} />
           </Pressable>
