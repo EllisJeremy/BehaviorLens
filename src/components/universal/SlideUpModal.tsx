@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   KeyboardAvoidingView,
+  Keyboard,
 } from "react-native";
 import Modal from "react-native-modal";
 import { fontSizes, colors } from "@/src/utils/objects/styles";
@@ -37,6 +38,9 @@ export default function SlideUpModal({
   forceFullScreen?: boolean;
 }) {
   const { settings } = useSettingsStore();
+  const { isTablet } = useDeviceClass();
+
+  const useTabletLayout = isTablet && !forceFullScreen;
 
   return (
     <Modal
@@ -46,9 +50,14 @@ export default function SlideUpModal({
       backdropOpacity={0.5}
       backdropTransitionOutTiming={0}
     >
-      <KeyboardAvoidingView style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View style={styles.header}>
-          <Pressable onPress={clearForm}>
+          <Pressable
+            onPress={() => {
+              clearForm();
+              Keyboard.dismiss();
+            }}
+          >
             <Text style={[styles.button, { color: settings.themeColor }]}>
               {cancelText}
             </Text>
@@ -56,7 +65,13 @@ export default function SlideUpModal({
 
           <Text style={styles.title}>{title}</Text>
           {submitForm && (
-            <Pressable onPress={submitForm} disabled={!canSubmit}>
+            <Pressable
+              onPress={() => {
+                submitForm();
+                Keyboard.dismiss();
+              }}
+              disabled={!canSubmit}
+            >
               <Text
                 style={[
                   styles.button,
@@ -73,7 +88,6 @@ export default function SlideUpModal({
           <ScrollView
             style={{ paddingLeft: padding, paddingRight: padding }}
             keyboardShouldPersistTaps="handled"
-            contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}
           >
             {form}
@@ -89,13 +103,15 @@ export default function SlideUpModal({
 const styles = StyleSheet.create({
   modal: {
     justifyContent: "flex-end",
-    margin: 0,
+    margin: 100,
+    marginBottom: 300,
   },
   container: {
     backgroundColor: colors.white,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     height: "92%",
+    borderRadius: 20,
   },
   header: {
     position: "relative",
@@ -111,9 +127,6 @@ const styles = StyleSheet.create({
     pointerEvents: "none",
     textAlign: "center",
     fontSize: fontSizes.text,
-  },
-  scrollContent: {
-    paddingBottom: 50,
   },
   button: {
     fontSize: 16,
