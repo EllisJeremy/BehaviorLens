@@ -72,6 +72,9 @@ export default function SlideUpModal({
           { height: isTablet ? (useTabletLayout ? "100%" : "97%") : "93%" },
         ]}
         behavior="padding"
+        keyboardVerticalOffset={
+          useTabletLayout ? (isLandscape ? 110 : 210) : 10
+        }
       >
         <View style={styles.header}>
           <Pressable
