@@ -6,6 +6,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Keyboard,
+  useWindowDimensions,
 } from "react-native";
 import Modal from "react-native-modal";
 import { fontSizes, colors } from "@/src/utils/objects/styles";
@@ -39,18 +40,39 @@ export default function SlideUpModal({
 }) {
   const { settings } = useSettingsStore();
   const { isTablet } = useDeviceClass();
-
   const useTabletLayout = isTablet && !forceFullScreen;
 
+  const { width, height } = useWindowDimensions();
+  const isLandscape = width > height;
   return (
     <Modal
       isVisible={modalOpen}
-      style={styles.modal}
+      style={[
+        styles.modal,
+        useTabletLayout
+          ? isLandscape
+            ? { marginVertical: 100, marginHorizontal: 200 }
+            : { marginVertical: 200, marginHorizontal: 100 }
+          : { margin: 0 },
+      ]}
       avoidKeyboard={false}
       backdropOpacity={0.5}
       backdropTransitionOutTiming={0}
+      onBackdropPress={() => {
+        if (Keyboard.isVisible()) {
+          Keyboard.dismiss();
+        } else if (useTabletLayout) {
+          clearForm();
+        }
+      }}
     >
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <KeyboardAvoidingView
+        style={[
+          styles.container,
+          { height: isTablet ? (useTabletLayout ? "100%" : "97%") : "93%" },
+        ]}
+        behavior="padding"
+      >
         <View style={styles.header}>
           <Pressable
             onPress={() => {
@@ -103,14 +125,12 @@ export default function SlideUpModal({
 const styles = StyleSheet.create({
   modal: {
     justifyContent: "flex-end",
-    margin: 100,
-    marginBottom: 300,
   },
   container: {
     backgroundColor: colors.white,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    height: "92%",
+    height: "93%",
     borderRadius: 20,
   },
   header: {

@@ -72,7 +72,7 @@ export default function StartObservationModal() {
       submitForm={submitForm}
       canSubmit={canSubmit}
       clearForm={clearForm}
-      forceFullScreen={true}
+      forceFullScreen={false}
     />
   );
 }
