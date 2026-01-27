@@ -22,10 +22,12 @@ const defaultOffTaskList = [
 ];
 
 const defaultCounterObservationsList = [
-  "Engaged in Lesson",
-  "Taking Notes",
-  "Positive Peer Interaction",
-  "Positive Teacher Interaction",
+  "Calling out",
+  "Out of seat",
+  "Talking to peers",
+  "Touching others ",
+  "Repetitive behavior ",
+  "Other",
 ];
 
 export type ObservationPresetState = {
