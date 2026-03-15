@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  TextInput,
+  TextInputSubmitEditingEvent,
+} from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import { colors, fontSizes } from "@/src/utils/objects/styles";
 import Popover from "react-native-popover-view";
@@ -25,6 +32,7 @@ export default function MiniDropDownMenu<T extends string>({
 }) {
   const [open, setOpen] = useState(false);
   const { settings } = useSettingsStore();
+  const [customObservation, setCustomObservation] = useState("");
 
   return (
     <Popover
@@ -61,6 +69,18 @@ export default function MiniDropDownMenu<T extends string>({
             <Text style={styles.text}>{opt.label}</Text>
           </Pressable>
         ))}
+        <TextInput
+          style={[styles.menuItem, { color: settings.themeColor }]}
+          placeholder="Custom Observation"
+          value={customObservation}
+          onChangeText={setCustomObservation}
+          placeholderTextColor={colors.gray}
+          onSubmitEditing={(e: TextInputSubmitEditingEvent) => {
+            setValue(index, e.nativeEvent.text, isOnTask);
+            setCustomObservation("");
+            setOpen(false);
+          }}
+        />
       </Pressable>
     </Popover>
   );

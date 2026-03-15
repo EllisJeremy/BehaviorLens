@@ -52,6 +52,7 @@ export default function AddObservationPresetModal() {
   function submitForm() {
     const submitUuid = uuid === "" ? Crypto.randomUUID() : uuid;
     const state = useObservationPresetsModalStore.getState();
+    console.log(state);
     const preset = presetBuilder[state.type]({ ...state, uuid: submitUuid });
     addObservationPreset(preset);
     closeForm();
