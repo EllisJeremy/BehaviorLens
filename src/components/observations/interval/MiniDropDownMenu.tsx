@@ -80,6 +80,7 @@ export default function MiniDropDownMenu<T extends string>({
             setCustomObservation("");
             setOpen(false);
           }}
+          returnKeyType="done"
         />
       </Pressable>
     </Popover>

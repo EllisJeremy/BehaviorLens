@@ -214,6 +214,17 @@ export default function IntervalObservationModal({
           progress={progress}
         />
       }
+      footer={
+        <Controller
+          time={time}
+          currentInterval={currentInterval}
+          totalIntervals={totalIntervals}
+          borderAnim={borderAnim}
+          themeColor={settings.themeColor}
+          status={status}
+          onToggle={togglePause}
+        />
+      }
     />
   );
 }
@@ -235,14 +246,9 @@ type BodyProps = {
 const IntervalObservation = memo(function IntervalObservationType({
   observations,
   currentInterval,
-  totalIntervals,
   onTaskList,
   offTaskList,
-  time,
-  borderAnim,
   themeColor,
-  status,
-  onToggle,
   progress,
 }: BodyProps) {
   return (
@@ -265,15 +271,6 @@ const IntervalObservation = memo(function IntervalObservationType({
             themeColor={themeColor}
           />
         )}
-      />
-      <Controller
-        time={time}
-        currentInterval={currentInterval}
-        totalIntervals={totalIntervals}
-        borderAnim={borderAnim}
-        themeColor={themeColor}
-        status={status}
-        onToggle={onToggle}
       />
     </View>
   );

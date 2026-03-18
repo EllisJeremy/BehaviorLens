@@ -17,6 +17,7 @@ export default function SlideUpModal({
   modalOpen,
   title,
   form,
+  footer = <View />,
   submitForm,
   canSubmit,
   clearForm,
@@ -29,6 +30,7 @@ export default function SlideUpModal({
   modalOpen: boolean;
   title: string;
   form: React.ReactNode;
+  footer?: React.ReactNode;
   submitForm?: () => void;
   canSubmit: boolean;
   clearForm: () => void;
@@ -66,67 +68,72 @@ export default function SlideUpModal({
         }
       }}
     >
-      <KeyboardAvoidingView
+      <View
         style={[
           styles.container,
           { height: isTablet ? (useTabletLayout ? "100%" : "97%") : "93%" },
         ]}
-        behavior="padding"
-        keyboardVerticalOffset={
-          useTabletLayout ? (isLandscape ? 110 : 210) : 10
-        }
       >
-        <View style={styles.header}>
-          <Pressable
-            onPress={() => {
-              clearForm();
-              Keyboard.dismiss();
-            }}
-            style={({ pressed }) => [
-              { opacity: pressed ? styleConsts.opacity : 1 },
-            ]}
-          >
-            <Text style={[styles.button, { color: settings.themeColor }]}>
-              {cancelText}
-            </Text>
-          </Pressable>
-
-          <Text style={styles.title}>{title}</Text>
-          {submitForm && (
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior="padding"
+          keyboardVerticalOffset={
+            useTabletLayout ? (isLandscape ? 110 : 210) : 10
+          }
+        >
+          <View style={styles.header}>
             <Pressable
               onPress={() => {
-                submitForm();
+                clearForm();
                 Keyboard.dismiss();
               }}
               style={({ pressed }) => [
-                { opacity: pressed && canSubmit ? styleConsts.opacity : 1 },
+                { opacity: pressed ? styleConsts.opacity : 1 },
               ]}
-              disabled={!canSubmit}
             >
-              <Text
-                style={[
-                  styles.button,
-                  { color: canSubmit ? settings.themeColor : colors.gray },
-                ]}
-              >
-                {saveText}
+              <Text style={[styles.button, { color: settings.themeColor }]}>
+                {cancelText}
               </Text>
             </Pressable>
-          )}
-        </View>
 
-        {scrollable ? (
-          <ScrollView
-            style={{ paddingLeft: padding, paddingRight: padding }}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-          >
-            {form}
-          </ScrollView>
-        ) : (
-          form
-        )}
-      </KeyboardAvoidingView>
+            <Text style={styles.title}>{title}</Text>
+            {submitForm && (
+              <Pressable
+                onPress={() => {
+                  submitForm();
+                  Keyboard.dismiss();
+                }}
+                style={({ pressed }) => [
+                  { opacity: pressed && canSubmit ? styleConsts.opacity : 1 },
+                ]}
+                disabled={!canSubmit}
+              >
+                <Text
+                  style={[
+                    styles.button,
+                    { color: canSubmit ? settings.themeColor : colors.gray },
+                  ]}
+                >
+                  {saveText}
+                </Text>
+              </Pressable>
+            )}
+          </View>
+
+          {scrollable ? (
+            <ScrollView
+              style={{ paddingLeft: padding, paddingRight: padding }}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
+            >
+              {form}
+            </ScrollView>
+          ) : (
+            form
+          )}
+        </KeyboardAvoidingView>
+        {footer}
+      </View>
     </Modal>
   );
 }
@@ -139,7 +146,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    height: "93%",
     borderRadius: 20,
   },
   header: {
