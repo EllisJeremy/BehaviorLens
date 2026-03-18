@@ -37,7 +37,10 @@ export default function MiniDropDownMenu<T extends string>({
   return (
     <Popover
       isVisible={open}
-      onRequestClose={() => setOpen(false)}
+      onRequestClose={() => {
+        setOpen(false);
+        setTimeout(() => setCustomObservation(""), 100);
+      }}
       backgroundStyle={{ backgroundColor: "transparent" }}
       popoverStyle={styles.popover}
       arrowSize={{ width: 0, height: 0 }}
